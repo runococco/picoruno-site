@@ -87,6 +87,8 @@ h1 small{display:block;font-family:var(--body);font-size:.85rem;font-weight:500;
   100%{transform:perspective(900px) rotateY(0);opacity:1;transform-origin:left center}}
 .from{display:block;font-size:.78rem;color:var(--muted);letter-spacing:.06em;margin:0;line-height:36px}
 .text{font-family:var(--hand);font-size:1.6rem;line-height:36px;margin:0;word-break:break-word;overflow-wrap:anywhere;white-space:pre-wrap}
+.chain p{margin:0;line-height:36px;font-size:.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chain b{font-weight:700;margin-right:8px;font-size:.72rem;letter-spacing:.04em}
 .meta{display:flex;justify-content:space-between;gap:0 8px;font-size:.75rem;color:var(--muted);margin:0;line-height:36px;flex-wrap:wrap}
 .special{font-size:.85rem;background:#fff4d4;border:1px solid #f0d58a;border-radius:10px;padding:8px 12px;line-height:1.6}
 
@@ -165,6 +167,7 @@ footer a{color:var(--muted)}
     <section id="s-read" hidden>
       <p class="special" id="read-special" hidden></p>
       <div class="paper memo" id="memo">
+        <div class="chain" id="read-chain" hidden><p id="read-first" hidden><b>最初の質問</b><span></span></p><p id="read-prev" hidden><b>ひとつ前</b><span></span></p></div>
         <p class="from" id="read-from">誰かのメモ</p>
         <p class="text" id="read-text"></p>
         <div class="meta"><span id="read-no"></span><span id="read-depth"></span></div>
@@ -382,7 +385,7 @@ async function draw(){
         const rows = await rpc("memo_draw", {p_exclude: exclude});
         const r = Array.isArray(rows) ? rows[0] : null;
         if(r && typeof r.body==="string" && clean(r.body)){
-          note = {text: clean(r.body), id: r.id, depth: r.depth||1, ink: r.ink||0, at: r.created_at};
+          note = {text: clean(r.body), id: r.id, depth: r.depth||1, ink: r.ink||0, at: r.created_at, prev: r.prev_body, first: r.first_body};
           S.seen.push(r.id); if(S.seen.length>200) S.seen = S.seen.slice(-200);
         }
       }catch(e){}
@@ -409,6 +412,12 @@ function openNote(note, special){
   $("read-from").textContent = note.viaLink ? "回ってきたメモ" : "誰かのメモ";
   $("read-no").textContent = note.id ? "No."+note.id : (note.seed!=null ? "はじまりのメモ" : "");
   $("read-depth").textContent = note.depth>1 ? "リレー "+note.depth+"人目" : "";
+  /* 返事のメモなら、ひとつ前のメモと最初の質問も小さく見せる */
+  const okT = t => typeof t==="string" && clean(t) && !ngReason(clean(t)) ? clean(t) : "";
+  const prev = okT(note.prev), first = okT(note.first);
+  const line = (id,t) => { $(id).hidden = !t; $(id).querySelector("span").textContent = t; };
+  line("read-first", first && first!==prev ? first : ""); line("read-prev", prev);
+  $("read-chain").hidden = !prev && !first;
   $("read-special").hidden = !special; if(special) $("read-special").textContent = special;
   $("b-report").hidden = note.seed!=null;
   show("s-read");
@@ -543,11 +552,12 @@ async function readLink(){
   const key = typeof o.k==="string" && /^[a-z0-9]{4,16}$/.test(o.k) ? o.k : null;
   const parentKey = typeof o.p==="string" && /^[a-z0-9]{4,16}$/.test(o.p) ? o.p : null;
   // サーバーにある本物のメモなら、サーバーの文を使う（通報で消えたメモは出さない）
+  let linkCtx = {};
   if(id && !offline){
     try{
       const rows = await rpc("memo_get", {p_id: id});
       const r = Array.isArray(rows) ? rows[0] : null;
-      if(r){ text = clean(r.body); depth = r.depth || depth; }
+      if(r){ text = clean(r.body); depth = r.depth || depth; linkCtx = {prev: r.prev_body, first: r.first_body}; }
       else if(!offline){ toast("このメモはもう読めなくなっています"); return false; }
     }catch(e){}
   }
@@ -564,7 +574,7 @@ async function readLink(){
       setTimeout(chime, 500);
     }
   }
-  openNote({text, id, depth, ink, key, viaLink:true}, special);
+  openNote({text, id, depth, ink, key, viaLink:true, ...linkCtx}, special);
   return true;
 }
 

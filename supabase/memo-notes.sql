@@ -1,5 +1,6 @@
 -- 誰かのメモ帳（memo.html）用のテーブルと関数
 -- Supabase の SQL Editor にこのファイルをまるごと貼りつけて Run すれば準備完了です。
+-- そのあと memo-prev.sql も Run すると、返事のメモに「ひとつ前」「最初の質問」が出るようになります。
 -- 何度実行しても壊れないように書いてあります（テーブルと元のメモは残り、関数は上書き）。
 --
 -- しくみ：
@@ -68,6 +69,7 @@ end $$;
 -- ===== 1枚引く =====
 -- p_exclude：もう見たメモや自分のメモのid（クライアントが最大200件まで送る）
 -- あまり読まれていない新しめのメモが優先して届くように、配った回数＋ゆらぎで並べる
+drop function if exists public.memo_draw(bigint[]);  -- memo-prev.sql で戻り値を増やしたため
 create or replace function public.memo_draw(p_exclude bigint[] default '{}')
 returns table(id bigint, body text, depth int, ink smallint, reply_count int, created_at timestamptz)
 language plpgsql security definer set search_path = public as $$
@@ -86,6 +88,7 @@ begin
 end $$;
 
 -- ===== 共有リンクから特定の1枚をひらく =====
+drop function if exists public.memo_get(bigint);
 create or replace function public.memo_get(p_id bigint)
 returns table(id bigint, body text, depth int, ink smallint, reply_count int, created_at timestamptz)
 language sql security definer stable set search_path = public as $$
