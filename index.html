@@ -166,6 +166,7 @@ svg{display:block;overflow:visible}
 .spot .ic svg{position:relative;width:100%;height:100%;filter:drop-shadow(0 0 0 #fbf8f2) drop-shadow(1.5px 0 0 #fbf8f2) drop-shadow(-1.5px 0 0 #fbf8f2) drop-shadow(0 -1.5px 0 #fbf8f2) drop-shadow(0 4px 3px rgba(80,60,30,.3))}
 .spot .sign{position:relative;margin-top:10px;white-space:nowrap;font-weight:900;font-size:.8rem;line-height:1.5;padding:2px 10px;border-radius:3px;background:var(--grain),var(--white);box-shadow:0 1px 0 #d9cdb5,0 3px 5px rgba(80,60,30,.2);transform:rotate(var(--r,0deg));transition:background .2s,transform .3s var(--ease-pop)}
 .spot .sign b{margin-left:5px;font-size:.68rem;color:var(--sub)}
+.spot .sign small{display:block;margin:-1px -4px 0;font-size:.6rem;font-weight:800;line-height:1.4;color:#b07f77;letter-spacing:.02em;text-align:center}
 .spot:hover .ic,.spot:focus-visible .ic{transform:translateY(-5px) rotate(-5deg)}
 .spot[aria-pressed="true"] .ic{transform:translateY(-6px)}
 .spot[aria-pressed="true"] .sign{background:var(--grain),var(--butter);transform:rotate(0) scale(1.06)}
@@ -179,7 +180,7 @@ svg{display:block;overflow:visible}
 .spot.has-mini .sign{margin-top:12px}
 .spot.has-mini:hover .ic,.spot.has-mini:focus-visible .ic{transform:translateY(-5px) rotate(-2deg)}
 @media (max-width:639px){.spot.has-mini{--ic:40px}.spot .ic.mini{width:92px;height:40px}}
-@media (max-width:639px){.spot{--ic:42px}.spot .sign{font-size:.72rem;padding:1px 8px;margin-top:9px}.board .tape{width:64px;height:20px}}
+@media (max-width:639px){.spot{--ic:42px}.spot .sign{font-size:.72rem;padding:1px 8px;margin-top:9px}.spot .sign small{font-size:.52rem}.board .tape{width:64px;height:20px}}
 
 .walker{position:absolute;left:0;top:0;width:0;height:0;z-index:4;pointer-events:none}
 .walker .chick{position:absolute;left:-38px;bottom:-6px;width:76px;transform-origin:50% 100%;transform:scaleX(var(--dir,1))}
@@ -308,7 +309,7 @@ svg{display:block;overflow:visible}
 .genres{position:relative;display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:10px 4px 0;padding:0}
 .genre{display:inline-flex;align-items:center;gap:5px;padding:2px 10px 2px 3px;border-radius:12px;background:var(--grain),#fbf8f2;font-size:.7rem;font-weight:800;line-height:1.6;white-space:nowrap;color:var(--ink);box-shadow:0 2px 0 rgba(90,70,45,.12),0 3px 6px -2px rgba(90,70,45,.2)}
 .genre i{display:grid;place-items:center;width:20px;height:20px;flex:none;border-radius:50%;background:var(--g)}
-.genre i svg{display:block;width:15px;height:15px}
+.genre i svg{display:block;width:13px;height:13px;overflow:visible}
 .card .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:auto 18px 0 4px;padding-top:14px}
 .stats{position:relative;z-index:2;display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700}
 .stat{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:999px;background:var(--cream)}
@@ -431,7 +432,7 @@ svg{display:block;overflow:visible}
   .card .genres{margin-top:5px;gap:4px}
   .card .genre{font-size:.6rem;padding:0 6px 0 4px}
   .card .genre i{width:16px;height:16px}
-  .card .genre i svg{width:12px;height:12px}
+  .card .genre i svg{width:11px;height:11px}
   .card .foot{padding-top:6px;margin-right:12px}
   .card .play{padding:7px 11px;font-size:.74rem}
   .like{min-height:32px;padding:2px 10px}
@@ -694,7 +695,7 @@ const GENRES = {
   typing:  { icon:"⌨️", label:"タイピング",       bg:"#c7d6e1" },
   sim:     { icon:"🏪", label:"シミュレーション", bg:"#d5dfcf" },
   music:   { icon:"🎵", label:"音楽",             bg:"#ddd4e6" },
-  craft:   { icon:"✂️", label:"クリエイティブ",   bg:"#f6e6ad" },
+  craft:   { icon:"✂️", label:"クリエイティブ",   bg:"#c7d6e1" },
   relax:   { icon:"🍵", label:"癒し",             bg:"#d5dfcf" },
 };
 /* 前の細かいカテゴリの URL（?genre=quiz など）は、まとめた先に読みかえる */
@@ -822,10 +823,19 @@ const ICONS = {
 };
 
 /* ===== ジャンルアイコンの並び ===== */
+/* ジャンルのラベル用：アイコンの絵の部分だけを切り出して、丸の真ん中にくるようにする */
+const GICON = (()=>{ const out={}, box=document.createElement("div");
+  box.style.cssText="position:absolute;left:-9999px;top:0;width:60px;height:60px;visibility:hidden"; document.body.appendChild(box);
+  Object.keys(GENRES).forEach(k=>{ const src=ICONS[k]; if(!src) return; box.innerHTML=src; const sv=box.firstElementChild;
+    let b; try{ b=sv.getBBox(); }catch(e){} 
+    if(!b || !b.width){ out[k]=src; return; }
+    const m=Math.max(b.width,b.height)*1.08, x=b.x+b.width/2-m/2, y=b.y+b.height/2-m/2;
+    out[k]=src.replace(/viewBox="[^"]*"/,`viewBox="${x.toFixed(1)} ${y.toFixed(1)} ${m.toFixed(1)} ${m.toFixed(1)}"`); });
+  box.remove(); return out; })();
 function genreList(keys){
   const items=(keys||[]).map(k=>GENRES[k]).filter(Boolean);
   if(!items.length) return "";
-  return `<ul class="genres" aria-label="ジャンル">${(keys||[]).filter(k=>GENRES[k]).map(k=>{ const x=GENRES[k]; return `<li class="genre" style="--g:${x.bg}"><i aria-hidden="true">${ICONS[k]||""}</i>${x.label}</li>`; }).join("")}</ul>`;
+  return `<ul class="genres" aria-label="ジャンル">${(keys||[]).filter(k=>GENRES[k]).map(k=>{ const x=GENRES[k]; return `<li class="genre" style="--g:${x.bg}"><i aria-hidden="true">${GICON[k]||""}</i>${x.label}</li>`; }).join("")}</ul>`;
 }
 
 /* ===== カード ===== */
@@ -924,7 +934,7 @@ const POP = (()=>{
       poly(q([[44,2],[60,4],[50,16]]),c(k,1))+
       `<circle cx="${x+24*s}" cy="${y-6*s}" r="${2.6*s}" fill="${c("char",0)}"/><ellipse cx="${x+29*s}" cy="${y+3*s}" rx="${5*s}" ry="${2.5*s}" fill="${c("pink",0)}" opacity=".85"/>`+
       `<path d="M${x+40*s} ${y-30*s}v${-16*s}M${x+40*s} ${y-30*s}q${-4*s} ${-12*s} ${-14*s} ${-14*s}M${x+40*s} ${y-30*s}q${4*s} ${-12*s} ${14*s} ${-14*s}" fill="none" stroke="#fff" stroke-width="${3*s}" stroke-linecap="round"/>`);},
-    moon:(x,y,r)=>`<g class="hover"><path d="M${x} ${y-r}A${r} ${r} 0 1 0 ${x} ${y+r}A${r*.72} ${r} 0 1 1 ${x} ${y-r}Z" fill="${c("butter",0)}"/><path d="M${x} ${y-r}A${r} ${r} 0 0 0 ${x-r*.72} ${y+r*.68}L${x-r*.3} ${y}Z" fill="${c("butter",2)}"/></g>`,
+    moon:(x,y,r)=>{ const f=a=>a.map(([u,v])=>`${(x+u*r).toFixed(1)},${(y+v*r).toFixed(1)}`).join(" "); return `<g class="hover"><polygon points="${f([[-0.107, -1.0], [-0.554, -0.839], [-0.875, -0.5], [-1.0, -0.054], [-0.911, 0.411], [-0.625, 0.786], [-0.214, 0.982], [0.25, 0.964], [0.661, 0.75], [0.929, 0.357], [0.536, 0.5], [0.125, 0.429], [-0.214, 0.161], [-0.375, -0.214], [-0.339, -0.643]])}" fill="${c("butter",0)}"/><polygon points="${f([[-0.911, 0.411], [-0.625, 0.786], [-0.214, 0.982], [0.25, 0.964], [0.661, 0.75], [0.929, 0.357], [0.536, 0.5], [0.125, 0.429], [-0.214, 0.161]])}" fill="${c("butter",1)}" opacity=".55"/><polygon points="${f([[-0.107, -1.0], [-0.554, -0.839], [-0.875, -0.5], [-0.661, -0.429], [-0.339, -0.643]])}" fill="${c("butter",2)}"/></g>`; },
     island:(x,y,w,k="sage",d=0,body="")=>{const h=w*.5;
       return G("hover",d,body+poly([[x-w/2,y],[x+w/2,y],[x+w*.28,y+h*.5],[x+w*.05,y+h]],c("cream",1))+poly([[x-w/2,y],[x+w*.05,y+h],[x-w*.2,y+h*.55]],c("cream",0))+
       poly([[x-w/2-4,y-8],[x+w/2+4,y-8],[x+w/2,y+2],[x-w/2,y+2]],c(k,0))+poly([[x-w/2-4,y-8],[x+w/2+4,y-8],[x+w/2-6,y-13],[x-w/2+6,y-13]],c(k,2)));},
@@ -1090,8 +1100,10 @@ const POP = (()=>{
   document.getElementById("popBack").addEventListener("click",()=>{ hide(); board.querySelector('.spot[aria-pressed="true"]')?.focus({preventScroll:true}); });
   document.getElementById("popGo").addEventListener("click",e=>{ e.preventDefault(); hide(); document.getElementById("games").scrollIntoView({behavior:RM?"auto":"smooth",block:"start"}); });
   addEventListener("keydown",e=>{ if(e.key==="Escape") hide(); });
-  return {show,hide,mini,get open(){return open}};
+  return {show,hide,mini,name:g=>(SCENES[g]||SCENES[""]).name,get open(){return open}};
 })();
+/* 地図のかんばんに、その場所の名前（パズルの浮き島など）も書く */
+tiles.forEach(t=>{ const sg=t.querySelector(".sign"); if(sg && !sg.querySelector("small")) sg.insertAdjacentHTML("afterbegin",`<small>${POP.name(t.dataset.genre||"")}</small>`); });
 /* 地図の各場所に、そのカテゴリの小さな世界を置いておく */
 tiles.forEach((t,i)=>{ const ic=t.querySelector(".ic"); t.insertAdjacentHTML("afterbegin",`<i class="no">${i+1}</i>`); ic.classList.add("mini"); ic.innerHTML=POP.mini(t.dataset.genre); t.classList.add("has-mini"); });
 /* ===== カテゴリ・キーワードでしぼりこむ ===== */
@@ -1201,7 +1213,7 @@ function pointAt(d){
 /* ニワトリは、えらんだ場所のすぐ手前の道に立つ */
 const restD=i=>MAP.spotD[i]-(MAP.sp?58:86);
 const WP={x:0,y:0};
-function setXY(x,y){ WP.x=x; WP.y=y; walker.style.left=x+"px"; walker.style.top=y+"px"; }
+function setXY(x,y){ const h=MAP.sp?32:42; x=Math.max(h,Math.min(MAP.W-h,x)); /* 地図のはしで切れないように */ WP.x=x; WP.y=y; walker.style.left=x+"px"; walker.style.top=y+"px"; }
 function placeWalker(t){ cancelAnimationFrame(WALK.raf); walker.classList.remove("walking"); const [x,y]=pointAt(restD(tiles.indexOf(t))); setXY(x,y); walker.style.setProperty("--dir",1); }
 function chirp(text){ const r=WP.x/MAP.W; chickSay.style.setProperty("--bx", r<.25?"-14%":r>.75?"-86%":"-50%"); chickSay.textContent=text; chickSay.classList.add("on"); clearTimeout(chirp.t); chirp.t=setTimeout(()=>chickSay.classList.remove("on"),1800); }
 /* 遠くても待たせないよう、まっすぐぴょんぴょん跳んで向かう（最大0.6秒） */
