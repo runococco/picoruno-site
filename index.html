@@ -464,7 +464,7 @@ svg{display:block;overflow:visible}
 .foot-chick img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 4px rgba(40,50,35,.3))}
 .foot-chick:hover{transform:translateY(-8px) rotate(-6deg)}
 .foot-say{position:absolute;right:70%;bottom:78%;white-space:nowrap;font-size:.72rem;font-weight:900;color:var(--ink);padding:3px 10px;border-radius:12px;background:var(--grain),var(--white);box-shadow:var(--shadow-s);transform:rotate(-4deg)}
-.foot-in{position:relative;max-width:1140px;margin:0 auto;padding:18px 28px 40px;display:grid;grid-template-columns:1.25fr 1fr .8fr;gap:36px;align-items:start}
+.foot-in{position:relative;max-width:1140px;margin:0 auto;padding:18px 28px 40px;display:grid;grid-template-columns:1fr auto;gap:36px 60px;align-items:center}
 .xfoot .gfoot-word{justify-content:flex-start;font-size:clamp(3rem,7vw,5.6rem);padding-top:6px}
 .foot-catch{margin:10px 0 0;font-weight:700;font-size:.95rem;opacity:.92;letter-spacing:.06em}
 .foot-x{display:inline-flex;align-items:center;gap:12px;margin-top:22px;padding:8px 18px 8px 8px;border-radius:40px;text-decoration:none;color:var(--ink);background:var(--grain),var(--white);box-shadow:0 3px 0 #d8cfbe,var(--shadow-s);transition:transform .25s var(--ease-pop)}
@@ -472,24 +472,7 @@ svg{display:block;overflow:visible}
 .foot-x span{display:flex;flex-direction:column;line-height:1.25;font-weight:900;font-size:.95rem}
 .foot-x small{font-size:.68rem;font-weight:700;color:var(--sub)}
 .foot-x:hover{transform:translateY(-3px) rotate(-2deg)}
-.foot-cards{display:grid;gap:18px}
-.foot-pick{position:relative;display:grid;grid-template-columns:118px 1fr;grid-template-rows:auto 1fr auto;column-gap:12px;padding:12px;border-radius:6px;text-decoration:none;color:var(--ink);background:var(--grain),var(--white);box-shadow:var(--shadow-m);transform:rotate(-1.5deg);transition:transform .3s var(--ease-pop)}
-.foot-pick:hover{transform:rotate(0) translateY(-4px)}
-.foot-pick .tape{position:absolute;left:50%;top:-10px;width:70px;height:20px;margin-left:-35px;background:rgba(240,219,147,.85);transform:rotate(3deg)}
-.foot-pick small{grid-column:2;font-size:.68rem;font-weight:900;color:#cf968c;letter-spacing:.08em}
-.fp-art{grid-row:1/4;aspect-ratio:900/487;border-radius:3px;overflow:hidden;background:#eee;align-self:center}
-.fp-art img{display:block;width:100%;height:100%;object-fit:cover}
-.foot-pick b{grid-column:2;font-size:1rem;line-height:1.35;font-weight:900}
-.fp-go{grid-column:2;justify-self:start;margin-top:6px;font-size:.75rem;font-weight:900;color:#fff;padding:3px 12px;border-radius:20px;background:#e5b4ab;box-shadow:0 2px 0 #cf968c}
-.foot-ticket{position:relative;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:14px;align-items:center;text-align:left;padding:12px 22px 12px 26px;border:0;cursor:pointer;color:var(--ink);font:inherit;
-  background:radial-gradient(circle at 0 50%,transparent 9px,#f0db93 10px) left/51% 100% no-repeat,radial-gradient(circle at 100% 50%,transparent 9px,#f0db93 10px) right/51% 100% no-repeat;
-  filter:drop-shadow(0 6px 6px rgba(40,50,35,.25));transform:rotate(1.5deg);transition:transform .3s var(--ease-pop)}
-.foot-ticket::after{content:"";position:absolute;top:8px;bottom:8px;right:92px;border-left:2px dashed rgba(120,95,40,.35)}
-.foot-ticket small{grid-column:1/3;font-size:.66rem;font-weight:900;letter-spacing:.16em;color:#a8893a}
-.foot-ticket b{font-size:1.05rem;font-weight:900}
-.foot-ticket span{justify-self:end;font-size:.8rem;font-weight:900;color:#a8893a}
-.foot-ticket:hover{transform:rotate(-1deg) translateY(-3px)}
-.foot-tags{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin:0;padding:18px 0 0 22px}
+.xfoot .foot-tags{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin:0;padding:18px 0 0 22px}
 .foot-tags::before{content:"";position:absolute;left:8px;top:0;bottom:6px;border-left:2px dotted rgba(255,255,255,.5)}
 .xfoot .foot-tags a{position:relative;display:inline-block;padding:7px 18px 7px 26px;margin:0;border-radius:4px 14px 14px 4px;font-size:.92rem;font-weight:900;text-decoration:none;color:var(--ink);
   background:var(--grain),var(--c);box-shadow:0 3px 0 rgba(0,0,0,.08),var(--shadow-s);transform:rotate(var(--r));transform-origin:0 50%;transition:transform .35s var(--ease-pop)}
@@ -500,9 +483,11 @@ svg{display:block;overflow:visible}
 .foot-base small{font-size:.78rem;opacity:.9}
 .foot-stamp{font-size:.7rem;font-weight:900;letter-spacing:.06em;color:#f0db93;border:2px solid currentColor;border-radius:6px;padding:1px 8px;transform:rotate(-4deg)}
 @media (max-width:900px){
-  .foot-in{grid-template-columns:1fr 1fr;gap:28px}
-  .foot-brand{grid-column:1/3;text-align:center}
+  .foot-in{grid-template-columns:1fr;gap:28px}
+  .foot-brand{text-align:center}
   .xfoot .gfoot-word{justify-content:center}
+  .xfoot .foot-tags{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;justify-items:center;gap:14px 16px;padding:0}
+  .foot-tags::before,.xfoot .foot-tags a::after{display:none}
 }
 @media (max-width:640px){
   .xfoot{margin-top:96px}
@@ -511,9 +496,6 @@ svg{display:block;overflow:visible}
   .foot-in{grid-template-columns:1fr;gap:24px;padding:10px 18px 30px}
   .foot-brand{grid-column:auto}
   .xfoot .gfoot-word{font-size:clamp(2.8rem,15vw,4rem)}
-  .foot-pick{grid-template-columns:110px 1fr}
-  .foot-tags{display:grid;grid-template-columns:1fr 1fr;justify-items:center;gap:14px 10px;padding:0}
-  .foot-tags::before,.foot-tags a::after{display:none}
 }
 .gfoot-word.on span{animation:wave 2.8s ease-in-out 3;animation-delay:calc(var(--i) * .12s)}
 @keyframes wave{0%,60%,100%{transform:rotate(var(--r))}20%{transform:translateY(-.14em) rotate(calc(var(--r) * -1))}}
@@ -668,10 +650,6 @@ svg{display:block;overflow:visible}
       <p class="foot-catch">ちいさな遊び、おおきな楽しみ。</p>
       <a class="foot-x" href="https://x.com/picoruno" target="_blank" rel="noopener"><b aria-hidden="true">𝕏</b><span><small>あたらしいゲームのおしらせ</small>@picoruno</span></a>
     </div>
-    <div class="foot-cards">
-      <a class="foot-pick" id="footPick" href="#games"><i class="tape" aria-hidden="true"></i><small>きょうのいちおし</small><span class="fp-art" id="fpArt"></span><b id="fpTitle">ゲーム</b><span class="fp-go">あそぶ ▶</span></a>
-      <button class="foot-ticket" type="button" data-spin><small>PICO GACHA</small><b>もう1回まわす</b><span>1回 0円</span></button>
-    </div>
     <nav class="foot-tags" aria-label="フッター">
       <a href="#games" style="--c:#f0db93;--r:-4deg">ゲーム</a>
       <a href="#town" style="--c:#e5b4ab;--r:3deg">カテゴリ</a>
@@ -799,9 +777,6 @@ document.getElementById("shelfBlocks").innerHTML = block(4,18,30,30,8,"butter")+
     svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.innerHTML=h; };
   draw(); let fw=0; addEventListener("resize",()=>{ if(svg.clientWidth!==fw){ fw=svg.clientWidth; draw(); } });
   document.getElementById("footChick").addEventListener("click",()=>scrollTo({top:0,behavior:RM?"auto":"smooth"}));
-  /* きょうのいちおし（日付で1本えらぶ） */
-  const d=new Date(), g=GAMES[(d.getFullYear()*372+d.getMonth()*31+d.getDate())%GAMES.length];
-  if(g){ document.getElementById("fpArt").innerHTML=artHTML(g); document.getElementById("fpTitle").textContent=g.title; document.getElementById("footPick").href=g.url; }
 }
 { /* 遊園地の入口みたいな、しましまの紙のテント屋根 */
   const svg=document.getElementById("garland");
