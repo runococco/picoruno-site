@@ -163,11 +163,11 @@ svg{display:block;overflow:visible}
 
 /* ---------- 飛び出す街（カテゴリをえらぶと、絵本みたいに立ち上がる） ---------- */
 .popup{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px 14px;overflow-y:auto;visibility:hidden;pointer-events:none;
-  background:rgba(244,241,234,0);transition:background .3s,visibility 0s .3s;-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}
-.popup.open{visibility:visible;pointer-events:auto;background:rgba(244,241,234,.72);transition:background .3s;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
-.popup .pop-in{width:min(680px,100%);perspective:1000px}
+  background:rgba(244,241,234,0);transition:background .25s,visibility 0s .25s;overscroll-behavior:contain}
+.popup.open{visibility:visible;pointer-events:auto;background:rgba(244,241,234,.82);transition:background .25s}
+.popup .pop-in{width:min(680px,100%)}
 .pop-card{position:relative;padding:14px 16px 18px;border-radius:8px;background:var(--grain),var(--cream);box-shadow:var(--edge),var(--shadow-l);
-  transform-origin:50% 100%;transform:rotateX(80deg) translateY(40px);opacity:0;transition:transform .5s var(--ease-pop),opacity .25s}
+  transform-origin:50% 100%;transform:translateY(28px) scale(.94);opacity:0;transition:transform .4s var(--ease-pop),opacity .2s}
 .popup.open .pop-card{transform:none;opacity:1}
 .pop-card::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(transparent,rgba(60,50,35,.12) 20%,rgba(60,50,35,.12) 80%,transparent)}
 .pop-title{position:relative;z-index:5;display:table;margin:-30px auto 6px;font-weight:900;font-size:clamp(1.05rem,2.6vw,1.35rem);padding:5px 20px;border-radius:4px;
@@ -178,7 +178,7 @@ svg{display:block;overflow:visible}
 .pop-stage .ly{position:absolute;left:0;right:0;bottom:var(--b,0);height:calc(100% - var(--b,0px));transform-origin:50% 100%;filter:drop-shadow(0 6px 5px rgba(60,50,35,.22))}
 .pop-stage .ly svg{width:100%;height:100%}
 .popup.open .ly{animation:popUp .75s var(--ease-pop) both;animation-delay:var(--d,0s)}
-@keyframes popUp{0%{transform:rotateX(-90deg)}100%{transform:none}}
+@keyframes popUp{0%{transform:scaleY(0)}100%{transform:none}}
 .pop-stage .ground{position:absolute;left:-6px;right:-6px;bottom:-4px;height:26px;border-radius:3px;background:var(--grain),var(--g1,var(--sage-l));box-shadow:inset 0 2px 0 rgba(255,255,255,.3),0 4px 6px rgba(60,50,35,.2)}
 .pop-stage .bob{transform-box:fill-box;transform-origin:50% 100%;animation:sway 3.2s ease-in-out infinite}
 @keyframes sway{50%{transform:rotate(3deg)}}
@@ -944,9 +944,10 @@ const POP = (()=>{
     stage.innerHTML=`<div class="sky"></div>`+ly("back",22,.15,sc.b)+ly("mid",14,.3,sc.m)+ly("front",4,.45,sc.f)+`<div class="ground"></div>`;
     pop.classList.remove("open"); void pop.offsetWidth;
     pop.classList.add("open"); pop.setAttribute("aria-hidden","false"); open=true;
-    setTimeout(()=>document.getElementById("popGo").focus({preventScroll:true}),RM?0:400);
+    document.documentElement.style.overflow="hidden";
+    if(matchMedia("(hover:hover)").matches) setTimeout(()=>document.getElementById("popGo").focus({preventScroll:true}),RM?0:400);
   }
-  function hide(){ if(!open) return; open=false; pop.classList.remove("open"); pop.setAttribute("aria-hidden","true"); }
+  function hide(){ if(!open) return; open=false; pop.classList.remove("open"); pop.setAttribute("aria-hidden","true"); document.documentElement.style.overflow=""; }
   pop.addEventListener("click",e=>{ if(e.target===pop) hide(); });
   document.getElementById("popClose").addEventListener("click",hide);
   document.getElementById("popBack").addEventListener("click",()=>{ hide(); board.querySelector('.spot[aria-pressed="true"]')?.focus({preventScroll:true}); });
@@ -994,7 +995,7 @@ const mapSvg=document.getElementById("map");
 const jit=(i,k)=>Math.sin(i*12.9898+k*78.233)*43758.5453%1;
 function layoutMap(){
   const W=board.clientWidth, sp=W<640, cols=sp?3:5, n=tiles.length, rows=Math.ceil(n/cols);
-  const padX=sp?W*.17:W*.11, top=sp?78:96, rowH=sp?142:176, H=top+(rows-1)*rowH+(sp?78:92);
+  const padX=sp?W*.15:W*.1, top=sp?64:76, rowH=sp?112:124, H=top+(rows-1)*rowH+(sp?54:58);
   board.style.setProperty("--h",H+"px");
   /* 道しるべの位置（へび行） */
   const A=tiles.map((t,i)=>{ const r=Math.floor(i/cols), c0=i%cols, c=r%2?cols-1-c0:c0;
@@ -1042,7 +1043,7 @@ function drawMap(A,rows,cols,padX,top,rowH){
     const y=top+r*rowH+rowH*.5+(sp?4:6); if(r===rows-1 && y>H-30) break;
     const lim=r<rows-1?cols-1:Math.max(0,(tiles.length-1)%cols);
     for(let c=0;c<cols-1;c++){ if(r===rows-1 && c>=lim) break; const x=padX+(c+.5)*(W-2*padX)/(cols-1)+jit(r*7+c,5)*20;
-      if(Math.abs(jit(r*3+c,6))<.25) continue; deco.push(kinds[k++%kinds.length](x,y)); }
+      if(Math.abs(jit(r*3+c,6))<.25 || rowH<130) continue; deco.push(kinds[k++%kinds.length](x,y)); }
   }
   const comp=`<g transform="translate(${W-(sp?30:44)} ${sp?32:42}) scale(${sp?.7:.9})"><circle r="20" fill="#fbf8f2" opacity=".85"/><polygon points="0,-17 5,0 0,17 -5,0" fill="#e5b4ab"/><polygon points="0,0 5,0 0,17" fill="#cf968c"/><polygon points="-17,0 0,-4 17,0 0,4" fill="#adbda6"/><text y="-21" text-anchor="middle" font-size="10" font-weight="900" fill="#7a6648" font-family="Zen Maru Gothic,sans-serif">N</text></g>`;
   mapSvg.setAttribute("viewBox",`0 0 ${W} ${H}`);
@@ -1057,20 +1058,23 @@ function pointAt(d){
   const t=(d-cum[lo])/((cum[hi]-cum[lo])||1);
   return [pts[lo][0]+(pts[hi][0]-pts[lo][0])*t, pts[lo][1]+(pts[hi][1]-pts[lo][1])*t];
 }
-/* ニワトリは、えらんだ場所の少し手前の道に立つ */
-const restD=i=>MAP.spotD[i]-(MAP.sp?36:48);
-function setWalker(d){ WALK.d=d; const [x,y]=pointAt(d); walker.style.left=x+"px"; walker.style.top=y+"px"; }
-function placeWalker(t){ cancelAnimationFrame(WALK.raf); walker.classList.remove("walking"); setWalker(restD(tiles.indexOf(t))); walker.style.setProperty("--dir",1); }
-function chirp(text){ const r=parseFloat(walker.style.left)/MAP.W; chickSay.style.setProperty("--bx", r<.25?"-14%":r>.75?"-86%":"-50%"); chickSay.textContent=text; chickSay.classList.add("on"); clearTimeout(chirp.t); chirp.t=setTimeout(()=>chickSay.classList.remove("on"),2200); }
+/* ニワトリは、えらんだ場所のすぐ手前の道に立つ */
+const restD=i=>MAP.spotD[i]-(MAP.sp?30:40);
+const WP={x:0,y:0};
+function setXY(x,y){ WP.x=x; WP.y=y; walker.style.left=x+"px"; walker.style.top=y+"px"; }
+function placeWalker(t){ cancelAnimationFrame(WALK.raf); walker.classList.remove("walking"); const [x,y]=pointAt(restD(tiles.indexOf(t))); setXY(x,y); walker.style.setProperty("--dir",1); }
+function chirp(text){ const r=WP.x/MAP.W; chickSay.style.setProperty("--bx", r<.25?"-14%":r>.75?"-86%":"-50%"); chickSay.textContent=text; chickSay.classList.add("on"); clearTimeout(chirp.t); chirp.t=setTimeout(()=>chickSay.classList.remove("on"),1800); }
+/* 遠くても待たせないよう、まっすぐぴょんぴょん跳んで向かう（最大0.6秒） */
 function goTo(t, done){
-  const i=tiles.indexOf(t), d0=WALK.d, d1=restD(i), dist=Math.abs(d1-d0);
+  const [x1,y1]=pointAt(restD(tiles.indexOf(t))), x0=WP.x, y0=WP.y, dist=Math.hypot(x1-x0,y1-y0);
   cancelAnimationFrame(WALK.raf); chickSay.classList.remove("on");
   if(RM || dist<6){ placeWalker(t); done(); return; }
-  const dur=Math.min(2600,Math.max(450,dist/(MAP.sp?.2:.3)));
-  walker.classList.add("walking"); let start=0, lastX=parseFloat(walker.style.left);
-  const step=now=>{ if(!start) start=now; const k=Math.min(1,(now-start)/dur), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
-    setWalker(d0+(d1-d0)*e); const x=parseFloat(walker.style.left); if(Math.abs(x-lastX)>.3) walker.style.setProperty("--dir",x<lastX?-1:1); lastX=x;
-    if(k<1) WALK.raf=requestAnimationFrame(step); else { walker.classList.remove("walking"); done(); } };
+  if(Math.abs(x1-x0)>4) walker.style.setProperty("--dir",x1<x0?-1:1);
+  const dur=Math.min(600,Math.max(260,dist*1.3)), hops=Math.max(1,Math.round(dur/220)), hh=MAP.sp?14:20;
+  walker.classList.add("walking"); let start=0;
+  const step=now=>{ if(!start) start=now; const k=Math.min(1,(now-start)/dur);
+    setXY(x0+(x1-x0)*k, y0+(y1-y0)*k-Math.abs(Math.sin(Math.PI*k*hops))*hh);
+    if(k<1) WALK.raf=requestAnimationFrame(step); else { setXY(x1,y1); walker.classList.remove("walking"); done(); } };
   WALK.raf=requestAnimationFrame(step);
 }
 board.addEventListener("click",e=>{
@@ -1083,7 +1087,7 @@ board.addEventListener("click",e=>{
     const n=cards.filter(c=>!c.hidden).length;
     chirp(g ? `${GENRES[g].label}は ${n}こ！` : `ぜんぶで ${n}こ！`);
     /* そのカテゴリの世界が、飛び出す絵本みたいに立ち上がる */
-    setTimeout(()=>POP.show(g,n),RM?0:450);
+    setTimeout(()=>POP.show(g,n),RM?0:160);
   });
 });
 
