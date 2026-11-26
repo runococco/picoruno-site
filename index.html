@@ -193,7 +193,8 @@ svg{display:block;overflow:visible}
 .popup{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px 14px;overflow-y:auto;visibility:hidden;pointer-events:none;
   background:rgba(244,241,234,0);transition:background .25s,visibility 0s .25s;overscroll-behavior:contain}
 .popup.open{visibility:visible;pointer-events:auto;background:rgba(244,241,234,.82);transition:background .25s}
-.popup .pop-in{width:min(680px,100%)}
+.popup{grid-template-columns:minmax(0,680px);justify-content:center}
+.popup .pop-in{width:100%;min-width:0}
 .pop-card{position:relative;padding:14px 16px 18px;border-radius:8px;background:var(--grain),var(--cream);box-shadow:var(--edge),var(--shadow-l);
   transform-origin:50% 50%;transform:translate(var(--fx,0px),var(--fy,28px)) scale(.16);opacity:0;transition:transform .45s var(--ease-pop),opacity .2s}
 .popup.open .pop-card{transform:none;opacity:1}
@@ -241,7 +242,19 @@ svg{display:block;overflow:visible}
 .pop-stage .snip{animation:snip 1.2s ease-in-out infinite}
 @keyframes snip{50%{transform:rotate(-6deg)}}
 .pop-stage text{font-family:var(--font)}
-.pop-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;margin-top:16px}
+.pop-games{display:flex;gap:12px;margin:14px -16px 0;padding:6px 16px 12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.pop-games.few{justify-content:center}
+.pg{flex:0 0 156px;scroll-snap-align:start;display:flex;flex-direction:column;gap:6px;padding:7px 7px 9px;border-radius:6px;text-decoration:none;color:var(--ink);
+  background:var(--grain),var(--white);box-shadow:var(--edge),var(--shadow-s);transition:transform .25s var(--ease-pop)}
+.popup.open .pg{animation:pgIn .45s var(--ease-pop) both;animation-delay:calc(.35s + var(--i) * .06s)}
+@keyframes pgIn{from{opacity:0;transform:translateY(14px)}}
+.pg:hover{transform:translateY(-4px) rotate(-1deg)}
+.pg-art{display:block;aspect-ratio:900/487;border-radius:3px;overflow:hidden}
+.pg-art img{display:block;width:100%;height:100%;object-fit:cover}
+.pg b{font-size:.8rem;line-height:1.35;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pg-play{align-self:flex-end;font-size:.68rem;font-weight:900;color:#7a4740;padding:3px 10px;border-radius:999px;background:var(--grain),linear-gradient(180deg,#f0cdc6,#e5b4ab);box-shadow:0 2px 0 #cf968c}
+@media (max-width:639px){.pg{flex-basis:128px}.pop-games{margin-inline:-10px;padding-inline:10px}.pop-stage{max-height:190px}}
+.pop-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;margin-top:6px}
 .pop-foot p{flex-basis:100%;text-align:center;font-size:.88rem;color:var(--sub)}
 .pop-close{position:absolute;right:-10px;top:-12px;z-index:6;width:40px;height:40px;border-radius:50%;border:0;background:var(--grain),var(--white);color:var(--ink);font:inherit;font-size:1.1rem;font-weight:900;cursor:pointer;box-shadow:var(--shadow-m)}
 @media (max-width:640px){.pop-foot .btn{padding:11px 16px;font-size:.88rem}.pop-card{padding:12px 10px 16px}}
@@ -544,9 +557,9 @@ svg{display:block;overflow:visible}
         <button class="pop-close" id="popClose" type="button" aria-label="とじる">×</button>
         <p class="pop-title"><small id="popEn"></small><span id="popName"></span></p>
         <div class="pop-stage" id="popStage" aria-hidden="true"></div>
+        <div class="pop-games" id="popGames"></div>
         <div class="pop-foot">
-          <p id="popText"></p>
-          <a class="btn sage" id="popGo" href="#games">ゲームを見る ↓</a>
+          <a class="btn sage" id="popGo" href="#games">いちらんで見る ↓</a>
           <button class="btn white" id="popBack" type="button">ほかの場所へ</button>
         </div>
       </div></div>
@@ -972,8 +985,11 @@ const POP = (()=>{
     const sc=SCENES[g]||SCENES[""], label=g?GENRES[g].label:"ぜんぶ";
     document.getElementById("popEn").textContent=sc.en;
     document.getElementById("popName").textContent=sc.name;
-    document.getElementById("popText").textContent=`${label}のゲームは ${n}こ あるよ`;
-    document.getElementById("popGo").textContent=`ゲームを見る（${n}こ）↓`;
+    const list=GAMES.filter(x=>!g||(x.genres||[]).includes(g)), pg=document.getElementById("popGames");
+    pg.classList.toggle("few",list.length<=3);
+    pg.innerHTML=list.map((x,i)=>`<a class="pg" href="${x.url}" style="--i:${i}"><span class="pg-art" style="background:${x.bg}"><img src="${x.img}" alt="" loading="lazy" width="900" height="487"></span><b>${esc(x.title)}</b><span class="pg-play">あそぶ ▶</span></a>`).join("");
+    pg.scrollLeft=0;
+    document.getElementById("popGo").textContent=`いちらんで見る（${n}こ）↓`;
     stage.style.setProperty("--sky1",sc.sky[0]); stage.style.setProperty("--sky2",sc.sky[1]); stage.style.setProperty("--g1",P[sc.g][2]);
     const ly=(cls,b,d,body)=>`<div class="ly ${cls}" style="--b:${b}px;--d:${d}s"><svg viewBox="0 0 600 240" preserveAspectRatio="xMidYMax meet">${body}</svg></div>`;
     stage.innerHTML=`<div class="sky"></div>`+ly("back",22,.15,sc.b)+ly("mid",14,.3,sc.m)+ly("front",4,.45,sc.f)+`<div class="ground"></div>`;
