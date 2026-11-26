@@ -1,0 +1,149 @@
+/* =========================================================
+   picoruno. 共通スタイル：ペーパークラフトの箱庭
+   ========================================================= */
+:root{
+  --bg:#f4f1ea;          /* 撮影台のような、白っぽい背景 */
+  --sage:#8fa287;        /* 箱の緑 */
+  --sage-d:#74876d;
+  --sage-dd:#5d6f58;
+  --sage-l:#adbda6;
+  --cream:#f2ebdd;       /* 箱の底の紙 */
+  --cream-d:#e3d9c6;
+  --white:#fbf8f2;
+  --pink:#e5b4ab;
+  --pink-d:#cf968c;
+  --pink-l:#f0cdc6;
+  --butter:#f0db93;
+  --butter-d:#d8bd66;
+  --char:#3c3c40;        /* 黒い紙 */
+  --char-l:#55555a;
+  --ink:#3c3a38;
+  --sub:#7a736b;
+  --shadow-s:0 1px 1px rgba(70,55,40,.10),0 3px 6px -2px rgba(70,55,40,.22);
+  --shadow-m:0 1px 1px rgba(70,55,40,.10),0 8px 16px -6px rgba(70,55,40,.30),0 18px 30px -18px rgba(70,55,40,.30);
+  --shadow-l:0 2px 2px rgba(70,55,40,.10),0 16px 26px -10px rgba(70,55,40,.32),0 34px 50px -26px rgba(70,55,40,.35);
+  --edge:inset 0 1px 0 rgba(255,255,255,.45);
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .22 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --fiber:linear-gradient(transparent,transparent);
+  --ease-pop:cubic-bezier(.3,1.5,.5,1);
+  --ease-out:cubic-bezier(.2,.8,.2,1);
+  --font:"Zen Maru Gothic","Hiragino Maru Gothic ProN","M PLUS Rounded 1c",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);font-weight:500;color:var(--ink);background:var(--grain),var(--bg);line-height:1.85;overflow-x:hidden;min-height:100vh}
+img{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--butter-d);outline-offset:3px;border-radius:8px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* 紙の面（色＋ざらざら） */
+.paper{background:var(--grain),var(--fiber),var(--c,var(--white));box-shadow:var(--edge),var(--shadow-m)}
+
+/* ---------- ページ遷移：紙がめくれるように ---------- */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vt-out .4s var(--ease-out) both}
+::view-transition-new(root){animation:vt-in .5s var(--ease-out) both}
+@keyframes vt-out{to{opacity:0;transform:translateY(-14px) rotate(-.6deg)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(24px) rotate(.8deg)}}
+
+/* ---------- ヘッダー：紙の帯 ---------- */
+.gnav{
+  position:fixed;top:12px;left:50%;z-index:50;transform:translateX(-50%);
+  width:min(1120px,calc(100% - 24px));
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:6px 8px 6px 8px;border-radius:14px;
+  background:var(--grain),var(--fiber),var(--white);box-shadow:var(--edge),var(--shadow-m);
+}
+.gnav::before,.gnav::after{ /* マスキングテープ */
+  content:"";position:absolute;top:-8px;width:54px;height:18px;background:rgba(240,219,147,.78);
+  box-shadow:0 1px 2px rgba(0,0,0,.06);
+}
+.gnav::before{left:18px;transform:rotate(-6deg)}
+.gnav::after{right:22px;transform:rotate(5deg);background:rgba(229,180,171,.78)}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:900;font-size:1.15rem;letter-spacing:.02em;line-height:1}
+.brand img{width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:var(--shadow-s);transition:transform .5s var(--ease-pop)}
+.brand:hover img{transform:rotate(-14deg) scale(1.1)}
+.gnav nav{display:flex;gap:2px}
+.gnav nav a{position:relative;text-decoration:none;font-weight:700;font-size:.88rem;line-height:1;padding:10px 13px;border-radius:10px;transition:background .2s,transform .25s var(--ease-pop)}
+.gnav nav a:hover{background:var(--cream);transform:translateY(-2px) rotate(-2deg)}
+.gnav nav a[aria-current="page"]{background:var(--sage);color:#fff}
+@media (max-width:560px){
+  .gnav{top:8px;width:calc(100% - 16px);padding:5px 5px 5px 6px}
+  .brand{font-size:1rem;gap:7px}
+  .brand img{width:30px;height:30px}
+  .gnav nav a{font-size:.76rem;padding:9px 8px}
+  .gnav nav a.opt{display:none}
+}
+@media (max-width:350px){.brand span{display:none}}
+
+/* ---------- ボタン：厚紙 ---------- */
+.btn{
+  --c:var(--char);--fg:#fff;--dk:#1f1f22;
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font:inherit;font-weight:700;font-size:1rem;text-decoration:none;cursor:pointer;border:0;
+  color:var(--fg);background:var(--grain),var(--c);border-radius:12px;padding:13px 24px;
+  box-shadow:var(--edge),0 4px 0 var(--dk),0 10px 16px -6px rgba(60,45,30,.4);
+  transition:transform .15s var(--ease-out),box-shadow .15s var(--ease-out);
+}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--edge),0 6px 0 var(--dk),0 14px 20px -6px rgba(60,45,30,.4)}
+.btn:active{transform:translateY(3px);box-shadow:var(--edge),0 1px 0 var(--dk),0 4px 8px -4px rgba(60,45,30,.4)}
+.btn.pink{--c:var(--pink);--fg:var(--ink);--dk:var(--pink-d)}
+.btn.butter{--c:var(--butter);--fg:var(--ink);--dk:var(--butter-d)}
+.btn.white{--c:var(--white);--fg:var(--ink);--dk:var(--cream-d)}
+.btn.sage{--c:var(--sage);--fg:#fff;--dk:var(--sage-dd)}
+
+/* ---------- 紙のふち（ギザギザ・なみなみ） ---------- */
+.edge{display:block;width:100%;height:28px;filter:drop-shadow(0 -3px 3px rgba(70,55,40,.12))}
+
+/* ---------- フッター：緑の箱のふち ---------- */
+.gfoot{position:relative;margin-top:60px;color:#fff;text-align:center;padding:10px 20px 34px;background:var(--grain),var(--fiber),var(--sage-d)}
+.gfoot .edge{position:absolute;left:0;top:-27px}
+.gfoot .edge path{fill:var(--sage-d)}
+.gfoot-word{display:flex;justify-content:center;gap:.04em;font-weight:900;font-size:clamp(3rem,13vw,9rem);line-height:1;padding-top:30px;user-select:none}
+.gfoot-word span{display:inline-block;color:var(--c);text-shadow:0 2px 0 rgba(0,0,0,.08),0 8px 14px rgba(30,40,25,.3);transform:rotate(var(--r))}
+.gfoot nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:26px 0 14px}
+.gfoot nav a{text-decoration:none;font-weight:700;font-size:.9rem;padding:6px 16px;border-radius:10px;background:rgba(255,255,255,.14);transition:background .2s,color .2s,transform .2s}
+.gfoot nav a:hover{background:var(--white);color:var(--ink);transform:translateY(-2px) rotate(-2deg)}
+.gfoot small{display:block;font-size:.8rem;opacity:.85}
+
+/* ---------- 下層ページ：緑の壁に、紙をピンでとめる ---------- */
+.subhero{position:relative;text-align:center;padding:120px 20px 90px;background:var(--grain),var(--fiber),var(--sage);color:#fff;
+  box-shadow:inset 0 -30px 40px -30px rgba(40,55,35,.35)}
+.subhero .eyebrow{font-weight:700;letter-spacing:.3em;font-size:.8rem;opacity:.85}
+.subhero h1{position:relative;font-weight:900;font-size:clamp(2.2rem,7vw,4rem);line-height:1.2;margin-top:6px;color:var(--white);
+  text-shadow:0 2px 0 rgba(0,0,0,.06),0 10px 18px rgba(40,55,35,.35)}
+.subhero p{position:relative;margin-top:12px;opacity:.95;max-width:40em;margin-inline:auto}
+.subhero .edge{position:absolute;left:0;bottom:-1px}
+.subhero .edge path{fill:var(--bg)}
+
+.sheet{position:relative;width:min(820px,calc(100% - 32px));margin:-30px auto 40px;z-index:2}
+.panel{
+  position:relative;background:var(--grain),var(--fiber),var(--white);border-radius:6px;
+  box-shadow:var(--edge),var(--shadow-l);padding:38px 42px;transform:rotate(var(--r,0deg));
+}
+.panel::before{content:"";position:absolute;top:-10px;left:50%;width:84px;height:22px;transform:translateX(-50%) rotate(var(--tr,-3deg));background:var(--tape,rgba(240,219,147,.8));box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.panel + .panel{margin-top:30px}
+.panel:nth-of-type(2n){--r:.4deg;--tr:4deg;--tape:rgba(229,180,171,.8)}
+.panel:nth-of-type(3n){--r:-.3deg;--tape:rgba(173,189,166,.85)}
+.panel h2{display:flex;align-items:center;gap:12px;font-size:1.15rem;font-weight:900;line-height:1.4;margin:0 0 10px}
+.panel h2 .num{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:8px;font-size:1.05rem;color:var(--ink);
+  background:var(--grain),linear-gradient(135deg,rgba(255,255,255,.25) 50%,rgba(0,0,0,.06) 50%),var(--c,var(--butter));box-shadow:var(--shadow-s);transform:rotate(-6deg)}
+.panel p,.panel li{font-size:.97rem}
+.panel p{margin:0 0 8px}
+.panel ul{padding-left:1.3em}
+.panel li{margin:4px 0}
+.panel li::marker{color:var(--pink-d)}
+.panel a{font-weight:700;text-decoration-thickness:2px;text-underline-offset:3px;text-decoration-color:var(--pink)}
+@media (max-width:560px){.panel{padding:28px 22px}}
+
+/* 出てくるとき：紙をそっと置く */
+.rise{opacity:0;transform:translateY(26px) rotate(1.5deg)}
+.rise.in{opacity:1;transform:rotate(var(--r,0deg));transition:opacity .7s var(--ease-out),transform .8s var(--ease-pop)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;animation-delay:0s!important}
+  .rise{opacity:1;transform:rotate(var(--r,0deg))}
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}
