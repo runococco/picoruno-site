@@ -89,13 +89,11 @@ svg{display:block;overflow:visible}
 .laptop .cursor{animation:blink 1s steps(2) infinite}
 @keyframes blink{50%{opacity:0}}
 .envelope{left:9%;bottom:80px;width:120px;filter:drop-shadow(0 6px 5px rgba(60,50,35,.25));transform:rotate(-6deg)}
-.cat{left:auto;right:calc(5% + 292px);bottom:64px;width:104px;cursor:pointer;filter:drop-shadow(0 14px 10px rgba(40,35,30,.35));transform:translate(calc(var(--px)*10px),0);transition:transform .5s var(--ease-out)}
-.cat svg{display:block;width:100%;height:auto;overflow:visible}
-.cat .tail{transform-box:view-box;transform-origin:38px 96px;animation:tailFlick 7s ease-in-out infinite}
-@keyframes tailFlick{0%,82%,100%{transform:none}86%{transform:rotate(-14deg)}90%{transform:rotate(6deg)}94%{transform:rotate(-8deg)}97%{transform:none}}
+.cat{left:auto;right:calc(5% + 288px);bottom:60px;width:112px;z-index:4;cursor:pointer;filter:drop-shadow(0 14px 10px rgba(40,35,30,.35));transform:translate(calc(var(--px)*10px),0);transition:transform .5s var(--ease-out)}
+.cat img{display:block;width:100%;height:auto}
 @keyframes catBreath{50%{transform:scale(1.015,.985)}}
 @keyframes tail{50%{transform:rotate(-14deg)}}
-.cat.hop svg{animation:hop .5s var(--ease-out)}
+.cat.hop img{animation:hop .5s var(--ease-out)}
 @keyframes hop{40%{transform:translateY(-26px) rotate(-4deg)}}
 .cat .say,.gacha .say{position:absolute;left:62%;top:-18px;white-space:nowrap;font-weight:700;font-size:.85rem;padding:2px 12px;border-radius:12px;color:var(--ink);
   background:var(--grain),var(--white);box-shadow:var(--shadow-s);opacity:0;transform:scale(.4);transform-origin:0 100%;transition:opacity .2s,transform .3s var(--ease-pop);pointer-events:none}
@@ -104,6 +102,7 @@ svg{display:block;overflow:visible}
 /* ガチャ（紙でできたマシン） */
 .gacha{right:5%;bottom:56px;width:300px;z-index:3;transform:translate(calc(var(--px)*12px),calc(var(--py)*4px));transition:transform .5s var(--ease-out)}
 .gacha .say{left:auto;right:58%;top:6px;transform-origin:100% 100%}
+.cat .say{left:auto;right:58%;top:-26px;transform-origin:100% 100%;z-index:5}
 .machine{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;color:inherit;border-radius:24px;
   filter:drop-shadow(0 18px 14px rgba(50,45,35,.38));transition:transform .35s var(--ease-pop);animation:machineIn 1s .5s var(--ease-pop) both}
 .machine:hover{transform:translateY(-5px) rotate(-1deg)}
@@ -506,11 +505,7 @@ svg{display:block;overflow:visible}
         <polygon points="2,2 118,2 60,42" fill="#e5b4ab"/><polygon points="60,42 118,2 60,2" fill="#d9a59b"/>
       </svg>
       <div class="prop cat" id="cat" aria-hidden="true">
-        <svg viewBox="0 0 120 110">
-          <g class="tail"><polygon points="34,98 44,94 32,58 20,62" fill="#38383d"/><polygon points="32,58 44,94 38,96 27,61" fill="#2b2b2f"/><polygon points="20,62 32,58 33,47 22,47" fill="#47474c"/></g>
-          <polygon points="32,86 40,70 56,74 60,101 34,101 30,94" fill="#3b3b40"/><polygon points="40,70 54,60 66,55 62,72 56,74" fill="#48484d"/><polygon points="66,55 84,56 90,72 76,74 62,72" fill="#333337"/><polygon points="62,72 76,74 90,72 92,101 60,101" fill="#2e2e32"/><polygon points="30,94 34,101 46,101 38,92" fill="#28282c"/><polygon points="64,78 74,77 74,101 63,101" fill="#424247"/><polygon points="80,77 90,75 92,101 80,101" fill="#3a3a3f"/>
-          <g class="head"><polygon points="58,40 64,24 80,20 96,28 98,46 88,58 70,60 60,52" fill="#3d3d42"/><polygon points="64,24 80,20 76,36 58,40" fill="#4c4c52"/><polygon points="80,20 96,28 98,46 84,38" fill="#333338"/><polygon points="58,40 76,36 84,38 70,60 60,52" fill="#45454a"/><polygon points="84,38 98,46 92,54 82,50" fill="#57575d"/><polygon points="82,50 92,54 88,58 70,60" fill="#2d2d31"/><polygon points="60,30 62,8 74,22" fill="#3b3b40"/><polygon points="62.5,14 63.5,27 69,22" fill="#5d5d63"/><polygon points="86,22 101,6 99,32" fill="#303034"/><polygon points="89,21 98,12 97.5,27" fill="#4b4b51"/></g>
-        </svg>
+        <img src="img/cat.webp" width="236" height="245" alt="" decoding="async">
         <span class="say" id="catSay">にゃ</span>
       </div>
 
@@ -663,20 +658,20 @@ const GAMES = [
 ];
 
 /* ===== 紙の色 ===== */
-const P = { blue:["#a9bfcf","#8ea6b8","#c7d6e1"], sage:["#8fa287","#74876d","#adbda6"], pink:["#e5b4ab","#cf968c","#f0cdc6"], butter:["#f0db93","#d8bd66","#f6e6ad"], cream:["#f2ebdd","#ddd2bd","#fbf8f2"], char:["#3c3c40","#2c2c2f","#55555a"] };
-const PAPERS = ["pink","butter","sage","cream","char"];
+const P = { blue:["#a9bfcf","#8ea6b8","#c7d6e1"], sage:["#8fa287","#74876d","#adbda6"], pink:["#e5b4ab","#cf968c","#f0cdc6"], butter:["#f0db93","#d8bd66","#f6e6ad"], cream:["#f2ebdd","#ddd2bd","#fbf8f2"], lilac:["#c9bdd6","#ad9fbe","#ddd4e6"], mint:["#b8d4c6","#98baa9","#d2e5db"], apricot:["#ecc6a6","#d6a985","#f4dac4"], char:["#3c3c40","#2c2c2f","#55555a"] };
+const PAPERS = ["pink","butter","sage","cream","blue"];
 const TAPES = ["rgba(240,219,147,.82)","rgba(229,180,171,.82)","rgba(173,189,166,.88)","rgba(242,235,221,.9)"];
 const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const artHTML = (g, lazy=true) => `<img src="${g.img}" width="900" height="487"${lazy?' loading="lazy"':''} decoding="async" alt="${esc(g.alt||g.title)}">`;
 const pts = a => a.map(p=>p.map(v=>+v.toFixed(1)).join(",")).join(" ");
 
 /* 紙のカプセル（八角形。上半分が色つき） */
-function capsuleSVG(color, r, top=true, bot=true){
+function capsuleSVG(color, r, top=true, bot=true, tint=false){
   const o=[]; for(let k=0;k<8;k++){ const a=Math.PI/8+k*Math.PI/4; o.push([Math.cos(a)*r,Math.sin(a)*r]); }
   const [c0,c1,c2]=P[color];
   /* o[0..3] は下側、o[4..7] は上側 */
   const t = `<polygon points="${pts([[-r,0],o[4],o[5],o[6],o[7],[r,0]])}" fill="${c0}"/><polygon points="${pts([[0,0],o[7],[r,0]])}" fill="${c1}" opacity=".45"/>`;
-  const b = `<polygon points="${pts([[r,0],o[0],o[1],o[2],o[3],[-r,0]])}" fill="#f7f2e8"/><polygon points="${pts([[0,0],[r,0],o[0]])}" fill="#e6dece"/>`;
+  const b = `<polygon points="${pts([[r,0],o[0],o[1],o[2],o[3],[-r,0]])}" fill="${tint?c2:"#f7f2e8"}"/><polygon points="${pts([[0,0],[r,0],o[0]])}" fill="${tint?c0:"#e6dece"}" opacity="${tint?.35:1}"/>`;
   return (top?t:"")+(bot?b:"");
 }
 
@@ -762,8 +757,8 @@ const ICONS = {
   relax:`<svg viewBox="0 0 60 60"><polygon points="10,26 46,26 42,50 14,50" fill="#fbf8f2"/><polygon points="28,26 46,26 42,50 28,50" fill="#e6dece"/><path d="M46 30 q10 2 2 12" fill="none" stroke="#e6dece" stroke-width="4"/><polygon points="6,50 50,50 46,56 10,56" fill="#8fa287"/><path d="M22 20 q-4 -6 2 -10 M32 20 q-4 -6 2 -10" fill="none" stroke="#adbda6" stroke-width="2.5" stroke-linecap="round"/></svg>`,
   action:`<svg viewBox="0 0 60 60"><line x1="14" y1="6" x2="14" y2="56" stroke="#9a876d" stroke-width="3"/><polygon points="16,8 50,16 16,30" fill="#e5b4ab"/><polygon points="16,19 50,16 16,30" fill="#cf968c"/><polygon points="6,56 26,56 22,50 10,50" fill="#8fa287"/></svg>`,
   time:`<svg viewBox="0 0 60 60"><rect x="12" y="4" width="36" height="6" fill="#3c3c40"/><rect x="12" y="50" width="36" height="6" fill="#3c3c40"/><polygon points="16,10 44,10 30,30" fill="#f2ebdd"/><polygon points="30,30 16,50 44,50" fill="#f2ebdd"/><polygon points="22,18 38,18 30,28" fill="#f0db93"/><polygon points="30,36 20,50 40,50" fill="#d8bd66"/></svg>`,
-  craft:`<svg viewBox="0 0 60 60"><polygon points="30,30 52,6 54,9 34,32" fill="#f2ebdd"/><polygon points="30,30 8,8 6,11 26,32" fill="#e6dece"/><polygon points="22,34 12,40 10,52 20,54 28,46 30,36" fill="#3c3c40"/><polygon points="38,34 48,40 50,52 40,54 32,46 30,36" fill="#2c2c2f"/><circle cx="18" cy="47" r="3.5" fill="#f4f1ea"/><circle cx="42" cy="47" r="3.5" fill="#f4f1ea"/><circle cx="30" cy="32" r="2.5" fill="#f0db93"/></svg>`,
-  art:`<svg viewBox="0 0 60 60"><polygon points="6,30 18,10 44,8 56,24 50,46 26,52 10,46" fill="#f2ebdd"/><polygon points="30,30 56,24 50,46 26,52" fill="#e6dece"/><circle cx="20" cy="22" r="5" fill="#e5b4ab"/><circle cx="34" cy="17" r="5" fill="#f0db93"/><circle cx="45" cy="27" r="5" fill="#8fa287"/><circle cx="38" cy="41" r="5" fill="#3c3c40"/><circle cx="20" cy="38" r="4" fill="#f4f1ea"/></svg>`,
+  craft:`<svg viewBox="0 0 60 60"><polygon points="30,30 52,6 54,9 34,32" fill="#f2ebdd"/><polygon points="30,30 8,8 6,11 26,32" fill="#e6dece"/><polygon points="22,34 12,40 10,52 20,54 28,46 30,36" fill="#e5b4ab"/><polygon points="38,34 48,40 50,52 40,54 32,46 30,36" fill="#cf968c"/><circle cx="18" cy="47" r="3.5" fill="#f4f1ea"/><circle cx="42" cy="47" r="3.5" fill="#f4f1ea"/><circle cx="30" cy="32" r="2.5" fill="#f0db93"/></svg>`,
+  art:`<svg viewBox="0 0 60 60"><polygon points="6,30 18,10 44,8 56,24 50,46 26,52 10,46" fill="#f2ebdd"/><polygon points="30,30 56,24 50,46 26,52" fill="#e6dece"/><circle cx="20" cy="22" r="5" fill="#e5b4ab"/><circle cx="34" cy="17" r="5" fill="#f0db93"/><circle cx="45" cy="27" r="5" fill="#8fa287"/><circle cx="38" cy="41" r="5" fill="#a9bfcf"/><circle cx="20" cy="38" r="4" fill="#f4f1ea"/></svg>`,
   onebtn:`<svg viewBox="0 0 60 60"><polygon points="6,44 54,44 50,56 10,56" fill="#3c3c40"/><polygon points="14,30 46,30 50,44 10,44" fill="#55555a"/><polygon points="16,22 44,22 46,30 14,30" fill="#e5b4ab"/><polygon points="16,22 30,14 44,22" fill="#f0cdc6"/><polygon points="30,22 44,22 46,30 30,30" fill="#cf968c"/></svg>`,
   music:`<svg viewBox="0 0 60 60"><polygon points="24,10 50,4 50,12 24,18" fill="#3c3c40"/><rect x="21" y="10" width="4" height="34" fill="#3c3c40"/><rect x="47" y="4" width="4" height="34" fill="#2c2c2f"/><polygon points="10,46 18,40 26,44 24,52 14,54" fill="#f0db93"/><polygon points="36,40 44,34 52,38 50,46 40,48" fill="#d8bd66"/></svg>`,
   cooking:`<svg viewBox="0 0 60 60"><polygon points="4,30 44,30 40,44 8,44" fill="#3c3c40"/><polygon points="24,30 44,30 40,44 24,44" fill="#2c2c2f"/><rect x="44" y="33" width="14" height="5" fill="#55555a"/><polygon points="12,30 18,22 28,20 36,24 38,30" fill="#f0db93"/><polygon points="22,26 26,22 30,26 26,29" fill="#fbf8f2"/></svg>`,
@@ -947,7 +942,7 @@ const POP = (()=>{
     craft:   {en:"SNIP SNIP STUDIO", name:"ちょきちょき工房", sky:["#eeebe3","#f7f3ec"], g:"cream",
               b:L(T.crane(70,70,1,"pink",0),T.crane(420,50,.8,"sage",-1.5),T.crane(250,96,.6,"butter",-3),T.strip(-10,40,610,30,"butter")),
               m:L(T.strip(-10,150,250,120,"sage"),T.scissors(250,120,1)),
-              f:L(T.dolls(40,6,90,"pink"),ck(440,150),T.blk(380,26,26,"butter"))},
+              f:L(T.star(70,200,30,"pink"),T.star(146,218,20,"butter",-.5),T.star(214,196,34,"blue",-1),T.star(292,214,22,"sage",-1.5),T.star(350,206,16,"pink",-2),ck(440,150),T.blk(380,26,26,"butter"))},
     art:     {en:"PAINT RAINBOW", name:"絵の具のにじ", sky:["#f5e5e3","#f7f1ea"], g:"sage",
               b:L(T.rainbow(330,250,230),T.cloud(60,60),T.cloud(500,70,.8)),
               m:L(T.pencil(70,150,"pink"),T.pencil(104,110,"butter",-1),T.pencil(500,130,"blue",-.6),T.pencil(540,96,"sage",-1.4)),
@@ -1338,16 +1333,20 @@ function burst(btn){
       g+=`<polygon points="${pts([[cx,cy],a,b])}" fill="#fff" opacity="${lt?.28:.08}"/>`; }
     g+=`<polygon points="${pts(o)}" fill="none" stroke="#fbf8f2" stroke-width="3" stroke-linejoin="round"/>`;
     document.getElementById("domeGlass").innerHTML=g;
-    let h="", k=0;
-    for(let row=0;row<5;row++){
-      const y=208-row*30, off=row%2?17:0;
-      for(let x=40+off;x<=224;x+=34){
-        if(Math.hypot(x-cx,y-cy)>92) continue;
-        const r=16+((k*7)%4), rot=((k*37)%80)-40;
-        h+=`<g transform="translate(${x+((k*13)%7)-3} ${y+((k*5)%6)}) rotate(${rot})">${capsuleSVG(PAPERS[k%5],r)}</g>`;
-        k++;
+    /* 本物みたいに：色も大きさも向きもバラバラに、下から積もる */
+    const pool=["pink","butter","sage","cream","blue","lilac","mint","apricot"], placed=[], IN=R-6;
+    const J=v=>(Math.random()-.5)*v, top=cy-52+J(16);
+    for(let row=0, y=cy+IN-15; y>top-8; row++, y-=24){
+      const off=row%2?14:0, edge=y<top+10; /* いちばん上の段はまばらに */
+      for(let x=cx-IN+12+off; x<cx+IN-10; x+=28){
+        const r=14+Math.random()*4, px=x+J(8), py=y+J(6)+(edge?Math.abs(px-cx)*.08:0);
+        if(Math.hypot(px-cx,py-cy)>IN-r*.35) continue;
+        if(edge && Math.random()<.35) continue;
+        placed.push({x:px,y:py,r,rot:Math.random()*360-180,c:pool[Math.floor(Math.random()*pool.length)],tint:Math.random()<.6});
       }
     }
+    placed.sort(()=>Math.random()-.5);
+    const h=placed.map(p=>`<g transform="translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${p.rot.toFixed(0)})">${capsuleSVG(p.c,+p.r.toFixed(1),true,true,p.tint)}</g>`).join("");
     document.getElementById("domeCaps").innerHTML=h;
   }
   let spinning=false, angle=0, lastPick=-1;
