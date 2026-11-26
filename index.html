@@ -770,9 +770,22 @@ document.getElementById("shelfBlocks").innerHTML = block(4,18,30,30,8,"butter")+
   st.addEventListener("click",()=>{ st.classList.remove("twirl"); void st.offsetWidth; st.classList.add("twirl"); setTimeout(()=>st.classList.remove("twirl"),900); });
   st.addEventListener("mouseenter",()=>st.click());
 }
-{ /* ネコ */
-  const cat=document.getElementById("cat"), say=document.getElementById("catSay"), lines=["にゃ","にゃーん","…zzz","あそぶ？","ニワトリ見た？"]; let k=0;
-  cat.addEventListener("click",()=>{ say.textContent=lines[k++%lines.length]; cat.classList.remove("hop"); void cat.offsetWidth; cat.classList.add("hop"); say.classList.add("on"); clearTimeout(cat._t); cat._t=setTimeout(()=>say.classList.remove("on"),1600); });
+{ /* ネコ（ねてるときはジャンプしない） */
+  const cat=document.getElementById("cat"), say=document.getElementById("catSay");
+  const awake=["にゃ","にゃーん","あそぶ？","ニワトリ見た？","ガチャ、まわしてみて","きょうはどれにする？","なでてくれるの？","しっぽ、ふりふり","おなかすいた…","紙のにおいがする","ハンドルおしてごらん","いい天気だにゃ","パンのゲーム、すき","まるくなっていい？","…じーっ","にゃっ！"];
+  const sleepy=["…zzz","すやすや…","むにゃ…","…ねむい"];
+  const h=new Date().getHours(), night=h>=23||h<6;
+  let last=-1, taps=0;
+  cat.addEventListener("click",()=>{
+    taps++;
+    let text, sleep;
+    if(night && Math.random()<.5 || Math.random()<.15){ text=sleepy[Math.floor(Math.random()*sleepy.length)]; sleep=true; }
+    else if(taps===8){ text="さわりすぎだにゃ！"; }
+    else { let i; do{ i=Math.floor(Math.random()*awake.length); }while(i===last && awake.length>1); last=i; text=awake[i]; }
+    say.textContent=text;
+    cat.classList.remove("hop"); if(!sleep){ void cat.offsetWidth; cat.classList.add("hop"); }
+    say.classList.add("on"); clearTimeout(cat._t); cat._t=setTimeout(()=>say.classList.remove("on"),1800);
+  });
 }
 { /* フッター：紙の丘・きょうのいちおし・うえへ */
   const svg=document.getElementById("footHills");
