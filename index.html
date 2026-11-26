@@ -149,6 +149,14 @@ svg{display:block;overflow:visible}
 .spot[aria-pressed="true"] .sign{background:var(--grain),var(--butter);transform:rotate(0) scale(1.06)}
 .spot:focus-visible{outline:none}
 .spot:focus-visible .sign{box-shadow:0 0 0 3px var(--white),0 0 0 6px var(--sage)}
+/* 地図の上の、ちいさな飛び出す世界（タップすると大きく立ち上がる） */
+.spot.has-mini{--ic:56px}
+.spot .ic.mini{width:128px;height:56px}
+.spot .ic.mini::before{display:none}
+.spot .ic.mini svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(1.5px 0 0 #fbf8f2) drop-shadow(-1.5px 0 0 #fbf8f2) drop-shadow(0 -1.5px 0 #fbf8f2) drop-shadow(0 4px 3px rgba(80,60,30,.32))}
+.spot.has-mini .sign{margin-top:12px}
+.spot.has-mini:hover .ic,.spot.has-mini:focus-visible .ic{transform:translateY(-5px) rotate(-2deg)}
+@media (max-width:639px){.spot.has-mini{--ic:40px}.spot .ic.mini{width:92px;height:40px}}
 @media (max-width:639px){.spot{--ic:42px}.spot .sign{font-size:.72rem;padding:1px 8px;margin-top:9px}.board .tape{width:64px;height:20px}}
 
 .walker{position:absolute;left:0;top:0;width:0;height:0;z-index:4;pointer-events:none}
@@ -167,7 +175,7 @@ svg{display:block;overflow:visible}
 .popup.open{visibility:visible;pointer-events:auto;background:rgba(244,241,234,.82);transition:background .25s}
 .popup .pop-in{width:min(680px,100%)}
 .pop-card{position:relative;padding:14px 16px 18px;border-radius:8px;background:var(--grain),var(--cream);box-shadow:var(--edge),var(--shadow-l);
-  transform-origin:50% 100%;transform:translateY(28px) scale(.94);opacity:0;transition:transform .4s var(--ease-pop),opacity .2s}
+  transform-origin:50% 50%;transform:translate(var(--fx,0px),var(--fy,28px)) scale(.16);opacity:0;transition:transform .45s var(--ease-pop),opacity .2s}
 .popup.open .pop-card{transform:none;opacity:1}
 .pop-card::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(transparent,rgba(60,50,35,.12) 20%,rgba(60,50,35,.12) 80%,transparent)}
 .pop-title{position:relative;z-index:5;display:table;margin:-30px auto 6px;font-weight:900;font-size:clamp(1.05rem,2.6vw,1.35rem);padding:5px 20px;border-radius:4px;
@@ -933,7 +941,14 @@ const POP = (()=>{
   };
   const town=document.getElementById("town"), pop=document.getElementById("popup"), stage=document.getElementById("popStage");
   let open=false;
-  function show(g,n){
+  function mini(g){
+    const sc=SCENES[g]||SCENES[""], id="mg"+(g||"all");
+    const strip=x=>x.replace(/<g class="[^"]*"><use href="#chickSvg"[^>]*\/><\/g>/g,"");
+    return `<svg viewBox="0 0 600 262" preserveAspectRatio="xMidYMax meet" aria-hidden="true">`+
+      `<g>${strip(sc.b)}</g><g transform="translate(0 8)">${strip(sc.m)}</g><g transform="translate(0 18)">${strip(sc.f)}</g>`+
+      `<rect x="20" y="238" width="560" height="20" rx="10" fill="${P[sc.g][2]}"/></svg>`;
+  }
+  function show(g,n,from){
     const sc=SCENES[g]||SCENES[""], label=g?GENRES[g].label:"ぜんぶ";
     document.getElementById("popEn").textContent=sc.en;
     document.getElementById("popName").textContent=sc.name;
@@ -942,6 +957,9 @@ const POP = (()=>{
     stage.style.setProperty("--sky1",sc.sky[0]); stage.style.setProperty("--sky2",sc.sky[1]); stage.style.setProperty("--g1",P[sc.g][2]);
     const ly=(cls,b,d,body)=>`<div class="ly ${cls}" style="--b:${b}px;--d:${d}s"><svg viewBox="0 0 600 240" preserveAspectRatio="xMidYMax meet">${body}</svg></div>`;
     stage.innerHTML=`<div class="sky"></div>`+ly("back",22,.15,sc.b)+ly("mid",14,.3,sc.m)+ly("front",4,.45,sc.f)+`<div class="ground"></div>`;
+    const card=pop.querySelector(".pop-card");
+    if(from){ const r=from.getBoundingClientRect(); card.style.setProperty("--fx",(r.left+r.width/2-innerWidth/2)+"px"); card.style.setProperty("--fy",(r.top+r.height/2-innerHeight/2)+"px"); }
+    else { card.style.removeProperty("--fx"); card.style.removeProperty("--fy"); }
     pop.classList.remove("open"); void pop.offsetWidth;
     pop.classList.add("open"); pop.setAttribute("aria-hidden","false"); open=true;
     document.documentElement.style.overflow="hidden";
@@ -953,8 +971,10 @@ const POP = (()=>{
   document.getElementById("popBack").addEventListener("click",()=>{ hide(); board.querySelector('.spot[aria-pressed="true"]')?.focus({preventScroll:true}); });
   document.getElementById("popGo").addEventListener("click",e=>{ e.preventDefault(); hide(); document.getElementById("games").scrollIntoView({behavior:RM?"auto":"smooth",block:"start"}); });
   addEventListener("keydown",e=>{ if(e.key==="Escape") hide(); });
-  return {show,hide,get open(){return open}};
+  return {show,hide,mini,get open(){return open}};
 })();
+/* 地図の各場所に、そのカテゴリの小さな世界を置いておく */
+tiles.forEach(t=>{ const ic=t.querySelector(".ic"); ic.classList.add("mini"); ic.innerHTML=POP.mini(t.dataset.genre); t.classList.add("has-mini"); });
 /* ===== カテゴリ・キーワードでしぼりこむ ===== */
 const kana = x => String(x||"").toLowerCase().normalize("NFKC").replace(/[ァ-ヶ]/g, c=>String.fromCharCode(c.charCodeAt(0)-0x60));
 const cards = [...grid.children];
@@ -1059,7 +1079,7 @@ function pointAt(d){
   return [pts[lo][0]+(pts[hi][0]-pts[lo][0])*t, pts[lo][1]+(pts[hi][1]-pts[lo][1])*t];
 }
 /* ニワトリは、えらんだ場所のすぐ手前の道に立つ */
-const restD=i=>MAP.spotD[i]-(MAP.sp?30:40);
+const restD=i=>MAP.spotD[i]-(MAP.sp?58:86);
 const WP={x:0,y:0};
 function setXY(x,y){ WP.x=x; WP.y=y; walker.style.left=x+"px"; walker.style.top=y+"px"; }
 function placeWalker(t){ cancelAnimationFrame(WALK.raf); walker.classList.remove("walking"); const [x,y]=pointAt(restD(tiles.indexOf(t))); setXY(x,y); walker.style.setProperty("--dir",1); }
@@ -1087,7 +1107,7 @@ board.addEventListener("click",e=>{
     const n=cards.filter(c=>!c.hidden).length;
     chirp(g ? `${GENRES[g].label}は ${n}こ！` : `ぜんぶで ${n}こ！`);
     /* そのカテゴリの世界が、飛び出す絵本みたいに立ち上がる */
-    setTimeout(()=>POP.show(g,n),RM?0:160);
+    setTimeout(()=>POP.show(g,n,t.querySelector(".ic")),RM?0:160);
   });
 });
 
