@@ -90,7 +90,8 @@ svg{display:block;overflow:visible}
 @keyframes blink{50%{opacity:0}}
 .envelope{left:24%;bottom:86px;width:120px;filter:drop-shadow(0 6px 5px rgba(60,50,35,.25));transform:rotate(-6deg)}
 .cat{left:7%;bottom:62px;width:150px;cursor:pointer;filter:drop-shadow(0 14px 10px rgba(40,35,30,.35));transform:translate(calc(var(--px)*10px),0);transition:transform .5s var(--ease-out)}
-.cat .tail{transform-origin:72px 98px;animation:tail 3s ease-in-out infinite}
+.cat img{display:block;width:100%;height:auto;transform-origin:50% 100%;animation:catBreath 4s ease-in-out infinite}
+@keyframes catBreath{50%{transform:scale(1.015,.985)}}
 @keyframes tail{50%{transform:rotate(-14deg)}}
 .cat.hop svg{animation:hop .5s var(--ease-out)}
 @keyframes hop{40%{transform:translateY(-26px) rotate(-4deg)}}
@@ -209,37 +210,37 @@ svg{display:block;overflow:visible}
 .popup.open .ly{animation:popUp .75s var(--ease-pop) both;animation-delay:var(--d,0s)}
 @keyframes popUp{0%{transform:scaleY(0)}100%{transform:none}}
 .pop-stage .ground{position:absolute;left:-6px;right:-6px;bottom:-4px;height:26px;border-radius:3px;background:var(--grain),var(--g1,var(--sage-l));box-shadow:inset 0 2px 0 rgba(255,255,255,.3),0 4px 6px rgba(60,50,35,.2)}
-.pop-stage .bob{transform-box:fill-box;transform-origin:50% 100%;animation:sway 3.2s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .bob{transform-box:fill-box;transform-origin:50% 100%;animation:sway 3.2s ease-in-out infinite}
 @keyframes sway{50%{transform:rotate(3deg)}}
-.pop-stage .float{animation:floaty 5s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .float{animation:floaty 5s ease-in-out infinite}
 @keyframes floaty{50%{transform:translateX(14px)}}
-.pop-stage .hover{animation:hov 4s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .hover{animation:hov 4s ease-in-out infinite}
 @keyframes hov{50%{transform:translateY(-8px)}}
-.pop-stage .spin,.pop-stage .twinkle{transform-box:fill-box;transform-origin:center}
-.pop-stage .spin{animation:spin 12s linear infinite}
+:is(.pop-stage,.ic.mini) .spin,:is(.pop-stage,.ic.mini) .twinkle{transform-box:fill-box;transform-origin:center}
+:is(.pop-stage,.ic.mini) .spin{animation:spin 12s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.pop-stage .twinkle{animation:twk 2.4s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .twinkle{animation:twk 2.4s ease-in-out infinite}
 @keyframes twk{50%{transform:scale(.78) rotate(14deg)}}
-.pop-stage .tick{animation:spin 6s steps(12) infinite}
-.pop-stage .sand{animation:sand .6s linear infinite}
+:is(.pop-stage,.ic.mini) .tick{animation:spin 6s steps(12) infinite}
+:is(.pop-stage,.ic.mini) .sand{animation:sand .6s linear infinite}
 @keyframes sand{to{stroke-dashoffset:-7}}
-.pop-stage .steam{animation:steam 2.4s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .steam{animation:steam 2.4s ease-in-out infinite}
 @keyframes steam{0%{opacity:0;transform:translateY(8px)}40%{opacity:.9}100%{opacity:0;transform:translateY(-14px)}}
-.pop-stage .press{animation:press 1.4s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .press{animation:press 1.4s ease-in-out infinite}
 @keyframes press{0%,60%,100%{transform:none}72%{transform:translateY(12px)}}
-.pop-stage .jump{animation:jump 1.4s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .jump{animation:jump 1.4s ease-in-out infinite}
 @keyframes jump{0%,100%{transform:translateY(-26px)}72%{transform:translateY(10px)}84%{transform:translateY(-6px)}}
-.pop-stage .rattle{animation:rattle .5s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .rattle{animation:rattle .5s ease-in-out infinite}
 @keyframes rattle{50%{transform:translateY(-2px)}}
-.pop-stage .whoosh{animation:whoosh 1s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .whoosh{animation:whoosh 1s ease-in-out infinite}
 @keyframes whoosh{0%{opacity:0;transform:translateX(16px)}50%{opacity:1}100%{opacity:0;transform:translateX(-12px)}}
-.pop-stage .key{animation:key 2.6s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .key{animation:key 2.6s ease-in-out infinite}
 @keyframes key{50%{transform:translateY(6px)}}
-.pop-stage .drift{animation:drift 4s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .drift{animation:drift 4s ease-in-out infinite}
 @keyframes drift{50%{transform:translate(10px,-10px) rotate(6deg)}}
-.pop-stage .glide{animation:glide 6s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .glide{animation:glide 6s ease-in-out infinite}
 @keyframes glide{50%{transform:translate(24px,-8px)}}
-.pop-stage .snip{animation:snip 1.2s ease-in-out infinite}
+:is(.pop-stage,.ic.mini) .snip{animation:snip 1.2s ease-in-out infinite}
 @keyframes snip{50%{transform:rotate(-6deg)}}
 .pop-stage text{font-family:var(--font)}
 .pop-games{display:flex;gap:12px;margin:14px -16px 0;padding:6px 16px 12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
@@ -382,7 +383,7 @@ svg{display:block;overflow:visible}
   .star svg{width:46px}
   .floor{height:330px}
   .gacha{right:50%;margin-right:-110px;bottom:70px;width:220px}
-  .cat{left:4%;bottom:56px;width:104px}
+  .cat{left:6%;bottom:50px;width:150px}
   .blocks{left:auto;right:6%;bottom:250px;width:100px}
   .board{grid-template-columns:repeat(4,1fr)}
 }
@@ -402,9 +403,9 @@ svg{display:block;overflow:visible}
   .gacha .say{display:none}
   .catch{margin-top:12px}
   .lead{margin-top:12px}
-  .floor{height:300px}
-  .gacha{width:190px;right:4%;margin-right:0}
-  .cat{width:92px;bottom:50px}
+  .floor{height:250px}
+  .gacha{width:168px;right:9%;margin-right:0;bottom:34px}
+  .cat{width:128px;left:9%;bottom:30px}
   .blocks{display:none}
   .lip{height:40px}
   .garland{height:60px;margin-top:24px}
@@ -438,9 +439,38 @@ svg{display:block;overflow:visible}
   .drop{display:none}
   .res-capsule{display:none}
 }
+/* ---------- うごき（全体） ---------- */
+.board .map .msw{transform-box:fill-box;transform-origin:50% 100%;animation:sway 3.6s ease-in-out infinite}
+.board .map .mbl{animation:mbl 4.2s ease-in-out infinite}
+@keyframes mbl{50%{transform:translate(2px,-7px)}}
+.walker:not(.walking) .chick svg{animation:idle 5.5s ease-in-out infinite}
+@keyframes idle{0%,78%,100%{transform:none}82%{transform:translateY(-9px) rotate(-4deg)}86%{transform:none}90%{transform:translateY(-5px) rotate(3deg)}94%{transform:none}}
+.spot.has-mini .ic{animation:spotBob 4s ease-in-out infinite;animation-delay:calc(var(--n,0) * -.45s)}
+@keyframes spotBob{50%{transform:translateY(-3px)}}
+.spot.has-mini:hover .ic,.spot.has-mini[aria-pressed="true"] .ic{animation:none}
+.sec-head .ch{display:inline-block;white-space:pre}
+.js-motion .sec-head:not(.on) .ch{opacity:0;transform:translateY(.6em) rotate(-10deg) scale(.7)}
+.js-motion .sec-head:not(.on) .eyebrow{opacity:0;letter-spacing:.6em}
+.sec-head .eyebrow{transition:opacity .6s,letter-spacing .8s var(--ease-out)}
+.sec-head.on .ch{animation:chPop .55s var(--ease-pop) both;animation-delay:calc(var(--i) * .045s)}
+@keyframes chPop{from{opacity:0;transform:translateY(.6em) rotate(-10deg) scale(.7)}}
+.card .art img{transition:transform .5s var(--ease-pop)}
+.card:hover .art img{transform:scale(1.05) rotate(-.6deg)}
+.card:hover::before{animation:tape .5s ease-in-out}
+@keyframes tape{30%{transform:translateX(-50%) rotate(calc(var(--tr,-4deg) + 5deg))}65%{transform:translateX(-50%) rotate(calc(var(--tr,-4deg) - 3deg))}}
+.gfoot-word.on span{animation:wave 2.8s ease-in-out infinite;animation-delay:calc(var(--i) * .12s)}
+@keyframes wave{0%,60%,100%{transform:rotate(var(--r))}20%{transform:translateY(-.14em) rotate(calc(var(--r) * -1))}}
+.confetti{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;top:-30px;width:var(--s);height:calc(var(--s) * .7);background:var(--c);opacity:.55;border-radius:2px;animation:fall var(--t) linear infinite;animation-delay:var(--d)}
+@keyframes fall{from{transform:translate(0,-5vh) rotate(0)}to{transform:translate(var(--x),110vh) rotate(540deg)}}
+@media (prefers-reduced-motion:reduce){
+  .board .map .msw,.board .map .mbl,.walker .chick svg,.spot.has-mini .ic,.gfoot-word span,:is(.pop-stage,.ic.mini) *{animation:none!important}
+  .confetti{display:none}
+}
 </style>
 </head>
 <body>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
 
 <header class="gnav" id="gnav">
   <a class="brand" href="#top"><img src="img/brand.webp" width="36" height="36" alt=""><span>picoruno.</span></a>
@@ -481,19 +511,7 @@ svg{display:block;overflow:visible}
         <polygon points="2,2 118,2 60,42" fill="#e5b4ab"/><polygon points="60,42 118,2 60,2" fill="#d9a59b"/>
       </svg>
       <div class="prop cat" id="cat" aria-hidden="true">
-        <svg viewBox="0 0 100 110">
-          <g class="tail"><polygon points="68,96 86,92 92,66 85,64 80,88" fill="#3c3c40"/><polygon points="85,64 92,66 94,56 88,52" fill="#4a4a4f"/></g>
-          <polygon points="34,46 50,54 44,104 28,104 24,80" fill="#434347"/>
-          <polygon points="50,54 66,46 76,80 72,104 44,104" fill="#333336"/>
-          <polygon points="42,56 58,56 54,80 46,80" fill="#4c4c51"/>
-          <polygon points="28,104 44,104 40,98 30,96" fill="#2c2c2f"/><polygon points="56,104 72,104 70,96 58,98" fill="#2c2c2f"/>
-          <polygon points="28,30 33,6 46,22" fill="#4c4c51"/><polygon points="33,6 46,22 38,22" fill="#5a5a5f"/>
-          <polygon points="54,22 67,6 72,30" fill="#3a3a3e"/><polygon points="67,6 72,30 64,22" fill="#2e2e31"/>
-          <polygon points="28,30 46,22 50,40 34,48" fill="#48484c"/>
-          <polygon points="46,22 54,22 50,40" fill="#56565b"/>
-          <polygon points="54,22 72,30 66,48 50,40" fill="#3c3c40"/>
-          <polygon points="34,48 50,40 66,48 50,56" fill="#333336"/>
-        </svg>
+        <img src="img/cat.webp" width="276" height="287" alt="">
         <span class="say" id="catSay">にゃ</span>
       </div>
 
@@ -586,16 +604,6 @@ svg{display:block;overflow:visible}
     <p>くわしくは<a href="terms.html">利用規約</a>をご覧ください。</p>
   </section>
 
-  <section class="maker rise" aria-labelledby="makerH">
-    <div class="note">
-      <span class="pin" aria-hidden="true"></span>
-      <p class="eyebrow">WHO MADE THIS?</p>
-      <h2 id="makerH">ルノコッコ<small>つくった人</small></h2>
-      <div class="maker-links">
-        <a class="btn sage" href="about.html">プロフィールを見る →</a>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer class="gfoot">
@@ -680,7 +688,7 @@ function capsuleSVG(color, r, top=true, bot=true){
     return `<span class="ch" style="--i:${i};--c:${a};--d:${b};--r:${[-3,2,-1.5,3,-2,1.5,-3,2.5,0][i%9]}deg;--a:${150+i*9}deg" aria-hidden="true">${c}</span>`; }).join("");
   t.addEventListener("pointerdown",e=>{ const ch=e.target.closest(".ch"); if(!ch) return; ch.classList.add("boing"); setTimeout(()=>ch.classList.remove("boing"),350); });
   const f=document.getElementById("footWord");
-  f.innerHTML=[...f.textContent].map((c,i)=>`<span style="--c:${["#fbf8f2","#f0db93","#e5b4ab","#a9bfcf"][i%4]};--r:${[-3,2,-2,3,-1,2,-3,2,0][i%9]}deg">${c}</span>`).join("");
+  f.innerHTML=[...f.textContent].map((c,i)=>`<span style="--i:${i};--c:${["#fbf8f2","#f0db93","#e5b4ab","#a9bfcf"][i%4]};--r:${[-3,2,-2,3,-1,2,-3,2,0][i%9]}deg">${c}</span>`).join("");
 }
 
 /* ===== 箱の中の小物 ===== */
@@ -1082,8 +1090,8 @@ function drawMap(A,rows,cols,padX,top,rowH){
   const nearSpot=(x,y)=>A.some(a=>Math.abs(a[0]-x)<(sp?62:84) && y>a[1]-(sp?52:68) && y<a[1]+(sp?40:46));
   /* 遊園地の木・風船・旗（道と乗りものをよけて置く） */
   const tree=(x,y,k)=>{ const c=[["#8fa287","#74876d"],["#adbda6","#8fa287"],["#f0cdc6","#e5b4ab"]][k%3];
-    return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${f})"><rect x="-2" y="-4" width="4" height="12" fill="#b89c70"/><circle cy="-12" r="11" fill="${c[0]}" stroke="#fbf8f2" stroke-width="2"/><path d="M0 -23 a11 11 0 0 1 0 22 z" fill="${c[1]}" opacity=".5"/></g>`; };
-  const balloon=(x,y,k)=>`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${f})"><path d="M0 0 q4 8 -1 16" fill="none" stroke="#9a876d" stroke-width="1.2"/><ellipse cy="-9" rx="8" ry="10" fill="${["#e5b4ab","#f0db93","#a9bfcf"][k%3]}" stroke="#fbf8f2" stroke-width="2"/></g>`;
+    return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${f})"><g class="msw" style="animation-delay:${(-k*.37).toFixed(2)}s"><rect x="-2" y="-4" width="4" height="12" fill="#b89c70"/><circle cy="-12" r="11" fill="${c[0]}" stroke="#fbf8f2" stroke-width="2"/><path d="M0 -23 a11 11 0 0 1 0 22 z" fill="${c[1]}" opacity=".5"/></g></g>`; };
+  const balloon=(x,y,k)=>`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${f})"><g class="mbl" style="animation-delay:${(-k*.53).toFixed(2)}s"><path d="M0 0 q4 8 -1 16" fill="none" stroke="#9a876d" stroke-width="1.2"/><ellipse cy="-9" rx="8" ry="10" fill="${["#e5b4ab","#f0db93","#a9bfcf"][k%3]}" stroke="#fbf8f2" stroke-width="2"/></g></g>`;
   const deco=[]; let k=0; const step=sp?34:40;
   for(let y=m+26;y<H-m-6;y+=step) for(let x=m+20;x<W-m-14;x+=step){
     const jx=x+jit(x,y)*14, jy=y+jit(y,x)*10;
@@ -1390,6 +1398,24 @@ function burst(btn){
   dlg.addEventListener("close",()=>{ drop.classList.remove("go"); });
   setTimeout(()=>say("まわしてね"),2200);
 }
+
+/* ===== うごき：見出しの文字がぽんっと出る・紙ふぶき・フッターの文字 ===== */
+(()=>{
+  if(RM || !window.IntersectionObserver) return;
+  document.documentElement.classList.add("js-motion");
+  document.querySelectorAll(".sec-head h2").forEach(h=>{
+    if(h.children.length) return;
+    h.setAttribute("aria-label",h.textContent);
+    h.innerHTML=[...h.textContent].map((c,i)=>`<span class="ch" aria-hidden="true" style="--i:${i}">${c}</span>`).join("");
+  });
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("on"); io.unobserve(e.target); } }),{threshold:.4});
+  document.querySelectorAll(".sec-head,.gfoot-word").forEach(el=>io.observe(el));
+  setTimeout(()=>{ if(navigator.webdriver) document.querySelectorAll(".sec-head,.gfoot-word").forEach(el=>el.classList.add("on")); },1500);
+  tiles.forEach((t,i)=>t.style.setProperty("--n",i));
+  /* ゆっくり舞う紙ふぶき（少しだけ） */
+  const cf=document.getElementById("confetti"), cols=["#e5b4ab","#f0db93","#a9bfcf","#adbda6"], n=innerWidth<640?7:12;
+  cf.innerHTML=Array.from({length:n},(_,i)=>`<i style="left:${(i*97)%100}%;--s:${8+(i*5)%9}px;--c:${cols[i%4]};--t:${18+(i*7)%14}s;--d:${-(i*3.1)%20}s;--x:${(i%2?1:-1)*(20+(i*13)%60)}px"></i>`).join("");
+})();
 </script>
 </body>
 </html>
