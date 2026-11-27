@@ -18,7 +18,7 @@
     const s=sp?.7:1;
     [[.08,.66],[.2,.6],[.47,.64],[.66,.58],[.93,.62]].forEach(([fx,fy],i)=>{ h+=tree(W*fx,H*fy+8,s*(1-i%2*.25),"#8fa287","#74876d"); });
     h+=house(W*.32,H*.7,s,"#fbf8f2","#e5b4ab")+house(W*.56,H*.74,s*.8,"#f2ebdd","#f0db93");
-    h+=layer(H*.86,H*.12,sp?6:11,"#74876d");
+    h+=layer(H*.86,H*.12,sp?6:11,"#667960");
     svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.innerHTML=h; };
   draw(); let fw=0; addEventListener("resize",()=>{ if(svg.clientWidth!==fw){ fw=svg.clientWidth; draw(); } });
   document.getElementById("footChick").addEventListener("click",()=>scrollTo({top:0,behavior:RM?"auto":"smooth"}));
