@@ -109,7 +109,6 @@ svg{display:block;overflow:visible}
   box-shadow:0 2px 0 #e6dccb,0 8px 14px -6px rgba(70,55,40,.35);
   translate:calc(-50% + var(--sx,0px)) 0;transform:scale(.3) rotate(8deg);transform-origin:calc(50% - var(--sx,0px)) 120%;z-index:5}
 .cat .say.on{transform:rotate(-2deg)}
-.cat .say::before{content:"";position:absolute;left:10px;top:-7px;width:30px;height:12px;background:rgba(229,180,171,.75);transform:rotate(-14deg);box-shadow:0 1px 1px rgba(0,0,0,.05)}
 .cat .say::after{content:"";position:absolute;left:calc(50% - var(--sx,0px));bottom:-7px;width:14px;height:14px;margin-left:-7px;border-radius:0 0 4px 0;background:var(--grain),var(--white);transform:rotate(45deg);box-shadow:2px 2px 0 #e6dccb;z-index:-1}
 .machine{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;color:inherit;border-radius:24px;
   filter:drop-shadow(0 18px 14px rgba(50,45,35,.38));transition:transform .35s var(--ease-pop);animation:machineIn 1s .5s var(--ease-pop) both}
@@ -751,15 +750,15 @@ document.getElementById("shelfBlocks").innerHTML = block(4,18,30,30,8,"butter")+
 }
 { /* ネコ（ねてるときはジャンプしない） */
   const cat=document.getElementById("cat"), say=document.getElementById("catSay");
-  const awake=["にゃ","にゃーん","あそぶ？","ニワトリ|見た？","ガチャ、|まわしてみて","きょうは|どれにする？","なでて|くれるの？","しっぽ、|ふりふり","おなか|すいた…","紙の|においがする","ハンドル|おしてごらん","いい天気|だにゃ","パンの|ゲーム、すき","まるくなって|いい？","…じーっ","にゃっ！"];
-  const sleepy=["…zzz","すやすや…","むにゃ…","…ねむい"];
+  const awake=["にゃ〜ん","あそぼ〜？","ニワトリさん|見たにゃ？","ガチャ、|まわしてにゃ♪","きょうは|どれにするにゃ？","なでなで|してくれるの？","しっぽ|ふりふりにゃ","おなか|ぺこぺこにゃ…","紙の|いいにおいにゃ","ハンドル|おしてみてにゃ","ぽかぽか|いい天気にゃ","パンのゲーム|だいすきにゃ","まるくなっても|いいにゃ？","…じーっ|（みてるにゃ）","にゃっ！","いっしょに|あそぶにゃ〜"];
+  const sleepy=["すぴー…zzz","むにゃむにゃ…","ねむねむ…|にゃ","おやすみ|にゃさい…"];
   const h=new Date().getHours(), night=h>=23||h<6;
   let last=-1, taps=0;
   const hero=document.getElementById("hero");
   const speak=(tap)=>{
     let text, sleep;
     if(night && Math.random()<.5 || Math.random()<.15){ text=sleepy[Math.floor(Math.random()*sleepy.length)]; sleep=true; }
-    else if(tap && taps===8){ text="さわりすぎ|だにゃ！"; }
+    else if(tap && taps===8){ text="もう〜|さわりすぎにゃ！"; }
     else { let i; do{ i=Math.floor(Math.random()*awake.length); }while(i===last && awake.length>1); last=i; text=awake[i]; }
     say.innerHTML=text.split("|").join("<br>"); /* 「|」のところで2行に */
     /* ふきだしがヒーローの箱からはみ出さないよう、左右にずらす */
