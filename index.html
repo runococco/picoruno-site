@@ -50,7 +50,7 @@ svg{display:block;overflow:visible}
 .lip::after{content:"";position:absolute;left:3%;right:3%;bottom:-30px;height:30px;border-radius:50%;background:radial-gradient(closest-side,rgba(60,50,35,.22),transparent);z-index:-1}
 
 .hero-copy{position:relative;z-index:3;max-width:600px;color:#fff;transform:translate(calc(var(--px)*-6px),calc(var(--py)*-4px));transition:transform .5s var(--ease-out)}
-.eyebrow{font-weight:700;letter-spacing:.28em;font-size:.78rem;opacity:.9}
+.eyebrow{font-weight:700;letter-spacing:.28em;font-size:.78rem;opacity:1;text-shadow:0 1px 2px rgba(40,55,35,.35)}
 .hero h1{font-weight:900;font-size:clamp(3rem,9vw,7.4rem);line-height:1;letter-spacing:-.01em;white-space:nowrap;margin:.12em 0 .14em -.03em;perspective:600px}
 .hero h1 .ch{
   display:inline-block;color:transparent;-webkit-background-clip:text;background-clip:text;
@@ -68,7 +68,7 @@ svg{display:block;overflow:visible}
   animation:place .7s 1s var(--ease-pop) both}
 .catch::before{content:"";position:absolute;left:-14px;top:-6px;width:46px;height:16px;background:rgba(229,180,171,.85);transform:rotate(-28deg)}
 @keyframes place{from{opacity:0;transform:translateY(-20px) rotate(-8deg) scale(1.08)}to{opacity:1;transform:rotate(-1.5deg)}}
-.lead{margin-top:18px;max-width:32em;font-size:1rem;color:rgba(255,255,255,.95);text-shadow:0 1px 2px rgba(40,55,35,.3);animation:fade .8s 1.15s both}
+.lead{margin-top:18px;max-width:32em;font-size:1.02rem;font-weight:700;letter-spacing:.04em;color:#fff;text-shadow:0 1px 2px rgba(40,55,35,.45),0 0 12px rgba(60,80,55,.35);animation:fade .8s 1.15s both}
 .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px;animation:fade .8s 1.25s both}
 @keyframes fade{from{opacity:0;transform:translateY(14px)}}
 
@@ -167,7 +167,7 @@ svg{display:block;overflow:visible}
 .spot .sign{position:relative;display:block;margin-top:10px;white-space:nowrap;filter:drop-shadow(0 3px 3px rgba(80,60,30,.24));transform:rotate(var(--r,0deg));transition:transform .3s var(--ease-pop)}
 .spot .rib{display:block;position:relative;padding:4px 19px 5px;text-align:center;line-height:1.25;background:var(--grain),var(--d);clip-path:polygon(0 0,100% 0,calc(100% - 9px) 50%,100% 100%,0 100%,9px 50%);transition:background .2s}
 .spot .rib::before{content:"";position:absolute;inset:3px 13px;border-top:1.5px dashed rgba(255,255,255,.8);border-bottom:1.5px dashed rgba(255,255,255,.8);pointer-events:none}
-.spot .rib small{display:block;font-size:.56rem;font-weight:800;color:rgba(70,50,40,.62);letter-spacing:.04em}
+.spot .rib small{display:block;font-size:.62rem;font-weight:800;color:rgba(70,50,40,.62);letter-spacing:.04em}
 .spot .rib em{display:block;font-style:normal;font-weight:900;font-size:.84rem;color:var(--ink);letter-spacing:.04em}
 .spot .sign b{position:absolute;right:-7px;top:-9px;display:grid;place-items:center;min-width:21px;height:21px;padding:0 5px;border-radius:11px;background:var(--grain),var(--white);font-size:.66rem;font-weight:900;line-height:1;color:#b07f77;box-shadow:0 1px 2px rgba(80,60,30,.25)}
 
@@ -186,7 +186,7 @@ svg{display:block;overflow:visible}
 .spot.has-mini .sign{margin-top:12px}
 .spot.has-mini:hover .ic,.spot.has-mini:focus-visible .ic{transform:translateY(-5px) rotate(-2deg)}
 @media (max-width:639px){.spot.has-mini{--ic:40px}.spot .ic.mini{width:92px;height:40px}}
-@media (max-width:639px){.spot{--ic:42px}.spot .rib{padding:3px 14px 4px;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 50%,100% 100%,0 100%,7px 50%)}.spot .rib::before{inset:2px 10px}.spot .rib em{font-size:.72rem}.spot .rib small{font-size:.5rem}.spot .sign{margin-top:9px}.spot .sign b{min-width:18px;height:18px;font-size:.6rem;top:-8px;right:-6px}.board .tape{width:64px;height:20px}}
+@media (max-width:639px){.spot{--ic:42px}.spot .rib{padding:3px 12px 4px;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 50%,100% 100%,0 100%,7px 50%)}.spot .rib::before{inset:2px 10px}.spot .rib em{font-size:.76rem;letter-spacing:0}.spot .rib small{font-size:.55rem;letter-spacing:-.02em}.spot .sign{margin-top:9px}.spot .sign b{min-width:18px;height:18px;font-size:.6rem;top:-8px;right:-6px}.board .tape{width:64px;height:20px}}
 
 .walker{position:absolute;left:0;top:0;width:0;height:0;z-index:4;pointer-events:none}
 .walker .chick{position:absolute;left:-38px;bottom:-6px;width:76px;transform-origin:50% 100%;transform:scaleX(var(--dir,1))}
@@ -252,7 +252,8 @@ svg{display:block;overflow:visible}
 @keyframes snip{50%{transform:rotate(-6deg)}}
 .pop-stage text{font-family:var(--font)}
 .pop-games{display:flex;gap:12px;margin:14px -16px 0;padding:6px 16px 12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
-.pop-games.few{justify-content:center}
+.pop-games.few{justify-content:safe center}
+.pop-games{scroll-padding-inline:16px}
 .pg{flex:0 0 156px;scroll-snap-align:start;display:flex;flex-direction:column;gap:6px;padding:7px 7px 9px;border-radius:6px;text-decoration:none;color:var(--ink);
   background:var(--grain),var(--white);box-shadow:var(--edge),var(--shadow-s);transition:transform .25s var(--ease-pop)}
 .popup.open .pg{animation:pgIn .45s var(--ease-pop) both;animation-delay:calc(.35s + var(--i) * .06s)}
@@ -287,7 +288,20 @@ svg{display:block;overflow:visible}
 .found:empty{display:none}
 .found button{margin-left:10px;font:inherit;font-weight:700;color:var(--ink);background:none;border:0;text-decoration:underline;text-decoration-color:var(--pink);text-underline-offset:3px;cursor:pointer}
 
+.town,.games{overflow-x:clip}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:46px 34px;padding-top:10px}
+/* 最後の段が1枚だけ余らないよう、何枚かを横長（2マス）にする。JS の balanceGrid が付ける */
+.card.wide{grid-column:span 2;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);grid-template-rows:repeat(4,auto);column-gap:34px;align-content:center;padding:14px 18px 14px 14px}
+.card.wide .art{grid-row:1 / -1;align-self:center}
+.card.wide .chip{display:none}
+.card.wide h3,.card.wide p,.card.wide .genres,.card.wide .foot{grid-column:2;margin-right:10px}
+.card.wide h3{font-size:1.55rem;margin-top:0}
+.card.wide p{font-size:.95rem;line-height:1.85;margin-top:8px}
+.card.wide .genres{margin-top:14px}
+.card.wide .foot{margin-top:22px;padding-top:0;justify-content:flex-start;gap:14px}
+.card.wide.flip{grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);padding:14px 14px 14px 18px}
+.card.wide.flip .art{grid-column:2}
+.card.wide.flip h3,.card.wide.flip p,.card.wide.flip .genres,.card.wide.flip .foot{grid-column:1;margin-left:14px;margin-right:0}
 .card{
   --r:0deg;--tape:rgba(240,219,147,.82);
   position:relative;display:flex;flex-direction:column;padding:12px 12px 16px;border-radius:4px;
@@ -433,14 +447,14 @@ svg{display:block;overflow:visible}
   .chip{display:none}
   .card .art{grid-column:1;grid-row:1 / span 4;align-self:center}
   .card h3,.card p,.card .genres,.card .foot{grid-column:2;margin:0}
-  .card h3{font-size:1rem;line-height:1.35}
-  .card p{font-size:.72rem;line-height:1.5;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card h3{font-size:1.05rem;line-height:1.35}
+  .card p{font-size:.78rem;line-height:1.55;margin-top:3px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .card .genres{margin-top:5px;gap:4px}
-  .card .genre{font-size:.6rem;padding:0 6px 0 4px}
-  .card .genre i{width:16px;height:16px}
+  .card .genre{font-size:.66rem;padding:1px 8px 1px 3px}
+  .card .genre i{width:17px;height:17px}
   .card .genre i svg{width:11px;height:11px}
   .card .foot{padding-top:6px;margin-right:12px}
-  .card .play{padding:7px 11px;font-size:.74rem}
+  .card .play{padding:8px 13px;font-size:.8rem}
   .like{min-height:32px;padding:2px 10px}
   .maker{margin-top:80px}
   .note{padding:30px 22px}
@@ -469,48 +483,6 @@ svg{display:block;overflow:visible}
 .card:hover::before{animation:tape .5s ease-in-out}
 @keyframes tape{30%{transform:translateX(-50%) rotate(calc(var(--tr,-4deg) + 5deg))}65%{transform:translateX(-50%) rotate(calc(var(--tr,-4deg) - 3deg))}}
 
-/* ===== フッター：紙の丘の上の小さな町 ===== */
-.xfoot{margin-top:120px;padding:0;text-align:left;overflow:visible}
-.xfoot .hills{position:absolute;left:0;right:0;bottom:100%;width:100%;height:120px;display:block;pointer-events:none}
-.foot-chick{position:absolute;right:12%;bottom:calc(100% + 22px);width:78px;padding:0;border:0;background:none;cursor:pointer;z-index:2;transition:transform .3s var(--ease-pop)}
-.foot-chick img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 4px rgba(40,50,35,.3))}
-.foot-chick:hover{transform:translateY(-8px) rotate(-6deg)}
-.foot-say{position:absolute;right:70%;bottom:78%;white-space:nowrap;font-size:.72rem;font-weight:900;color:var(--ink);padding:3px 10px;border-radius:12px;background:var(--grain),var(--white);box-shadow:var(--shadow-s);transform:rotate(-4deg)}
-.foot-in{position:relative;max-width:1140px;margin:0 auto;padding:18px 28px 40px;display:grid;grid-template-columns:1fr auto;gap:36px 60px;align-items:center}
-.xfoot .gfoot-word{justify-content:flex-start;font-size:clamp(3rem,7vw,5.6rem);padding-top:6px}
-.foot-catch{margin:10px 0 0;font-weight:700;font-size:.95rem;opacity:.92;letter-spacing:.06em}
-.foot-x{display:inline-flex;align-items:center;gap:12px;margin-top:22px;padding:8px 18px 8px 8px;border-radius:40px;text-decoration:none;color:var(--ink);background:var(--grain),var(--white);box-shadow:0 3px 0 #d8cfbe,var(--shadow-s);transition:transform .25s var(--ease-pop)}
-.foot-x b{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#e5b4ab;color:#fff;font-size:1.1rem}
-.foot-x span{display:flex;flex-direction:column;line-height:1.25;font-weight:900;font-size:.95rem}
-.foot-x small{font-size:.68rem;font-weight:700;color:var(--sub)}
-.foot-x:hover{transform:translateY(-3px) rotate(-2deg)}
-.xfoot .foot-tags{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin:0;padding:18px 0 0 22px}
-.foot-tags::before{content:"";position:absolute;left:8px;top:0;bottom:6px;border-left:2px dotted rgba(255,255,255,.5)}
-.xfoot .foot-tags a{position:relative;display:inline-block;padding:7px 18px 7px 26px;margin:0;border-radius:4px 14px 14px 4px;font-size:.92rem;font-weight:900;text-decoration:none;color:var(--ink);
-  background:var(--grain),var(--c);box-shadow:0 3px 0 rgba(0,0,0,.08),var(--shadow-s);transform:rotate(var(--r));transform-origin:0 50%;transition:transform .35s var(--ease-pop)}
-.foot-tags a::before{content:"";position:absolute;left:9px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--sage-d);box-shadow:inset 0 1px 1px rgba(0,0,0,.25)}
-.foot-tags a::after{content:"";position:absolute;left:-14px;top:50%;width:19px;border-top:2px dotted rgba(255,255,255,.5)}
-.xfoot .foot-tags a:hover{transform:rotate(calc(var(--r) * -2)) translateX(4px);background:var(--grain),var(--white)}
-.foot-base{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 20px 18px;background:var(--grain),var(--sage-dd)}
-.foot-base small{font-size:.78rem;opacity:.9}
-.foot-stamp{font-size:.7rem;font-weight:900;letter-spacing:.06em;color:#f0db93;border:2px solid currentColor;border-radius:6px;padding:1px 8px;transform:rotate(-4deg)}
-@media (max-width:900px){
-  .foot-in{grid-template-columns:1fr;gap:28px}
-  .foot-brand{text-align:center}
-  .xfoot .gfoot-word{justify-content:center}
-  .xfoot .foot-tags{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;justify-items:center;gap:14px 16px;padding:0}
-  .foot-tags::before,.xfoot .foot-tags a::after{display:none}
-}
-@media (max-width:640px){
-  .xfoot{margin-top:96px}
-  .xfoot .hills{height:84px}
-  .foot-chick{width:58px;right:8%;bottom:calc(100% + 12px)}
-  .foot-in{grid-template-columns:1fr;gap:24px;padding:10px 18px 30px}
-  .foot-brand{grid-column:auto}
-  .xfoot .gfoot-word{font-size:clamp(2.8rem,15vw,4rem)}
-}
-.gfoot-word.on span{animation:wave 2.8s ease-in-out 3;animation-delay:calc(var(--i) * .12s)}
-@keyframes wave{0%,60%,100%{transform:rotate(var(--r))}20%{transform:translateY(-.14em) rotate(calc(var(--r) * -1))}}
 @media (prefers-reduced-motion:reduce){
   .board .map .msw,.board .map .mbl,.walker .chick svg,.spot.has-mini .ic,.gfoot-word span,:is(.pop-stage,.ic.mini) *{animation:none!important}
   .confetti{display:none}
@@ -548,7 +520,7 @@ svg{display:block;overflow:visible}
       <svg class="prop blocks" id="blocks" viewBox="0 0 150 120" aria-hidden="true"></svg>
       <svg class="prop laptop" viewBox="0 0 170 120" aria-hidden="true">
         <polygon points="22,4 148,4 152,84 18,84" fill="#efe7d8"/><polygon points="22,4 148,4 150,40 20,40" fill="#f7f2e8"/>
-        <rect x="30" y="12" width="110" height="64" rx="2" fill="#3c3c40"/>
+        <rect x="30" y="12" width="110" height="64" rx="2" fill="#6f8268"/>
         <text class="scr" x="40" y="40">picoruno.</text><text class="scr" x="40" y="60" font-size="11">&gt; あそぼ<tspan class="cursor">_</tspan></text>
         <polygon points="18,84 152,84 168,112 2,112" fill="#e8dfcd"/><polygon points="2,112 168,112 168,118 2,118" fill="#d6cbb5"/>
         <polygon points="62,98 108,98 110,106 60,106" fill="#d9cfbb"/>
@@ -581,15 +553,15 @@ svg{display:block;overflow:visible}
             <text x="93" y="295" text-anchor="middle" font-family="Zen Maru Gothic,sans-serif" font-weight="900" font-size="14" fill="#3c3a38" letter-spacing="1">PICO GACHA</text>
             <rect x="160" y="274" width="58" height="30" rx="2" fill="#e5b4ab"/>
             <text x="189" y="294" text-anchor="middle" font-family="Zen Maru Gothic,sans-serif" font-weight="900" font-size="12" fill="#3c3a38">1回 0円</text>
-            <rect x="150" y="314" width="72" height="40" rx="4" fill="#3c3c40"/><rect x="156" y="318" width="60" height="10" rx="2" fill="#55555a"/>
+            <rect x="150" y="314" width="72" height="40" rx="4" fill="#7c6a5e"/><rect x="156" y="318" width="60" height="10" rx="2" fill="#9a8678"/>
             <g class="knob" id="knob">
               <polygon points="76,308 98,308 114,324 114,346 98,362 76,362 60,346 60,324" fill="#fbf8f2"/>
               <polygon points="76,308 98,308 114,324 87,335 60,324" fill="#fffdf8"/>
               <polygon points="60,346 76,362 98,362 114,346 87,335" fill="#e9e1d2"/>
-              <rect x="64" y="330" width="46" height="10" rx="2" fill="#3c3c40"/>
+              <rect x="64" y="330" width="46" height="10" rx="2" fill="#7c6a5e"/>
             </g>
             <!-- 台 -->
-            <polygon points="16,362 244,362 250,386 10,386" fill="#3c3c40"/><polygon points="16,362 244,362 246,370 14,370" fill="#55555a"/>
+            <polygon points="16,362 244,362 250,386 10,386" fill="#7c6a5e"/><polygon points="16,362 244,362 246,370 14,370" fill="#9a8678"/>
           </svg>
         </button>
         <div class="drop" id="drop" aria-hidden="true"><span class="cap" id="dropCap"></span></div>
@@ -723,7 +695,7 @@ const GAMES = [
 ];
 
 /* ===== 紙の色 ===== */
-const P = { blue:["#a9bfcf","#8ea6b8","#c7d6e1"], sage:["#8fa287","#74876d","#adbda6"], pink:["#e5b4ab","#cf968c","#f0cdc6"], butter:["#f0db93","#d8bd66","#f6e6ad"], cream:["#f2ebdd","#ddd2bd","#fbf8f2"], lilac:["#c9bdd6","#ad9fbe","#ddd4e6"], mint:["#b8d4c6","#98baa9","#d2e5db"], apricot:["#ecc6a6","#d6a985","#f4dac4"], char:["#3c3c40","#2c2c2f","#55555a"] };
+const P = { blue:["#a9bfcf","#8ea6b8","#c7d6e1"], sage:["#8fa287","#74876d","#adbda6"], pink:["#e5b4ab","#cf968c","#f0cdc6"], butter:["#f0db93","#d8bd66","#f6e6ad"], cream:["#f2ebdd","#ddd2bd","#fbf8f2"], lilac:["#c9bdd6","#ad9fbe","#ddd4e6"], mint:["#b8d4c6","#98baa9","#d2e5db"], apricot:["#ecc6a6","#d6a985","#f4dac4"], char:["#7c6a5e","#655548","#9a8678"] };
 const PAPERS = ["pink","butter","sage","cream","blue"];
 const TAPES = ["rgba(240,219,147,.82)","rgba(229,180,171,.82)","rgba(173,189,166,.88)","rgba(242,235,221,.9)"];
 const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -741,13 +713,12 @@ function capsuleSVG(color, r, top=true, bot=true, tint=false){
 }
 
 /* ===== タイトル：紙の文字が1枚ずつひらく ===== */
+
 {
   const t=document.getElementById("title"), cols=[["#fbf8f2","#e6dece"],["#f0db93","#d8bd66"],["#e5b4ab","#cf968c"],["#a9bfcf","#8ea6b8"]];
   t.innerHTML=[...t.textContent].map((c,i)=>{ const [a,b]=cols[i%4];
     return `<span class="ch" style="--i:${i};--c:${a};--d:${b};--r:${[-3,2,-1.5,3,-2,1.5,-3,2.5,0][i%9]}deg;--a:${150+i*9}deg" aria-hidden="true">${c}</span>`; }).join("");
   t.addEventListener("pointerdown",e=>{ const ch=e.target.closest(".ch"); if(!ch) return; ch.classList.add("boing"); setTimeout(()=>ch.classList.remove("boing"),350); });
-  const f=document.getElementById("footWord");
-  f.innerHTML=[...f.textContent].map((c,i)=>`<span style="--i:${i};--c:${["#fbf8f2","#f0db93","#e5b4ab","#a9bfcf"][i%4]};--r:${[-3,2,-2,3,-1,2,-3,2,0][i%9]}deg">${c}</span>`).join("");
 }
 
 /* ===== 箱の中の小物 ===== */
@@ -787,22 +758,6 @@ document.getElementById("shelfBlocks").innerHTML = block(4,18,30,30,8,"butter")+
     say.classList.add("on"); clearTimeout(cat._t); cat._t=setTimeout(()=>say.classList.remove("on"),1800);
   });
 }
-{ /* フッター：紙の丘・きょうのいちおし・うえへ */
-  const svg=document.getElementById("footHills");
-  const draw=()=>{ const W=svg.clientWidth||1200, H=svg.clientHeight||120, sp=W<640;
-    let seed=7; const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
-    const layer=(base,amp,n,col)=>{ let d=`M0 ${H} L0 ${base}`; for(let i=1;i<=n;i++){ const x=W*i/n, y=base-amp*(.4+.6*Math.sin(i*1.7+base))+ (rnd()-.5)*6; d+=` Q${(x-W/n/2).toFixed(1)} ${(y-amp*.6).toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`; } return `<path d="${d} L${W} ${H}Z" fill="${col}"/>`; };
-    const tree=(x,y,s,c1,c2)=>`<polygon points="${x},${y-30*s} ${x+12*s},${y} ${x},${y}" fill="${c2}"/><polygon points="${x},${y-30*s} ${x-12*s},${y} ${x},${y}" fill="${c1}"/>`;
-    const house=(x,y,s,wall,roof)=>`<rect x="${x-11*s}" y="${y-16*s}" width="${22*s}" height="${16*s}" fill="${wall}"/><polygon points="${x-14*s},${y-15*s} ${x},${y-28*s} ${x+14*s},${y-15*s}" fill="${roof}"/><rect x="${x-3*s}" y="${y-9*s}" width="${6*s}" height="${9*s}" fill="#cf968c"/>`;
-    let h=layer(H*.42,H*.22,sp?4:7,"#c9d3c2")+layer(H*.62,H*.18,sp?5:9,"#adbda6");
-    const s=sp?.7:1;
-    [[.08,.66],[.2,.6],[.47,.64],[.66,.58],[.93,.62]].forEach(([fx,fy],i)=>{ h+=tree(W*fx,H*fy+8,s*(1-i%2*.25),"#8fa287","#74876d"); });
-    h+=house(W*.32,H*.7,s,"#fbf8f2","#e5b4ab")+house(W*.56,H*.74,s*.8,"#f2ebdd","#f0db93");
-    h+=layer(H*.86,H*.12,sp?6:11,"#74876d");
-    svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.innerHTML=h; };
-  draw(); let fw=0; addEventListener("resize",()=>{ if(svg.clientWidth!==fw){ fw=svg.clientWidth; draw(); } });
-  document.getElementById("footChick").addEventListener("click",()=>scrollTo({top:0,behavior:RM?"auto":"smooth"}));
-}
 { /* 遊園地の入口みたいな、しましまの紙のテント屋根 */
   const svg=document.getElementById("garland");
   const draw=()=>{
@@ -825,19 +780,19 @@ if(FINE && !RM){
 }
 
 const ICONS = {
-  all:`<svg viewBox="0 0 60 60"><polygon points="8,26 30,8 52,26" fill="#e5b4ab"/><polygon points="30,8 52,26 30,26" fill="#cf968c"/><rect x="12" y="26" width="36" height="28" fill="#fbf8f2"/><rect x="30" y="26" width="18" height="28" fill="#e6dece"/><rect x="25" y="38" width="10" height="16" fill="#8fa287"/><line x1="40" y1="14" x2="40" y2="2" stroke="#3c3c40" stroke-width="1.5"/><polygon points="40,2 50,5 40,8" fill="#f0db93"/></svg>`,
+  all:`<svg viewBox="0 0 60 60"><polygon points="8,26 30,8 52,26" fill="#e5b4ab"/><polygon points="30,8 52,26 30,26" fill="#cf968c"/><rect x="12" y="26" width="36" height="28" fill="#fbf8f2"/><rect x="30" y="26" width="18" height="28" fill="#e6dece"/><rect x="25" y="38" width="10" height="16" fill="#8fa287"/><line x1="40" y1="14" x2="40" y2="2" stroke="#7c6a5e" stroke-width="1.5"/><polygon points="40,2 50,5 40,8" fill="#f0db93"/></svg>`,
   relax:`<svg viewBox="0 0 60 60"><polygon points="10,26 46,26 42,50 14,50" fill="#fbf8f2"/><polygon points="28,26 46,26 42,50 28,50" fill="#e6dece"/><path d="M46 30 q10 2 2 12" fill="none" stroke="#e6dece" stroke-width="4"/><polygon points="6,50 50,50 46,56 10,56" fill="#8fa287"/><path d="M22 20 q-4 -6 2 -10 M32 20 q-4 -6 2 -10" fill="none" stroke="#adbda6" stroke-width="2.5" stroke-linecap="round"/></svg>`,
   action:`<svg viewBox="0 0 60 60"><line x1="14" y1="6" x2="14" y2="56" stroke="#9a876d" stroke-width="3"/><polygon points="16,8 50,16 16,30" fill="#e5b4ab"/><polygon points="16,19 50,16 16,30" fill="#cf968c"/><polygon points="6,56 26,56 22,50 10,50" fill="#8fa287"/></svg>`,
-  time:`<svg viewBox="0 0 60 60"><rect x="12" y="4" width="36" height="6" fill="#3c3c40"/><rect x="12" y="50" width="36" height="6" fill="#3c3c40"/><polygon points="16,10 44,10 30,30" fill="#f2ebdd"/><polygon points="30,30 16,50 44,50" fill="#f2ebdd"/><polygon points="22,18 38,18 30,28" fill="#f0db93"/><polygon points="30,36 20,50 40,50" fill="#d8bd66"/></svg>`,
+  time:`<svg viewBox="0 0 60 60"><rect x="12" y="4" width="36" height="6" fill="#7c6a5e"/><rect x="12" y="50" width="36" height="6" fill="#7c6a5e"/><polygon points="16,10 44,10 30,30" fill="#f2ebdd"/><polygon points="30,30 16,50 44,50" fill="#f2ebdd"/><polygon points="22,18 38,18 30,28" fill="#f0db93"/><polygon points="30,36 20,50 40,50" fill="#d8bd66"/></svg>`,
   craft:`<svg viewBox="0 0 60 60"><polygon points="30,30 52,6 54,9 34,32" fill="#f2ebdd"/><polygon points="30,30 8,8 6,11 26,32" fill="#e6dece"/><polygon points="22,34 12,40 10,52 20,54 28,46 30,36" fill="#e5b4ab"/><polygon points="38,34 48,40 50,52 40,54 32,46 30,36" fill="#cf968c"/><circle cx="18" cy="47" r="3.5" fill="#f4f1ea"/><circle cx="42" cy="47" r="3.5" fill="#f4f1ea"/><circle cx="30" cy="32" r="2.5" fill="#f0db93"/></svg>`,
   art:`<svg viewBox="0 0 60 60"><polygon points="6,30 18,10 44,8 56,24 50,46 26,52 10,46" fill="#f2ebdd"/><polygon points="30,30 56,24 50,46 26,52" fill="#e6dece"/><circle cx="20" cy="22" r="5" fill="#e5b4ab"/><circle cx="34" cy="17" r="5" fill="#f0db93"/><circle cx="45" cy="27" r="5" fill="#8fa287"/><circle cx="38" cy="41" r="5" fill="#a9bfcf"/><circle cx="20" cy="38" r="4" fill="#f4f1ea"/></svg>`,
-  onebtn:`<svg viewBox="0 0 60 60"><polygon points="6,44 54,44 50,56 10,56" fill="#3c3c40"/><polygon points="14,30 46,30 50,44 10,44" fill="#55555a"/><polygon points="16,22 44,22 46,30 14,30" fill="#e5b4ab"/><polygon points="16,22 30,14 44,22" fill="#f0cdc6"/><polygon points="30,22 44,22 46,30 30,30" fill="#cf968c"/></svg>`,
-  music:`<svg viewBox="0 0 60 60"><polygon points="24,10 50,4 50,12 24,18" fill="#3c3c40"/><rect x="21" y="10" width="4" height="34" fill="#3c3c40"/><rect x="47" y="4" width="4" height="34" fill="#2c2c2f"/><polygon points="10,46 18,40 26,44 24,52 14,54" fill="#f0db93"/><polygon points="36,40 44,34 52,38 50,46 40,48" fill="#d8bd66"/></svg>`,
-  cooking:`<svg viewBox="0 0 60 60"><polygon points="4,30 44,30 40,44 8,44" fill="#3c3c40"/><polygon points="24,30 44,30 40,44 24,44" fill="#2c2c2f"/><rect x="44" y="33" width="14" height="5" fill="#55555a"/><polygon points="12,30 18,22 28,20 36,24 38,30" fill="#f0db93"/><polygon points="22,26 26,22 30,26 26,29" fill="#fbf8f2"/></svg>`,
+  onebtn:`<svg viewBox="0 0 60 60"><polygon points="6,44 54,44 50,56 10,56" fill="#7c6a5e"/><polygon points="14,30 46,30 50,44 10,44" fill="#9a8678"/><polygon points="16,22 44,22 46,30 14,30" fill="#e5b4ab"/><polygon points="16,22 30,14 44,22" fill="#f0cdc6"/><polygon points="30,22 44,22 46,30 30,30" fill="#cf968c"/></svg>`,
+  music:`<svg viewBox="0 0 60 60"><polygon points="24,10 50,4 50,12 24,18" fill="#7c6a5e"/><rect x="21" y="10" width="4" height="34" fill="#7c6a5e"/><rect x="47" y="4" width="4" height="34" fill="#655548"/><polygon points="10,46 18,40 26,44 24,52 14,54" fill="#f0db93"/><polygon points="36,40 44,34 52,38 50,46 40,48" fill="#d8bd66"/></svg>`,
+  cooking:`<svg viewBox="0 0 60 60"><polygon points="4,30 44,30 40,44 8,44" fill="#7c6a5e"/><polygon points="24,30 44,30 40,44 24,44" fill="#655548"/><rect x="44" y="33" width="14" height="5" fill="#9a8678"/><polygon points="12,30 18,22 28,20 36,24 38,30" fill="#f0db93"/><polygon points="22,26 26,22 30,26 26,29" fill="#fbf8f2"/></svg>`,
   sim:`<svg viewBox="0 0 60 60"><rect x="10" y="26" width="40" height="28" fill="#fbf8f2"/><rect x="30" y="26" width="20" height="28" fill="#e6dece"/><polygon points="6,14 54,14 54,26 6,26" fill="#f2ebdd"/><polygon points="6,14 14,14 14,26 6,26" fill="#e5b4ab"/><polygon points="22,14 30,14 30,26 22,26" fill="#e5b4ab"/><polygon points="38,14 46,14 46,26 38,26" fill="#e5b4ab"/><rect x="16" y="34" width="12" height="20" fill="#8fa287"/></svg>`,
   memory:`<svg viewBox="0 0 60 60"><polygon points="30,4 46,12 48,28 40,38 20,38 12,28 14,12" fill="#f6e6ad"/><polygon points="30,4 46,12 48,28 40,38 30,38" fill="#f0db93"/><polygon points="22,38 38,38 36,48 24,48" fill="#adbda6"/><polygon points="24,48 36,48 33,54 27,54" fill="#74876d"/></svg>`,
   quiz:`<svg viewBox="0 0 60 60"><rect x="28" y="30" width="4" height="26" fill="#74876d"/><polygon points="8,6 52,6 52,34 8,34" fill="#fbf8f2"/><polygon points="30,6 52,6 52,34 30,34" fill="#e6dece"/><text x="30" y="29" text-anchor="middle" font-family="Zen Maru Gothic,sans-serif" font-weight="900" font-size="24" fill="#cf968c">?</text></svg>`,
-  typing:`<svg viewBox="0 0 60 60"><polygon points="12,8 48,8 50,38 10,38" fill="#efe7d8"/><rect x="15" y="12" width="30" height="22" fill="#3c3c40"/><polygon points="10,38 50,38 58,50 2,50" fill="#e3d9c6"/><polygon points="2,50 58,50 58,53 2,53" fill="#cfc4ad"/></svg>`,
+  typing:`<svg viewBox="0 0 60 60"><polygon points="12,8 48,8 50,38 10,38" fill="#efe7d8"/><rect x="15" y="12" width="30" height="22" fill="#7c6a5e"/><polygon points="10,38 50,38 58,50 2,50" fill="#e3d9c6"/><polygon points="2,50 58,50 58,53 2,53" fill="#cfc4ad"/></svg>`,
   puzzle:`<svg viewBox="0 0 60 60">${block(4,32,22,22,6,"pink")}${block(28,32,22,22,6,"sage")}${block(16,8,22,22,6,"butter")}</svg>`,
 };
 
@@ -1150,6 +1105,7 @@ function applyFilter(){
   const what=[FILTER.genre&&`「${GENRES[FILTER.genre].label}」`,FILTER.q&&`「${esc(FILTER.q)}」`].filter(Boolean).join("と");
   foundEl.innerHTML = on ? `${what}で ${n}こ 見つかったよ<button type="button" id="reset">しぼりこみを解除</button>` : "";
   emptyEl.hidden = n>0;
+  balanceGrid();
   /* 共有できるように URL に残す（?genre=relax&q=パン） */
   const u=new URL(location.href);
   FILTER.genre ? u.searchParams.set("genre",FILTER.genre) : u.searchParams.delete("genre");
@@ -1157,6 +1113,21 @@ function applyFilter(){
   FILTER.sort ? u.searchParams.set("sort",FILTER.sort) : u.searchParams.delete("sort");
   try{ history.replaceState(null,"",u); }catch(e){}
 }
+/* 最後の段が欠けないよう、足りないマスの数だけカードを横長にする（段ごとに左右交互） */
+function balanceGrid(){
+  const cols=getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length;
+  const vis=[...grid.children].filter(c=>c.classList.contains("card")&&!c.hidden);
+  vis.forEach(c=>c.classList.remove("wide","flip"));
+  let need=cols>1?(cols-vis.length%cols)%cols:0, pos=0, row=0, used=-1;
+  vis.forEach(c=>{
+    let span=1;
+    if(need>0 && used!==row && ((row%2===0&&pos===0)||(row%2===1&&pos===cols-2))){
+      span=2; need--; used=row; c.classList.add("wide"); if(row%2) c.classList.add("flip");
+    }
+    pos+=span; if(pos>=cols){ pos=0; row++; }
+  });
+}
+let bgW=innerWidth; addEventListener("resize",()=>{ if(innerWidth!==bgW){ bgW=innerWidth; balanceGrid(); } });
 
 /* ===== クラフト紙の地図を描く・ニワトリを道に沿って歩かせる ===== */
 const MAP={pts:[],cum:[],spotD:[],W:0,H:0};
@@ -1165,11 +1136,11 @@ const mapSvg=document.getElementById("map");
 const jit=(i,k)=>Math.sin(i*12.9898+k*78.233)*43758.5453%1;
 function layoutMap(){
   const W=board.clientWidth, sp=W<640, cols=sp?3:5, n=tiles.length, rows=Math.ceil(n/cols);
-  const padX=sp?W*.15:W*.1, top=sp?140:150, rowH=sp?114:128, H=top+(rows-1)*rowH+(sp?60:66);
+  const padX=sp?Math.max(W*.15,64):W*.1, top=sp?140:150, rowH=sp?114:128, H=top+(rows-1)*rowH+(sp?60:66);
   board.style.setProperty("--h",H+"px");
   /* 道しるべの位置（へび行） */
   const A=tiles.map((t,i)=>{ const r=Math.floor(i/cols), c0=i%cols, c=r%2?cols-1-c0:c0;
-    return [padX+c*(W-2*padX)/(cols-1)+jit(i,1)*(sp?10:18), top+r*rowH+jit(i,2)*(sp?8:14)]; });
+    return [padX+c*(W-2*padX)/(cols-1)+jit(i,1)*(sp?4:18), top+r*rowH+jit(i,2)*(sp?8:14)]; });
   /* 曲がり角に少しふくらみを入れて、なめらかな道に */
   const K=[[A[0][0]-padX*.9,A[0][1]+14]];
   A.forEach((a,i)=>{ K.push(a); const nx=A[i+1];
@@ -1278,6 +1249,7 @@ function applySort(){
     : cards;
   order.forEach(c=>grid.appendChild(c));
   sortsEl.querySelectorAll(".sort").forEach(b=>b.setAttribute("aria-pressed", b.dataset.sort===FILTER.sort));
+  balanceGrid();
 }
 sortsEl.addEventListener("click",e=>{
   const b=e.target.closest(".sort"); if(!b || b.dataset.sort===FILTER.sort) return;
@@ -1525,5 +1497,6 @@ function burst(btn){
 
 })();
 </script>
+<script src="foot.js" defer></script>
 </body>
 </html>
