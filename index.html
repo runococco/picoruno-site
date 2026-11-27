@@ -600,9 +600,37 @@ svg{display:block;overflow:visible}
 .spot .rib small{color:#564334}
 
 @media (max-width:368px){.spot .rib em{font-size:.9rem}.spot .rib small{font-size:.65rem}}
+/* ガチャと猫を、箱の手前に立ち上がる一枚の舞台に */
+.hero .toy-stage{
+  position:absolute;z-index:2;right:3.7%;bottom:34px;
+  width:clamp(390px,43%,530px);height:clamp(440px,46vw,590px);
+  pointer-events:none;overflow:visible;
+}
+.toy-stage .stage-arch{transform-origin:50% 88%;transform-box:view-box}
+.toy-stage .stage-platform{transform-origin:50% 82%;transform-box:view-box}
+.hero .gacha-hint{
+  display:table;margin:6px auto 0;padding:2px 12px;border-radius:4px;
+  background:#fff4d9;color:#50372e;box-shadow:0 2px 0 #a45e4c;
+}
+.hero .cat-platform{--paper-front:#81463b;--paper-top:#ffe5b5}
+@media (prefers-reduced-motion:no-preference){
+  .toy-stage .stage-arch{animation:stage-unfold .75s .07s var(--ease-out) both}
+  .toy-stage .stage-lantern{animation:lantern-light 1s .42s ease-out both}
+  .toy-stage .stage-platform{animation:stage-unfold .65s var(--ease-out) both}
+}
+@keyframes lantern-light{from{opacity:.25}60%{opacity:.85}}
+@keyframes stage-unfold{from{opacity:.35;transform:scaleY(.12) skewX(-7deg)}}
+@media (max-width:900px){
+  .hero .toy-stage{right:50%;transform:translateX(54%);bottom:37px;width:380px;height:320px}
+}
+@media (max-width:640px){
+  .hero .toy-stage{width:min(93%,345px);height:auto;aspect-ratio:500 / 440;bottom:22px}
+  .hero .gacha-hint{padding-inline:7px;font-size:.72rem}
+}
+
 /* 切り抜きの広場、地図の折り目、道案内のアニメーション */
 .board .ribbon{
-  top:18px;padding:7px 32px 8px;
+  top:26px;padding:7px 32px 8px;
   color:#fff8e7;background:var(--grain),#3f5f4d;
 }
 .board .ribbon small{color:#f2d699}
@@ -615,18 +643,28 @@ svg{display:block;overflow:visible}
   background:var(--grain),linear-gradient(160deg,#fff8ef57,transparent 52%),var(--d);
 }
 .spot .rib small{font-weight:900}
+.spot.has-mini .ic.mini{width:150px;height:65px}
+.spot.has-mini{--ic:65px}
+@media (max-width:639px){
+  .spot.has-mini .ic.mini{width:110px;height:48px}
+  .spot.has-mini{--ic:48px}
+}
 .spot[aria-pressed="true"] .rib{background:var(--grain),#f5d785}
 .spot:focus-visible,.spot:hover{z-index:5}
+.map-island{transform-box:fill-box;transform-origin:50% 100%}
 .map-route-glow{opacity:0;stroke-dasharray:1;stroke-dashoffset:1}
 @media (prefers-reduced-motion:no-preference){
+  .board.map-revealed > .map .map-island{animation:unfold-island .5s var(--island-delay) var(--ease-out) backwards}
   .board.map-revealed .map-route-glow{animation:trace-route 1.45s .12s var(--ease-out) both}
   .board.map-revealed > .spot .ic > svg{animation:raise-landmark .56s var(--ease-pop) backwards;animation-delay:var(--arrival)}
   .spot:is(:hover,:focus-visible) .ic.mini > svg{animation:lift-landmark .42s var(--ease-pop)}
   .board:not(.map-visible) :is(.map-route-glow,.spot .ic.mini > svg){animation-play-state:paused}
   .spot.is-arriving .sign{animation:stamp-sign .45s var(--ease-pop)}
+  .board.map-revealed.map-visible > .map .map-boat{animation:boat-bob 1.9s ease-in-out 2}
   .board.map-visible:not(.folding) > .map .paper-cloud{animation:cloud-pass 3.9s ease-in-out both}
   .board.map-visible:not(.folding) > .map .paper-sparkle{animation:paper-glint .7s var(--twinkle-delay) ease-in-out 2 alternate both}
 }
+@keyframes unfold-island{from{transform:translateY(8px) scaleY(.82)}}
 @keyframes trace-route{
   0%{opacity:0;stroke-dashoffset:1}
   20%{opacity:.9}
@@ -636,6 +674,7 @@ svg{display:block;overflow:visible}
 @keyframes raise-landmark{0%{transform:translateY(4px) scaleY(.87)}60%{transform:translateY(-5px) scaleY(1.04)}}
 @keyframes lift-landmark{45%{transform:translateY(-4px) rotate(-2deg)}}
 @keyframes stamp-sign{35%{transform:rotate(-4deg) scale(1.17)}}
+@keyframes boat-bob{50%{translate:3px -3px;rotate:-3deg}}
 @keyframes cloud-pass{50%{translate:10px -3px}}
 @keyframes paper-glint{from{opacity:.35}to{opacity:1}}
 .finder{
@@ -734,6 +773,45 @@ svg{display:block;overflow:visible}
       <svg class="prop envelope" viewBox="0 0 120 70" aria-hidden="true">
         <rect x="2" y="2" width="116" height="66" fill="#f6f0e4"/><polygon points="2,68 60,30 118,68" fill="#ece4d3"/>
         <polygon points="2,2 118,2 60,42" fill="#e5b4ab"/><polygon points="60,42 118,2 60,2" fill="#d9a59b"/>
+      </svg>
+      <svg class="toy-stage" viewBox="0 0 500 465" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <g class="stage-arch">
+          <path d="M56 367V155C56 60 136 15 248 15S440 63 440 155V367Z" fill="#233e35" opacity=".55" transform="translate(12 12)"/>
+          <path d="M56 367V155C56 60 136 15 248 15S440 63 440 155V367Z" fill="#f3ce95"/>
+          <path d="M71 365V158C71 75 144 34 248 34S425 75 425 158V365Z" fill="#a75146"/>
+          <path d="M90 367V162C90 90 153 54 248 54S407 92 407 162V367Z" fill="#e7ab88"/>
+          <path d="M90 367V162C90 90 153 54 248 54V367Z" fill="#f0bc95"/>
+          <path d="M248 56V364M90 367H407" fill="none" stroke="#a55448" stroke-width="2" opacity=".5"/>
+          <path d="M124 128l6 18 18 6-18 6-6 18-6-18-18-6 18-6zm251 44 5 14 14 5-14 5-5 14-5-14-14-5 14-5z" fill="#fff0b7"/>
+          <path d="M67 359l27-78 34 78zM373 361l34-84 23 84z" fill="#a75146"/>
+        </g>
+        <g class="stage-platform">
+          <path d="M31 411l66-70h309l69 70-18 38H53Z" fill="#273b2d" opacity=".38" transform="translate(0 9)"/>
+          <path d="M22 406l68-74h320l68 74-22 38H45Z" fill="#a45043"/>
+          <path d="M22 406l68-74h320l68 74Z" fill="#fae2ac"/>
+          <path d="M45 444l22-38h94l-9 38zm213 0 1-38h91l14 38z" fill="#cc8167"/>
+          <path d="M90 332h320l-10 10H82z" fill="#c88f62"/>
+          <path d="M48 421h404" stroke="#f8c691" stroke-width="2" opacity=".65"/>
+        </g>
+        <g class="stage-lantern" transform="translate(136 353)">
+          <path d="M-26 0l13-9h28l13 9-12 8h-33z" fill="#926344" opacity=".42"/>
+          <path d="M-4 0v-111h8V0z" fill="#355649"/>
+          <path d="M1 0v-111h3V0z" fill="#203c33"/>
+          <path d="M-17-114h34l-6 31h-22z" fill="#684b38"/>
+          <path d="M-12-111h24l-5 23H-7z" fill="#fff2b5"/>
+          <path d="M0-111h12l-5 23H0z" fill="#e7bc70"/>
+          <path d="M-21-114L0-132l21 18z" fill="#527761"/>
+          <path d="M-21-114L0-132v18z" fill="#70957b"/>
+        </g>
+        <g transform="translate(46 394) scale(.88)">
+          <ellipse rx="23" ry="7" fill="#926344" opacity=".38"/>
+          <path d="M0-21l-4-28h4l4 28zm3-10 15-19 3 2L7-28z" fill="#436953"/>
+          <path d="M-2-32Q-22-32-23-53Q-3-54-2-32Z" fill="#729776"/>
+          <path d="M7-34Q9-56 28-57Q28-39 7-34Z" fill="#638d6b"/>
+          <path d="M-14-23h32L12-2H-8z" fill="#a95148"/>
+          <path d="M-14-23h32v6h-32zM0-17h4V-2H0z" fill="#dc987e"/>
+          <path d="M-13-24h31l-6 4h-21z" fill="#f2b599"/>
+        </g>
       </svg>
       <button class="prop cat" id="cat" type="button" aria-label="ねこに話しかける">
         <span class="cat-platform" aria-hidden="true"></span>
@@ -1377,8 +1455,8 @@ const WALK={d:0,raf:0};
 const mapSvg=document.getElementById("map");
 const jit=(i,k)=>Math.sin(i*12.9898+k*78.233)*43758.5453%1;
 function layoutMap(){
-  const W=board.clientWidth, sp=W<640, cols=W<360?2:sp?3:5, n=tiles.length, rows=Math.ceil(n/cols);
-  const padX=cols===2?W*.245:sp?Math.max(W*.15,64):W*.1, top=sp?140:150, rowH=sp?114:128, H=top+(rows-1)*rowH+(sp?60:66);
+  const W=board.clientWidth, sp=W<640, cols=sp?2:4, n=tiles.length, rows=Math.ceil(n/cols);
+  const padX=sp?W*.245:W*.145, top=sp?162:190, rowH=sp?130:153, H=top+(rows-1)*rowH+(sp?77:95);
   board.style.setProperty("--h",H+"px");
   /* 道しるべの位置（へび行） */
   const A=tiles.map((t,i)=>{ const r=Math.floor(i/cols), c0=i%cols, c=r%2?cols-1-c0:c0;
@@ -1400,9 +1478,9 @@ function layoutMap(){
   const cum=[0]; for(let i=1;i<pts.length;i++) cum.push(cum[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));
   Object.assign(MAP,{pts,cum,spotD:spotIdx.map(i=>cum[i]),W,H,sp});
   tiles.forEach((t,i)=>{ t.style.left=A[i][0]+"px"; t.style.top=A[i][1]+"px"; });
-  drawMap(A);
+  drawMap(A,rows,top,rowH);
 }
-function drawMap(A){
+function drawMap(A,rows,top,rowH){
   const {W,H,pts,sp}=MAP, f=sp?.72:1, m=sp?8:12;
   const road="M"+pts.map(p=>p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" L");
   const near=(x,y,r)=>pts.some((p,i)=>i%3===0 && Math.hypot(p[0]-x,p[1]-y)<r);
@@ -1414,11 +1492,22 @@ function drawMap(A){
   const deco=[]; let k=0; const step=sp?34:40;
   for(let y=m+26;y<H-m-6;y+=step) for(let x=m+20;x<W-m-14;x+=step){
     const jx=x+jit(x,y)*14, jy=y+jit(y,x)*10;
-    if(Math.abs(jit(x*.7,y*.3))<.42) continue;
+    if(Math.abs(jit(x*.7,y*.3))<.68) continue;
     if(jy<(sp?62:70) && Math.abs(jx-W/2)<(sp?120:190)) continue;
     if(near(jx,jy,sp?26:32) || nearSpot(jx,jy)) continue;
     deco.push(k%7===3?balloon(jx,jy,k):tree(jx,jy,k)); k++;
   }
+  /* 島を段ごとに重ね、紙の断面を手前に見せる。 */
+  const islandColors=[["#b6cbaa","#729779"],["#f2c995","#ba8253"],["#c9d9e7","#748fac"],["#e7c0bf","#b17d82"],["#d0c6e3","#927fa7"]];
+  const islands=Array.from({length:rows},(_,row)=>{
+    const y=top+row*rowH, left=sp?18:26, right=W-left, depth=sp?12:17;
+    const edge=`M${left} ${y-39}L${W*.18} ${y-65} ${W*.64} ${y-61} ${right-20} ${y-45} ${right} ${y+20} ${W*.86} ${y+48} ${W*.35} ${y+49} ${left+4} ${y+33}Z`;
+    const [face,cut]=islandColors[row%islandColors.length];
+    return `<g class="map-island" style="--island-delay:${row*95}ms"><path d="${edge}" fill="#496359" opacity=".2" transform="translate(2 ${depth+5})"/>
+      <path d="${edge}" fill="${cut}" transform="translate(0 ${depth})"/>
+      <path d="${edge}" fill="${face}" stroke="#fff6dc" stroke-width="2"/>
+      <path d="M${left+6} ${y+33}L${W*.35} ${y+49} ${W*.86} ${y+48} ${right-4} ${y+21}" stroke="${cut}" stroke-width="2.5" fill="none"/></g>`;
+  }).join("");
   /* 台紙を重ねた広場と、地図上部の切り抜き */
   const plaza=A.map(([x,y],i)=>{
     const rx=sp?48:76, ry=sp?21:30;
@@ -1435,21 +1524,31 @@ function drawMap(A){
     <path class="paper-cloud" d="M-14-52h-41a5 5 0 0 1 0-10h8a9 9 0 0 1 17-2h16a6 6 0 0 1 0 12z" fill="#fffaed" stroke="#a6b49a"/>
     <path class="paper-sparkle" style="--twinkle-delay:${i*.47}s" d="M46-54l2 8 8 2-8 2-2 8-2-8-8-2 8-2z" fill="#e3ab63"/>
   </g>`).join("");
+  const boatX=sp?W*.5:W*.74, boatY=sp?top+rowH*1.5+8:top+rowH*(rows-1)+4;
+  const boat=`<g transform="translate(${boatX} ${boatY}) scale(${sp?.63:1})">
+    <path d="M-43 15q13 6 28 0m15 7q15 6 31-1m-76 3q10 4 18 0" fill="none" stroke="#f4ead2" stroke-width="2" stroke-linecap="round"/>
+    <g class="map-boat">
+      <path d="M-2-28L-19 4h17z" fill="#fff1d1" stroke="#8a715b" stroke-width="1.2"/>
+      <path d="M3-23L23 4H3z" fill="#e6a483"/>
+      <path d="M-30 6h60L18 19h-31z" fill="#9c554b"/>
+      <path d="M-30 6h60L8 12h-26z" fill="#f4c899"/>
+    </g>
+  </g>`;
   /* 入口ゲート */
   const g0=pts[0], gate=`<g transform="translate(${(g0[0]+(sp?6:10)).toFixed(1)} ${g0[1].toFixed(1)}) scale(${f})"><rect x="-22" y="-34" width="7" height="34" fill="#e5b4ab" stroke="#fbf8f2" stroke-width="1.5"/><rect x="15" y="-34" width="7" height="34" fill="#e5b4ab" stroke="#fbf8f2" stroke-width="1.5"/><path d="M-26 -32 q26 -22 52 0" fill="none" stroke="#f0db93" stroke-width="7" stroke-linecap="round"/><rect x="-20" y="-50" width="40" height="13" rx="3" fill="#fbf8f2"/><text y="-40" text-anchor="middle" font-size="9" font-weight="900" fill="#cf968c" font-family="Zen Maru Gothic,sans-serif">IN</text></g>`;
   /* 三つ折りパンフの折り目 */
   const folds=(sp?[W/2]:[W/3,W*2/3]).map(x=>`<rect x="${x-1}" y="0" width="2" height="${H}" fill="#7a6648" opacity=".08"/><rect x="${x+1}" y="0" width="1.5" height="${H}" fill="#fff" opacity=".35"/>`).join("");
   mapSvg.setAttribute("viewBox",`0 0 ${W} ${H}`);
-  mapSvg.innerHTML=`<defs><pattern id="lawn" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#d2dfc6"/><circle cx="4" cy="5" r="1.1" fill="#b6c9ac"/><circle cx="12" cy="12" r="1.1" fill="#b6c9ac"/></pattern></defs>
+  mapSvg.innerHTML=`<defs><pattern id="lawn" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#7da699"/><circle cx="4" cy="5" r="1.1" fill="#9abbb0"/><circle cx="12" cy="12" r="1.1" fill="#9abbb0"/></pattern></defs>
     <rect x="0" y="0" width="${W}" height="${H}" rx="14" fill="#f4e4c7" stroke="#b8a183"/>
     <rect x="${m}" y="${m}" width="${W-2*m}" height="${H-2*m}" rx="10" fill="url(#lawn)" stroke="#8da086"/>
     <rect x="${m+5}" y="${m+5}" width="${W-2*m-10}" height="${H-2*m-10}" rx="7" fill="none" stroke="#adbda6" stroke-width="2" stroke-dasharray="2 5" stroke-linecap="round"/>
-    ${skyline}${plaza}
-    <path d="${road}" fill="none" stroke="#b8a784" stroke-width="${sp?24:30}" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="${road}" fill="none" stroke="#f7f0e1" stroke-width="${sp?18:23}" stroke-linecap="round" stroke-linejoin="round"/>
+    ${skyline}${islands}${plaza}
+    <path d="${road}" fill="none" stroke="#80694d" stroke-width="${sp?20:26}" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${road}" fill="none" stroke="#f9e6bd" stroke-width="${sp?15:21}" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="${road}" fill="none" stroke="#bc9b70" stroke-width="1.6" stroke-dasharray="2 7" stroke-linecap="round"/>
     <path class="map-route-glow" d="${road}" pathLength="1" fill="none" stroke="#a15c43" stroke-width="2.8" stroke-linecap="round"/>
-    ${deco.join("")}${gate}${folds}`;
+    ${deco.join("")}${boat}${gate}${folds}`;
 }
 function pointAt(d){
   const {pts,cum}=MAP; d=Math.max(0,Math.min(cum[cum.length-1],d));
