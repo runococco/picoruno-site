@@ -102,7 +102,7 @@ svg{display:block;overflow:visible}
 
 /* ガチャ（紙でできたマシン） */
 .gacha{right:5%;bottom:56px;width:300px;z-index:3;transform:translate(calc(var(--px)*12px),calc(var(--py)*4px));transition:transform .5s var(--ease-out)}
-.gacha .say{left:auto;right:58%;top:6px;transform-origin:100% 100%}
+.gacha .say{left:auto;right:62%;top:4px;transform-origin:100% 100%;z-index:6;font-weight:900;font-size:.84rem;color:#6b4d44;padding:7px 14px 8px;border-radius:16px;background:var(--grain),var(--white);outline:1.5px dashed #e5b4ab;outline-offset:-5px;box-shadow:0 2px 0 #e6dccb,0 8px 14px -6px rgba(70,55,40,.35)}
 .cat .say{left:50%;right:auto;top:auto;bottom:calc(100% + 10px);width:max-content;white-space:nowrap;text-align:center;line-height:1.5;padding:8px 15px 9px;
   font-weight:900;font-size:.84rem;letter-spacing:.04em;color:#6b4d44;border-radius:16px 16px 16px 16px;
   background:var(--grain),radial-gradient(circle at 100% 0,#f6e6ad 0 7px,transparent 7.5px),var(--white);
@@ -411,13 +411,14 @@ svg{display:block;overflow:visible}
   .hero-copy{max-width:none}
   .lead{margin-inline:auto}
   .cta{justify-content:center}
-  .shelf,.laptop,.envelope{display:none}
+  .shelf,.laptop{display:none}
+  .envelope{left:7%;bottom:96px;width:96px}
   .star{left:auto;right:8%;width:46px}
   .star .string{height:64px}
   .star svg{width:46px}
   .floor{height:330px}
-  .gacha{right:50%;margin-right:-110px;bottom:70px;width:220px}
-  .cat{left:auto;right:calc(50% + 104px);bottom:62px;width:96px}
+  .gacha{right:50%;margin-right:-150px;bottom:70px;width:220px}
+  .cat{left:auto;right:calc(50% + 64px);bottom:62px;width:96px}
   .blocks{left:auto;right:6%;bottom:250px;width:100px}
   .board{grid-template-columns:repeat(4,1fr)}
 }
@@ -440,10 +441,10 @@ svg{display:block;overflow:visible}
   .wall{padding-bottom:170px}
   .floor{height:120px}
   .lip{height:34px}
-  .gacha{width:150px;right:11%;margin-right:0;bottom:50px}
+  .gacha{width:150px;right:calc(50% - 118px);margin-right:0;bottom:50px}
   .gacha-hint{margin-top:4px;font-size:.7rem}
-  .cat{width:78px;left:auto;right:calc(11% + 142px);bottom:56px}
-  .blocks{display:none}
+  .cat{width:78px;left:auto;right:calc(50% + 24px);bottom:56px}
+  .blocks,.envelope{display:none}
   .lip{height:40px}
   .garland{height:50px;margin-top:22px}
   .garland svg{height:50px}
@@ -468,6 +469,15 @@ svg{display:block;overflow:visible}
   .note{padding:30px 22px}
   .maker-links{justify-content:center}
   .note h2 small{display:table;margin:8px auto 0}
+}
+/* 幅のせまいスマホ（iPhone SE など） */
+@media (max-width:360px){
+  .catch{font-size:.9rem;padding-inline:12px;white-space:nowrap}
+  .lead{font-size:.84rem;letter-spacing:0}
+  .cta{gap:8px}
+  .cta .btn{padding:12px 10px;font-size:.8rem;white-space:nowrap;flex:1 1 0;justify-content:center}
+  .gacha{width:136px;right:calc(50% - 108px)}
+  .cat{width:70px;right:calc(50% + 22px)}
 }
 @media (hover:none){.spot:hover .ic{transform:none}.spot[aria-pressed="true"] .ic{transform:translateY(-6px)}}
 
