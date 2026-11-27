@@ -25,8 +25,7 @@
 <meta name="theme-color" content="#8fa287">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
 <style>
 /* =========================================================
@@ -36,7 +35,8 @@ svg{display:block;overflow:visible}
 
 /* ---------- ヒーロー：ふたを開けた緑の箱 ---------- */
 .hero{position:relative;padding:92px 0 0;--px:0;--py:0}
-.box{position:relative;width:min(1180px,calc(100% - 32px));margin:0 auto;isolation:isolate}
+.box{position:relative;width:min(1180px,calc(100% - 32px));margin:0 auto;animation:boxIn .9s var(--ease-out) both}
+@keyframes boxIn{from{opacity:0;transform:translateY(30px)}}
 .wall{
   position:relative;min-height:480px;padding:56px 56px 110px;border-radius:8px 8px 0 0;overflow:hidden;
   background:var(--grain),var(--fiber),radial-gradient(120% 90% at 50% 10%,rgba(255,255,255,.12),transparent 60%),var(--sage);
@@ -45,6 +45,18 @@ svg{display:block;overflow:visible}
 .floor{position:relative;height:180px;background:var(--grain),var(--sage-dd)}
 .floor::before{content:"";position:absolute;inset:0;clip-path:polygon(4% 0,96% 0,100% 100%,0 100%);
   background:var(--grain),var(--fiber),linear-gradient(180deg,#e2d8c4,var(--cream) 40%,#f6f0e4)}
+/* 元の白い床を、奥の折り目から手前へひらく。 */
+@media (prefers-reduced-motion:no-preference){
+  .floor::before{
+    transform-origin:50% 0;
+    animation:unfold-floor .92s .12s var(--ease-out) backwards;
+  }
+  @keyframes unfold-floor{
+    0%{transform:perspective(950px) rotateX(-74deg)}
+    76%{transform:perspective(950px) rotateX(9deg)}
+    100%{transform:none}
+  }
+}
 .lip{position:relative;height:54px;border-radius:0 0 10px 10px;background:var(--grain),var(--fiber),linear-gradient(180deg,var(--sage) ,var(--sage-d));
   box-shadow:inset 0 2px 0 rgba(255,255,255,.3),0 30px 40px -20px rgba(60,50,35,.45),0 8px 10px -6px rgba(60,50,35,.3)}
 .lip::after{content:"";position:absolute;left:3%;right:3%;bottom:-30px;height:30px;border-radius:50%;background:radial-gradient(closest-side,rgba(60,50,35,.22),transparent);z-index:-1}
@@ -65,10 +77,13 @@ svg{display:block;overflow:visible}
 @keyframes unfold{from{opacity:0;transform:rotateX(-95deg)}60%{opacity:1}to{opacity:1;transform:rotate(var(--r))}}
 .kana{font-weight:800;letter-spacing:.6em;font-size:.9rem;color:#26331f}
 .catch{display:inline-block;position:relative;margin-top:18px;font-weight:900;font-size:clamp(1.15rem,2.3vw,1.6rem);line-height:1.4;color:var(--ink);
-  padding:8px 22px;border-radius:3px;background:var(--grain),var(--fiber),var(--white);box-shadow:var(--edge),var(--shadow-m);transform:rotate(-1.5deg)}
+  padding:8px 22px;border-radius:3px;background:var(--grain),var(--fiber),var(--white);box-shadow:var(--edge),var(--shadow-m);transform:rotate(-1.5deg);
+  animation:place .7s 1s var(--ease-pop) both}
 .catch::before{content:"";position:absolute;left:-14px;top:-6px;width:46px;height:16px;background:rgba(229,180,171,.85);transform:rotate(-28deg)}
-.lead{margin-top:18px;max-width:32em;font-size:1.02rem;font-weight:700;letter-spacing:.04em;color:#26331f}
-.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px}
+@keyframes place{from{opacity:0;transform:translateY(-20px) rotate(-8deg) scale(1.08)}to{opacity:1;transform:rotate(-1.5deg)}}
+.lead{margin-top:18px;max-width:32em;font-size:1.02rem;font-weight:700;letter-spacing:.04em;color:#26331f;animation:fade .8s 1.15s both}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px;animation:fade .8s 1.25s both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}}
 
 /* 箱の中のもの */
 .prop{position:absolute;z-index:2}
@@ -109,9 +124,10 @@ svg{display:block;overflow:visible}
 .cat .say.on{transform:rotate(-2deg)}
 .cat .say::after{content:"";position:absolute;left:calc(50% - var(--sx,0px));bottom:-7px;width:14px;height:14px;margin-left:-7px;border-radius:0 0 4px 0;background:var(--grain),var(--white);transform:rotate(45deg);box-shadow:2px 2px 0 #e6dccb;z-index:-1}
 .machine{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;color:inherit;border-radius:24px;
-  filter:drop-shadow(0 18px 14px rgba(50,45,35,.38));transition:transform .35s var(--ease-pop)}
+  filter:drop-shadow(0 18px 14px rgba(50,45,35,.38));transition:transform .35s var(--ease-pop);animation:machineIn 1s .5s var(--ease-pop) both}
 .machine:hover{transform:translateY(-5px) rotate(-1deg)}
 .machine:active{transform:scale(.97)}
+@keyframes machineIn{from{opacity:0;transform:translateY(60px) scale(.9)}}
 .knob{transform-box:fill-box;transform-origin:50% 50%;transition:transform .9s cubic-bezier(.55,0,.25,1.2)}
 .dome-caps{transform-box:view-box}
 .machine.spinning .dome-caps{animation:shake .11s linear 8}
@@ -139,8 +155,7 @@ svg{display:block;overflow:visible}
 .board{position:relative;width:min(1000px,100%);margin:0 auto;height:var(--h,460px);transform:rotate(-.6deg)}
 /* パンフをひらくモーション（たたんだ紙のコピーを動かして、終わったら本物を見せる） */
 .board.folding{perspective:1800px}
-.board.folding:not(:focus-within) > :not(.fold){opacity:0;pointer-events:none}
-.board.folding:focus-within > .fold{visibility:hidden}
+.board.folding > :not(.fold){visibility:hidden}
 .fold{position:absolute;inset:0;z-index:6;pointer-events:none;transform-style:preserve-3d}
 .fold .flap{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.45,0,.2,1)}
 .fold .face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden}
@@ -155,7 +170,10 @@ svg{display:block;overflow:visible}
   font-weight:900;font-size:1.05rem;line-height:1.3;color:#6b3a33;background:var(--grain),var(--pink);box-shadow:0 3px 0 var(--pink-d),0 8px 12px -4px rgba(120,70,60,.35);
   clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%)}
 .board .ribbon small{display:block;font-size:.62rem;letter-spacing:.3em;color:#6b3a33}
-@media (max-width:639px){.board .ribbon{font-size:.9rem;padding:3px 24px 5px}}
+.spot .no{position:absolute;z-index:2;left:-8px;top:-10px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font-style:normal;font-weight:900;font-size:.72rem;line-height:1;color:#fff;
+  background:var(--sage-dd);box-shadow:0 0 0 2px #fbf8f2,0 2px 3px rgba(60,50,35,.3)}
+.spot[aria-pressed="true"] .no{background:#a8695f}
+@media (max-width:639px){.board .ribbon{font-size:.9rem;padding:3px 24px 5px}.spot .no{width:19px;height:19px;font-size:.64rem;left:-6px;top:-8px}}
 .board .tape{position:absolute;z-index:3;width:84px;height:24px;background:rgba(240,219,147,.78);box-shadow:0 1px 2px rgba(60,50,35,.15);pointer-events:none}
 .board .tape.a{left:-14px;top:8px;transform:rotate(-32deg)}
 .board .tape.b{right:-14px;top:8px;transform:rotate(30deg);background:rgba(229,180,171,.78)}
@@ -168,7 +186,6 @@ svg{display:block;overflow:visible}
 .spot .ic svg{position:relative;width:100%;height:100%;filter:drop-shadow(0 0 0 #fbf8f2) drop-shadow(1.5px 0 0 #fbf8f2) drop-shadow(-1.5px 0 0 #fbf8f2) drop-shadow(0 -1.5px 0 #fbf8f2) drop-shadow(0 4px 3px rgba(80,60,30,.3))}
 .spot .sign{position:relative;display:block;margin-top:10px;white-space:nowrap;filter:drop-shadow(0 3px 3px rgba(80,60,30,.24));transform:rotate(var(--r,0deg));transition:transform .3s var(--ease-pop)}
 .spot .rib{display:block;position:relative;padding:4px 19px 5px;text-align:center;line-height:1.25;background:var(--grain),var(--d);clip-path:polygon(0 0,100% 0,calc(100% - 9px) 50%,100% 100%,0 100%,9px 50%);transition:background .2s}
-.spot .rib::before{content:"";position:absolute;inset:3px 13px;border-top:1.5px dashed rgba(255,255,255,.8);border-bottom:1.5px dashed rgba(255,255,255,.8);pointer-events:none}
 .spot .rib small{display:block;font-size:.62rem;font-weight:800;color:rgba(70,50,40,.62);letter-spacing:.04em}
 .spot .rib em{display:block;font-style:normal;font-weight:900;font-size:.84rem;color:#2c2a28;letter-spacing:.04em}
 .spot .sign b{position:absolute;right:-7px;top:-9px;display:grid;place-items:center;min-width:21px;height:21px;padding:0 5px;border-radius:11px;background:var(--grain),var(--white);font-size:.66rem;font-weight:900;line-height:1;color:#985f56;box-shadow:0 1px 2px rgba(80,60,30,.25)}
@@ -188,7 +205,7 @@ svg{display:block;overflow:visible}
 .spot.has-mini .sign{margin-top:12px}
 .spot.has-mini:hover .ic,.spot.has-mini:focus-visible .ic{transform:translateY(-5px) rotate(-2deg)}
 @media (max-width:639px){.spot.has-mini{--ic:40px}.spot .ic.mini{width:92px;height:40px}}
-@media (max-width:639px){.spot{--ic:42px}.spot .rib{padding:3px 12px 4px;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 50%,100% 100%,0 100%,7px 50%)}.spot .rib::before{inset:2px 10px}.spot .rib em{font-size:.76rem;letter-spacing:0}.spot .rib small{font-size:.55rem;letter-spacing:-.02em}.spot .sign{margin-top:9px}.spot .sign b{min-width:18px;height:18px;font-size:.6rem;top:-8px;right:-6px}.board .tape{width:64px;height:20px}}
+@media (max-width:639px){.spot{--ic:42px}.spot .rib{padding:3px 12px 4px;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 50%,100% 100%,0 100%,7px 50%)}.spot .rib em{font-size:.76rem;letter-spacing:0}.spot .rib small{font-size:.55rem;letter-spacing:-.02em}.spot .sign{margin-top:9px}.spot .sign b{min-width:18px;height:18px;font-size:.6rem;top:-8px;right:-6px}.board .tape{width:64px;height:20px}}
 
 .walker{position:absolute;left:0;top:0;width:0;height:0;z-index:4;pointer-events:none}
 .walker .chick{position:absolute;left:-38px;bottom:-6px;width:76px;transform-origin:50% 100%;transform:scaleX(var(--dir,1))}
@@ -201,14 +218,14 @@ svg{display:block;overflow:visible}
 @media (max-width:639px){.walker .chick{left:-27px;width:54px}.walker .chick svg{width:54px;height:54px}.walker .bubble{bottom:50px;font-size:.8rem}}
 
 /* ---------- 飛び出す街（カテゴリをえらぶと、絵本みたいに立ち上がる） ---------- */
-.map-dialog-open{overflow:hidden}
-.popup{position:fixed;inset:0;margin:auto;width:min(710px,100%);max-width:none;max-height:100dvh;
-  padding:40px 18px 24px;border:0;background:transparent;color:var(--ink);overflow:auto;overscroll-behavior:contain}
-.popup::backdrop{background:rgba(36,49,38,.64)}
+.popup{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px 14px;overflow-y:auto;visibility:hidden;pointer-events:none;
+  background:rgba(244,241,234,0);transition:background .25s,visibility 0s .25s;overscroll-behavior:contain}
+.popup.open{visibility:visible;pointer-events:auto;background:rgba(244,241,234,.82);transition:background .25s}
+.popup{grid-template-columns:minmax(0,680px);justify-content:center}
+.popup .pop-in{width:100%;min-width:0}
 .pop-card{position:relative;padding:14px 16px 18px;border-radius:8px;background:var(--grain),var(--cream);box-shadow:var(--edge),var(--shadow-l);
   transform-origin:50% 50%;transform:translate(var(--fx,0px),var(--fy,28px)) scale(.16);opacity:0;transition:transform .45s var(--ease-pop),opacity .2s}
-.popup[open] .pop-card{animation:openBook .42s var(--ease-out) both}
-@keyframes openBook{to{transform:none;opacity:1}}
+.popup.open .pop-card{transform:none;opacity:1}
 .pop-card::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(transparent,rgba(60,50,35,.12) 20%,rgba(60,50,35,.12) 80%,transparent)}
 .pop-title{position:relative;z-index:5;display:table;margin:-30px auto 6px;font-weight:900;font-size:clamp(1.05rem,2.6vw,1.35rem);padding:5px 20px;border-radius:4px;
   background:var(--grain),var(--white);box-shadow:var(--shadow-m);transform:rotate(-2deg)}
@@ -217,7 +234,7 @@ svg{display:block;overflow:visible}
 .pop-stage .sky{position:absolute;inset:0 0 18px;border-radius:6px 6px 0 0;background:var(--grain),linear-gradient(180deg,var(--sky1,#e7efe3),var(--sky2,#f4f1ea))}
 .pop-stage .ly{position:absolute;left:0;right:0;bottom:var(--b,0);height:calc(100% - var(--b,0px));transform-origin:50% 100%;filter:drop-shadow(0 6px 5px rgba(60,50,35,.22))}
 .pop-stage .ly svg{width:100%;height:100%}
-.popup[open] .ly{animation:popUp .75s var(--ease-pop) both;animation-delay:var(--d,0s)}
+.popup.open .ly{animation:popUp .75s var(--ease-pop) both;animation-delay:var(--d,0s)}
 @keyframes popUp{0%{transform:scaleY(0)}100%{transform:none}}
 .pop-stage .ground{position:absolute;left:-6px;right:-6px;bottom:-4px;height:26px;border-radius:3px;background:var(--grain),var(--g1,var(--sage-l));box-shadow:inset 0 2px 0 rgba(255,255,255,.3),0 4px 6px rgba(60,50,35,.2)}
  .pop-stage .bob{transform-box:fill-box;transform-origin:50% 100%;animation:sway 3.2s ease-in-out infinite}
@@ -258,7 +275,7 @@ svg{display:block;overflow:visible}
 .pop-games{scroll-padding-inline:16px}
 .pg{flex:0 0 156px;scroll-snap-align:start;display:flex;flex-direction:column;gap:6px;padding:7px 7px 9px;border-radius:6px;text-decoration:none;color:var(--ink);
   background:var(--grain),var(--white);box-shadow:var(--edge),var(--shadow-s);transition:transform .25s var(--ease-pop)}
-.popup[open] .pg{animation:pgIn .45s var(--ease-pop) both;animation-delay:calc(.35s + var(--i) * .06s)}
+.popup.open .pg{animation:pgIn .45s var(--ease-pop) both;animation-delay:calc(.35s + var(--i) * .06s)}
 @keyframes pgIn{from{opacity:0;transform:translateY(14px)}}
 .pg:hover{transform:translateY(-4px) rotate(-1deg)}
 .pg-art{display:block;aspect-ratio:900/487;border-radius:3px;overflow:hidden}
@@ -291,7 +308,7 @@ svg{display:block;overflow:visible}
 .found button{margin-left:10px;font:inherit;font-weight:700;color:var(--ink);background:none;border:0;text-decoration:underline;text-decoration-color:var(--pink);text-underline-offset:3px;cursor:pointer}
 
 .town,.games{overflow-x:clip}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:46px 34px;padding-top:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:46px 34px;padding-top:10px}
 /* 最後の段が1枚だけ余らないよう、何枚かを横長（2マス）にする。JS の balanceGrid が付ける */
 .card.wide{grid-column:span 2;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);grid-template-rows:repeat(4,auto);column-gap:34px;align-content:center;padding:14px 18px 14px 14px}
 .card.wide .art{grid-row:1 / -1;align-self:center}
@@ -444,14 +461,21 @@ svg{display:block;overflow:visible}
   .garland svg{height:50px}
   .finder{padding:12px;gap:10px}
   .grid{grid-template-columns:1fr;gap:26px}
+  .card{display:grid;grid-template-columns:42% minmax(0,1fr);column-gap:12px;align-items:start;padding:10px}
   .card::before{width:60px;height:18px;top:-8px}
   .card::after{width:18px;height:18px}
   .chip{display:none}
+  .card .art{grid-column:1;grid-row:1 / span 4;align-self:center}
+  .card h3,.card p,.card .genres,.card .foot{grid-column:2;margin:0}
   .card h3{font-size:1.05rem;line-height:1.35}
+  .card p{font-size:.78rem;line-height:1.55;margin-top:3px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .card .genres{margin-top:5px;gap:4px}
   .card .genre{font-size:.7rem;padding:1px 8px 1px 3px}
   .card .genre i{width:17px;height:17px}
   .card .genre i svg{width:11px;height:11px}
+  .card .foot{padding-top:6px;margin-right:12px}
   .card .play{padding:8px 13px;font-size:.8rem}
+  .like{min-height:32px;padding:2px 10px}
   .maker{margin-top:80px}
   .note{padding:30px 22px}
   .maker-links{justify-content:center}
@@ -492,249 +516,9 @@ svg{display:block;overflow:visible}
   .board .map .msw,.board .map .mbl,.walker .chick svg,.spot.has-mini .ic,.gfoot-word span,:is(.pop-stage,.ic.mini) *{animation:none!important}
   .confetti{display:none}
 }
-/* 箱庭の背板・折り目・切符 */
-.workshop{
-  --bg:#f3ebdb;
-  --ink:#292f26;
-  --sub:#514e41;
-  --focus:#713b39;
-  background:var(--grain),radial-gradient(ellipse at 50% 0,#fffcf3,transparent 56rem),var(--bg);
-}
-.workshop :focus-visible{outline:3px solid var(--focus);outline-offset:4px}
-.skip-games{
-  position:fixed;z-index:70;inset:12px auto auto 12px;
-  padding:10px 18px;background:var(--white);border-radius:6px;transform:translateY(-160%);
-}
-.skip-games:focus{transform:none}
-.workshop .gnav{padding-block:4px}
-.workshop .gnav::before,.workshop .gnav::after{pointer-events:none}
-.workshop .gnav nav a{min-height:44px;display:grid;place-items:center;white-space:nowrap}
-.workshop .gnav nav a.opt{display:none}
-@media (min-width:561px){.workshop .gnav nav a.opt{display:grid}}
-.workshop .brand{min-height:44px}
-.hero .wall{
-  background:var(--grain),linear-gradient(125deg,#374d3f 8%,#426050 62%,#59755e);
-  box-shadow:inset 0 2px 0 #c0c9a44a,inset 0 -12px 26px #192a243d;
-}
-.hero .wall::before{
-  content:"";position:absolute;inset:12px;border:1px dashed #f9efcf60;border-radius:5px;pointer-events:none;
-}
-.hero .wall::after{
-  content:"";position:absolute;right:1%;bottom:-26%;width:min(60%,39rem);aspect-ratio:1;pointer-events:none;
-  background:repeating-radial-gradient(circle,#ecddad35 0 1px,transparent 1px 25px);
-  mask-image:radial-gradient(circle,#000 30%,transparent 72%);
-}
-.hero .eyebrow,.hero .kana,.hero .lead{color:#f9f1dc}
-.hero .eyebrow{letter-spacing:.16em;font-size:.82rem}
-.hero h1 .ch{animation-delay:calc(var(--i)*42ms);animation-duration:.63s}
-@media (forced-colors:active){.hero h1 .ch{color:CanvasText;background:none;filter:none}}
-.hero .lead{font-size:clamp(.95rem,1.5vw,1.12rem);line-height:1.75;letter-spacing:.015em}
-.hero .cta .btn{min-height:46px}
-.hero .floor{background:var(--grain),#34483a}
-.hero .floor::before{
-  background:var(--grain),repeating-linear-gradient(90deg,transparent 0 14%,#92774a18 14% calc(14% + 1px)),linear-gradient(#d9c7a3,#f8ebd1 75%);
-}
-.hero .lip{
-  background:var(--grain),linear-gradient(#59765f,#3d5545);
-}
-.hero .lip::before{
-  content:"";position:absolute;inset:9px 12px;border:1px dashed #f9efcf70;border-radius:3px;
-}
-.hero .star:focus-visible,.hero .cta :focus-visible{outline-color:#ffedaf}
-.hero .star,.hero .laptop .cursor,.garland .flag,.walker:not(.walking) .chick svg{animation-iteration-count:1}
-.hero .star svg{transition-duration:.55s}
-.hero .cat{
-  --paper-top:#f3d9ad;
-  --paper-front:#ce9277;
-  border:0;padding:0;background:none;color:inherit;font:inherit;
-  margin-right:27px;margin-bottom:13px;
-  filter:none;
-}
-.cat-platform{
-  position:absolute;inset:auto -10% -16px;height:34px;
-  background:var(--grain),linear-gradient(165deg,#e6ac91,var(--paper-front));
-  clip-path:polygon(13% 0,87% 0,100% 54%,91% 100%,8% 100%,0 54%);
-  pointer-events:none;
-}
-.cat-platform::before{
-  content:"";position:absolute;inset:0 0 44%;
-  background:var(--grain),var(--paper-top);
-  clip-path:polygon(13% 0,87% 0,100% 100%,0 100%);
-}
-.cat-platform::after{
-  content:"";position:absolute;left:50%;top:56%;height:44%;
-  border-left:1px dashed #7b4c3a80;
-  transform:rotate(-15deg);
-}
-.cat picture{
-  position:relative;display:block;
-  filter:drop-shadow(0 6px 3px #533f343c);
-  transform-origin:center bottom;transition:transform .3s var(--ease-pop);
-}
-@media (prefers-reduced-motion:no-preference){
-  .cat:focus-visible picture{transform:translateY(-6px) rotate(-3deg)}
-  @media (hover:hover){.cat:hover picture{transform:translateY(-6px) rotate(-3deg)}}
-}
-@media (max-width:640px){
-  .hero .cat{margin-right:17px;margin-bottom:10px}
-  .cat-platform{height:25px;bottom:-11px}
-}
-@media (max-width:350px){
-  .workshop .brand span{display:inline}
-  .workshop .gnav{gap:4px}
-  .workshop .gnav nav a{padding-inline:6px}
-}
-.hero .gacha-hint{color:#443b2f;font-size:.8rem}
-.garland{margin-top:clamp(20px,4vw,48px)}
-.town{margin-top:clamp(8px,2vw,20px)}
-.sec-head{margin-bottom:clamp(14px,2.6vw,34px)}
-.sec-head h2{font-size:clamp(1.7rem,4.2vw,3rem);line-height:1.24}
-.sec-head p{margin:10px auto 0;max-width:34em;font-size:clamp(.92rem,1.6vw,1.05rem);padding-inline:8px}
-.sec-head h2::after{
-  content:"";display:block;width:3.5rem;height:5px;margin:12px auto 0;
-  background:#9f574a;border-radius:46% 42% 48% 40%;transform:rotate(-3deg);
-}
-#gamesH{scroll-margin-top:76px}
-#gamesH:focus{outline:none}
-.workshop .spot:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.spot .rib small{color:#564334}
-
-@media (max-width:368px){.spot .rib em{font-size:.9rem}.spot .rib small{font-size:.65rem}}
-/* ガチャと猫を、箱の手前に立ち上がる一枚の舞台に */
-.hero .toy-stage{
-  position:absolute;z-index:2;right:3.7%;bottom:34px;
-  width:clamp(390px,43%,530px);height:clamp(440px,46vw,590px);
-  pointer-events:none;overflow:visible;
-}
-.toy-stage .stage-arch{transform-origin:50% 88%;transform-box:view-box}
-.toy-stage .stage-platform{transform-origin:50% 82%;transform-box:view-box}
-.hero .gacha-hint{
-  display:table;margin:6px auto 0;padding:2px 12px;border-radius:4px;
-  background:#fff4d9;color:#50372e;box-shadow:0 2px 0 #a45e4c;
-}
-.hero .cat-platform{--paper-front:#81463b;--paper-top:#ffe5b5}
-@media (prefers-reduced-motion:no-preference){
-  .toy-stage .stage-arch{animation:stage-unfold .75s .07s var(--ease-out) both}
-  .toy-stage .stage-lantern{animation:lantern-light 1s .42s ease-out both}
-  .toy-stage .stage-platform{animation:stage-unfold .65s var(--ease-out) both}
-}
-@keyframes lantern-light{from{opacity:.25}60%{opacity:.85}}
-@keyframes stage-unfold{from{opacity:.35;transform:scaleY(.12) skewX(-7deg)}}
-@media (max-width:900px){
-  .hero .toy-stage{right:50%;transform:translateX(54%);bottom:37px;width:380px;height:320px}
-}
-@media (max-width:640px){
-  .hero .toy-stage{width:min(93%,345px);height:auto;aspect-ratio:500 / 440;bottom:22px}
-  .hero .gacha-hint{padding-inline:7px;font-size:.72rem}
-}
-
-/* 切り抜きの広場、地図の折り目、道案内のアニメーション */
-.board .ribbon{
-  top:26px;padding:7px 32px 8px;
-  color:#fff8e7;background:var(--grain),#3f5f4d;
-}
-.board .ribbon small{color:#f2d699}
-.board .ribbon::after{
-  content:"";position:absolute;inset:4px 14px;
-  border-block:1px dashed #eadebc9c;pointer-events:none;
-}
-.board .map{filter:drop-shadow(0 3px 0 #ad9271) drop-shadow(0 14px 17px #50453437)}
-.spot .rib{
-  background:var(--grain),linear-gradient(160deg,#fff8ef57,transparent 52%),var(--d);
-}
-.spot .rib small{font-weight:900}
-.spot.has-mini .ic.mini{width:150px;height:65px}
-.spot.has-mini{--ic:65px}
-@media (max-width:639px){
-  .spot.has-mini .ic.mini{width:110px;height:48px}
-  .spot.has-mini{--ic:48px}
-}
-.spot[aria-pressed="true"] .rib{background:var(--grain),#f5d785}
-.spot:focus-visible,.spot:hover{z-index:5}
-.map-island{transform-box:fill-box;transform-origin:50% 100%}
-.map-route-glow{opacity:0;stroke-dasharray:1;stroke-dashoffset:1}
-@media (prefers-reduced-motion:no-preference){
-  .board.map-revealed > .map .map-island{animation:unfold-island .5s var(--island-delay) var(--ease-out) backwards}
-  .board.map-revealed .map-route-glow{animation:trace-route 1.45s .12s var(--ease-out) both}
-  .board.map-revealed > .spot .ic > svg{animation:raise-landmark .56s var(--ease-pop) backwards;animation-delay:var(--arrival)}
-  .spot:is(:hover,:focus-visible) .ic.mini > svg{animation:lift-landmark .42s var(--ease-pop)}
-  .board:not(.map-visible) :is(.map-route-glow,.spot .ic.mini > svg){animation-play-state:paused}
-  .spot.is-arriving .sign{animation:stamp-sign .45s var(--ease-pop)}
-  .board.map-revealed.map-visible > .map .map-boat{animation:boat-bob 1.9s ease-in-out 2}
-  .board.map-visible:not(.folding) > .map .paper-cloud{animation:cloud-pass 3.9s ease-in-out both}
-  .board.map-visible:not(.folding) > .map .paper-sparkle{animation:paper-glint .7s var(--twinkle-delay) ease-in-out 2 alternate both}
-}
-@keyframes unfold-island{from{transform:translateY(8px) scaleY(.82)}}
-@keyframes trace-route{
-  0%{opacity:0;stroke-dashoffset:1}
-  20%{opacity:.9}
-  78%{opacity:.9;stroke-dashoffset:0}
-  100%{opacity:0;stroke-dashoffset:0}
-}
-@keyframes raise-landmark{0%{transform:translateY(4px) scaleY(.87)}60%{transform:translateY(-5px) scaleY(1.04)}}
-@keyframes lift-landmark{45%{transform:translateY(-4px) rotate(-2deg)}}
-@keyframes stamp-sign{35%{transform:rotate(-4deg) scale(1.17)}}
-@keyframes boat-bob{50%{translate:3px -3px;rotate:-3deg}}
-@keyframes cloud-pass{50%{translate:10px -3px}}
-@keyframes paper-glint{from{opacity:.35}to{opacity:1}}
-.finder{
-  border:1px dashed #a39271;
-  background:var(--grain),#ebe0c9;
-  box-shadow:0 4px 0 #d0c0a1;
-}
-.search input{min-height:40px}
-.search input::placeholder{opacity:1}
-.search .clear,.sort,.like,.pop-close,.res-close{min-width:44px;min-height:44px}
-.search:focus-within{outline:2px solid var(--focus);outline-offset:2px}
-.card{min-width:0}
-.card:has(.cardlink:focus-visible){outline-color:var(--focus)}
-.card:focus-within{opacity:1;animation:none}
-.card h3{font-size:1.25rem}
-.card p{font-size:.95rem}
-.pop-title small{color:#4c654f}
-.workshop .foot-x b{background:#8d5147}
-.pop-foot .btn.sage{--c:#405e4a;--dk:#293e30}
-.pg b{white-space:normal;overflow:visible;text-overflow:clip}
-@media (min-width:901px){
-  .hero{padding-top:96px}
-  .hero .wall{padding-left:clamp(52px,7vw,98px)}
-  .hero .star{left:auto;right:19%}
-  .hero .shelf{left:54%}
-}
-@media (min-width:641px) and (max-width:900px){
-  .hero .wall{padding-bottom:44px}
-  .hero .floor{height:304px}
-  .hero .gacha{width:192px;bottom:64px}
-  .hero .blocks{bottom:168px;right:13%}
-}
-@media (max-width:640px){
-  .hero .wall{padding:44px 15px 166px}
-  .hero .catch{font-size:clamp(.9rem,4.1vw,1.15rem);padding-inline:14px}
-  .hero .floor{height:108px}
-  .hero .star{right:7%;width:40px}
-  .hero .star svg{width:40px}
-  .hero .star .string{height:21px}
-  .hero .gacha{bottom:48px}
-  .hero .cat{bottom:50px}
-  .hero .lead{max-width:27em}
-  .hero .cta{gap:8px}
-  .grid{gap:32px}
-  .card{
-    display:flex;flex-direction:column;padding:12px 12px 16px;
-  }
-  .card .art{align-self:stretch}
-  .card h3{margin:12px 4px 4px}
-  .card p{display:block;overflow:visible;font-size:.94rem;line-height:1.65;margin:0 4px}
-  .card .genres{margin:10px 4px 0}
-  .card .foot{margin:auto 14px 0 4px;padding-top:10px}
-  .card .play{font-size:.9rem}
-  .sortrow{flex-wrap:wrap;gap:4px 8px}
-}
-@media (max-width:360px){.hero .wall{padding-bottom:144px}}
 </style>
 </head>
-<body class="workshop">
-<a class="skip-games" href="#gamesH">ゲームいちらんへ移動</a>
+<body>
 
 <header class="gnav" id="gnav">
   <a class="brand" href="#top"><img src="img/brand.webp" width="36" height="36" alt=""><span>picoruno.</span></a>
@@ -746,18 +530,18 @@ svg{display:block;overflow:visible}
     <div class="box">
       <div class="wall">
         <div class="hero-copy">
-          <p class="eyebrow">ブラウザであそべるミニゲーム</p>
+          <p class="eyebrow">FREE BROWSER MINI GAMES</p>
           <h1 id="title" aria-label="picoruno.">picoruno.</h1>
           <p class="kana" aria-hidden="true">ピコルノ</p>
           <p class="catch">ちいさな遊び、おおきな楽しみ。</p>
-          <p class="lead">地図をひらいて、気になる遊びを見つけよう。<br>どのゲームも無料で、すぐに遊べます。</p>
+          <p class="lead">無料ですぐ遊べる、ちいさなゲーム集。</p>
           <div class="cta">
-            <a class="btn white" href="#town">地図からえらぶ <span aria-hidden="true">↓</span></a>
-            <button class="btn pink" type="button" data-spin aria-haspopup="dialog">ガチャでえらぶ</button>
+            <a class="btn white" href="#town">カテゴリからえらぶ ↓</a>
+            <button class="btn pink" type="button" data-spin>ガチャでえらぶ</button>
           </div>
         </div>
         <div class="prop shelf" aria-hidden="true"><svg id="shelfBlocks" viewBox="0 0 120 50"></svg></div>
-        <button class="prop star" id="star" type="button" aria-label="紙の星を回す"><div class="string"></div><svg id="starSvg" viewBox="-50 -50 100 100"></svg></button>
+        <button class="prop star" id="star" type="button" aria-label="ほし" tabindex="-1"><div class="string"></div><svg id="starSvg" viewBox="-50 -50 100 100"></svg></button>
       </div>
       <div class="floor" aria-hidden="true"></div>
       <div class="lip" aria-hidden="true"></div>
@@ -774,57 +558,14 @@ svg{display:block;overflow:visible}
         <rect x="2" y="2" width="116" height="66" fill="#f6f0e4"/><polygon points="2,68 60,30 118,68" fill="#ece4d3"/>
         <polygon points="2,2 118,2 60,42" fill="#e5b4ab"/><polygon points="60,42 118,2 60,2" fill="#d9a59b"/>
       </svg>
-      <svg class="toy-stage" viewBox="0 0 500 465" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <g class="stage-arch">
-          <path d="M56 367V155C56 60 136 15 248 15S440 63 440 155V367Z" fill="#233e35" opacity=".55" transform="translate(12 12)"/>
-          <path d="M56 367V155C56 60 136 15 248 15S440 63 440 155V367Z" fill="#f3ce95"/>
-          <path d="M71 365V158C71 75 144 34 248 34S425 75 425 158V365Z" fill="#a75146"/>
-          <path d="M90 367V162C90 90 153 54 248 54S407 92 407 162V367Z" fill="#e7ab88"/>
-          <path d="M90 367V162C90 90 153 54 248 54V367Z" fill="#f0bc95"/>
-          <path d="M248 56V364M90 367H407" fill="none" stroke="#a55448" stroke-width="2" opacity=".5"/>
-          <path d="M124 128l6 18 18 6-18 6-6 18-6-18-18-6 18-6zm251 44 5 14 14 5-14 5-5 14-5-14-14-5 14-5z" fill="#fff0b7"/>
-          <path d="M67 359l27-78 34 78zM373 361l34-84 23 84z" fill="#a75146"/>
-        </g>
-        <g class="stage-platform">
-          <path d="M31 411l66-70h309l69 70-18 38H53Z" fill="#273b2d" opacity=".38" transform="translate(0 9)"/>
-          <path d="M22 406l68-74h320l68 74-22 38H45Z" fill="#a45043"/>
-          <path d="M22 406l68-74h320l68 74Z" fill="#fae2ac"/>
-          <path d="M45 444l22-38h94l-9 38zm213 0 1-38h91l14 38z" fill="#cc8167"/>
-          <path d="M90 332h320l-10 10H82z" fill="#c88f62"/>
-          <path d="M48 421h404" stroke="#f8c691" stroke-width="2" opacity=".65"/>
-        </g>
-        <g class="stage-lantern" transform="translate(136 353)">
-          <path d="M-26 0l13-9h28l13 9-12 8h-33z" fill="#926344" opacity=".42"/>
-          <path d="M-4 0v-111h8V0z" fill="#355649"/>
-          <path d="M1 0v-111h3V0z" fill="#203c33"/>
-          <path d="M-17-114h34l-6 31h-22z" fill="#684b38"/>
-          <path d="M-12-111h24l-5 23H-7z" fill="#fff2b5"/>
-          <path d="M0-111h12l-5 23H0z" fill="#e7bc70"/>
-          <path d="M-21-114L0-132l21 18z" fill="#527761"/>
-          <path d="M-21-114L0-132v18z" fill="#70957b"/>
-        </g>
-        <g transform="translate(46 394) scale(.88)">
-          <ellipse rx="23" ry="7" fill="#926344" opacity=".38"/>
-          <path d="M0-21l-4-28h4l4 28zm3-10 15-19 3 2L7-28z" fill="#436953"/>
-          <path d="M-2-32Q-22-32-23-53Q-3-54-2-32Z" fill="#729776"/>
-          <path d="M7-34Q9-56 28-57Q28-39 7-34Z" fill="#638d6b"/>
-          <path d="M-14-23h32L12-2H-8z" fill="#a95148"/>
-          <path d="M-14-23h32v6h-32zM0-17h4V-2H0z" fill="#dc987e"/>
-          <path d="M-13-24h31l-6 4h-21z" fill="#f2b599"/>
-        </g>
-      </svg>
-      <button class="prop cat" id="cat" type="button" aria-label="ねこに話しかける">
-        <span class="cat-platform" aria-hidden="true"></span>
-        <picture>
-          <source srcset="img/cat-still.webp" media="(prefers-reduced-motion: reduce)">
-          <img src="img/cat.webp" width="192" height="199" alt="" decoding="async">
-        </picture>
-        <span class="say" id="catSay" aria-hidden="true">にゃ</span>
-      </button>
+      <div class="prop cat" id="cat" aria-hidden="true">
+        <img src="img/cat.webp" width="236" height="245" alt="" decoding="async">
+        <span class="say" id="catSay">にゃ</span>
+      </div>
 
       <div class="prop gacha" id="gacha">
         <span class="say" id="gachaSay">まわしてね</span>
-        <button class="machine" id="machine" type="button" data-spin aria-haspopup="dialog" aria-label="PICO GACHA 1回 0円。ガチャをまわしてゲームをえらぶ">
+        <button class="machine" id="machine" type="button" data-spin aria-label="ガチャをまわして、遊ぶゲームをランダムにえらぶ">
           <svg viewBox="0 0 260 390" aria-hidden="true" focusable="false">
             <defs><clipPath id="domeClip"><polygon id="domeShape" points=""/></clipPath></defs>
             <polygon points="96,10 164,10 172,30 88,30" fill="#f0db93"/><polygon points="96,10 164,10 168,20 92,20" fill="#f6e6ad"/>
@@ -862,8 +603,8 @@ svg{display:block;overflow:visible}
 
   <section class="town" id="town" aria-labelledby="townH">
     <div class="sec-head">
+      <p class="eyebrow">CATEGORY TOWN</p>
       <h2 id="townH">どこで あそぶ？</h2>
-      <p>地図の看板をえらぶと、その場所のゲームがひらきます。</p>
     </div>
     <div class="board-wrap">
       <div class="board" id="board" role="group" aria-label="カテゴリでしぼりこむ">
@@ -877,9 +618,9 @@ svg{display:block;overflow:visible}
         </div>
       </div>
     </div>
-    <dialog class="popup" id="popup" aria-labelledby="popName">
+    <div class="popup" id="popup" role="dialog" aria-modal="true" aria-labelledby="popName" aria-hidden="true">
       <div class="pop-in"><div class="pop-card">
-        <button class="pop-close" id="popClose" type="button" autofocus aria-label="とじる">×</button>
+        <button class="pop-close" id="popClose" type="button" aria-label="とじる">×</button>
         <p class="pop-title"><small id="popEn"></small><span id="popName"></span></p>
         <div class="pop-stage" id="popStage" aria-hidden="true"></div>
         <div class="pop-games" id="popGames"></div>
@@ -888,12 +629,13 @@ svg{display:block;overflow:visible}
           <button class="btn white" id="popBack" type="button">ほかの場所へ</button>
         </div>
       </div></div>
-    </dialog>
+    </div>
   </section>
 
   <section class="games" id="games" aria-labelledby="gamesH">
     <div class="sec-head">
-      <h2 id="gamesH" tabindex="-1">ゲームいちらん</h2>
+      <p class="eyebrow">GAMES</p>
+      <h2 id="gamesH">ゲームいちらん</h2>
     </div>
     <div class="finder" role="search">
       <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" placeholder="ゲームをさがす（例：パン）" aria-label="ゲームをキーワードでさがす" autocomplete="off" enterkeyhint="search"><button class="clear" id="qClear" type="button" aria-label="キーワードを消す" hidden>×</button></label>
@@ -914,7 +656,7 @@ svg{display:block;overflow:visible}
 
 <footer class="gfoot xfoot">
   <svg class="hills" id="footHills" aria-hidden="true"></svg>
-  <button class="foot-chick" id="footChick" type="button" aria-label="うえへ もどる"><span class="foot-say" aria-hidden="true">うえへ もどる</span><img src="img/chick.webp" width="64" height="64" alt=""></button>
+  <button class="foot-chick" id="footChick" type="button" aria-label="ページのいちばん上へ"><span class="foot-say">うえへ もどる</span><img src="img/chick.webp" width="64" height="64" alt=""></button>
   <div class="foot-in">
     <div class="foot-brand">
       <div class="gfoot-word" id="footWord" aria-hidden="true">picoruno.</div>
@@ -969,16 +711,16 @@ const GENRE_ALIAS = { onebtn:"action", time:"action", art:"craft", cooking:"sim"
 /* ===== ゲームデータ：ここを編集すれば差し替えられます =====
    img … サムネ画像（900×487。img/ フォルダに入れる） / bg … 画像を読みこむまでの色 */
 const GAMES = [
-  { title:"ハンコまっすぐ選手権", genres:["action"], tag:"ハンコ", desc:"ゆれる書類に、ハンコを長押しで1回だけ押す。担当・課長・部長の3つの欄を、ズレ・傾き・かすれ0.1単位で採点。", url:"hanko.html", img:"img/hanko.webp", alt:"ハンコまっすぐ選手権の紙細工のタイトル画像", bg:"#f0db93" },
-  { title:"ちょきり", genres:["craft","relax"], tag:"切り絵", desc:"紙を折って、はさみで切るだけ。ひらくと、きれいな切り絵に。", url:"chokiri.html", img:"img/chokiri.webp", alt:"ちょきりの紙細工のタイトル画像", bg:"#e5b4ab" },
-  { title:"ちぎりえ日和", genres:["craft","relax"], tag:"ちぎり絵", desc:"折り紙をちぎって、かさねて貼るだけ。こまかくちぎって、自分だけのちぎり絵に。", url:"chigiriebiyori.html", img:"img/chigiriebiyori.webp", alt:"ちぎりえ日和の紙細工のタイトル画像", bg:"#f2ebdd" },
-  { title:"ほしつなぎ", genres:["action","music"], tag:"星座", desc:"長押しでふわりと上へ、はなすと下へ。夜空の星をつないで、星座をつくろう。", url:"hoshitsunagi.html", img:"img/hoshitsunagi.webp", alt:"ほしつなぎの紙細工のタイトル画像", bg:"#7f97ab" },
-  { title:"こねこねベーカリー", genres:["sim","relax"], tag:"パンづくり", desc:"生地をこねて、かたちを決めて、オーブンで焼こう。トッピングで自分だけのパンに。", url:"konekone-bakery.html", img:"img/konekone-bakery.webp", alt:"こねこねベーカリーの紙細工のタイトル画像", bg:"#f0db93" },
-  { title:"1秒みた？", genres:["quiz","memory"], tag:"きおく", desc:"絵が見えるのは、たった1秒。消えたあとの質問に答えて、あなたの目のレベルを診断。毎日5問。", url:"ichibyou.html", img:"img/ichibyou.webp", alt:"1秒みた？の紙細工のタイトル画像", bg:"#8fa287" },
-  { title:"すし、すし、すし！", genres:["typing"], tag:"タイピング", desc:"高級店のカウンターで、出てきた寿司のよみをひたすら入力。60秒で何貫食べられる？", url:"sushisushisushi.html", img:"img/sushisushisushi.webp", alt:"すし、すし、すし！の紙細工のタイトル画像", bg:"#a9bfcf" },
-  { title:"誰かのメモ帳", genres:["relax"], tag:"メモリレー", desc:"知らない誰かのひとことが1枚だけ届きます。1行返事を書くと、それがまた次の誰かへ。", url:"memo.html", img:"img/memo.webp", alt:"誰かのメモ帳の紙細工のタイトル画像", bg:"#e5b4ab" },
-  { title:"逆走ボタン", genres:["action","memory"], tag:"脳バグ", desc:"おした方向と、逆に進む。しかも10秒ごとにルールが変わる。60秒で脳バグ率を診断。", url:"gyakuso-button.html", img:"img/gyakuso-button.webp", alt:"逆走ボタンの紙細工のタイトル画像", bg:"#8fa287" },
-  { title:"ころころおやつ", genres:["puzzle"], tag:"3つそろえ", desc:"となりのおやつと入れかえて、3つそろえて消そう。時間内にお客さんの注文をそろえて、何ステージまで行ける？", url:"korokoro.html", img:"img/korokoro.webp", alt:"ころころおやつの紙細工のタイトル画像", bg:"#e5b4ab" },
+  { title:"ハンコまっすぐ選手権", genres:["action"], tag:"ハンコ", desc:"ゆれる書類に、ハンコを長押しで1回だけ押す。担当・課長・部長の3つの欄を、ズレ・傾き・かすれ0.1単位で採点。", url:"https://picoruno.com/hanko.html", img:"img/hanko.webp", alt:"ハンコまっすぐ選手権の紙細工のタイトル画像", bg:"#f0db93" },
+  { title:"ちょきり", genres:["craft","relax"], tag:"切り絵", desc:"紙を折って、はさみで切るだけ。ひらくと、きれいな切り絵に。", url:"https://picoruno.com/chokiri.html", img:"img/chokiri.webp", alt:"ちょきりの紙細工のタイトル画像", bg:"#e5b4ab" },
+  { title:"ちぎりえ日和", genres:["craft","relax"], tag:"ちぎり絵", desc:"折り紙をちぎって、かさねて貼るだけ。こまかくちぎって、自分だけのちぎり絵に。", url:"https://picoruno.com/chigiriebiyori.html", img:"img/chigiriebiyori.webp", alt:"ちぎりえ日和の紙細工のタイトル画像", bg:"#f2ebdd" },
+  { title:"ほしつなぎ", genres:["action","music"], tag:"星座", desc:"長押しでふわりと上へ、はなすと下へ。夜空の星をつないで、星座をつくろう。", url:"https://picoruno.com/hoshitsunagi.html", img:"img/hoshitsunagi.webp", alt:"ほしつなぎの紙細工のタイトル画像", bg:"#7f97ab" },
+  { title:"こねこねベーカリー", genres:["sim","relax"], tag:"パンづくり", desc:"生地をこねて、かたちを決めて、オーブンで焼こう。トッピングで自分だけのパンに。", url:"https://picoruno.com/konekone-bakery.html", img:"img/konekone-bakery.webp", alt:"こねこねベーカリーの紙細工のタイトル画像", bg:"#f0db93" },
+  { title:"1秒みた？", genres:["quiz","memory"], tag:"きおく", desc:"絵が見えるのは、たった1秒。消えたあとの質問に答えて、あなたの目のレベルを診断。毎日5問。", url:"https://picoruno.com/ichibyou.html", img:"img/ichibyou.webp", alt:"1秒みた？の紙細工のタイトル画像", bg:"#8fa287" },
+  { title:"すし、すし、すし！", genres:["typing"], tag:"タイピング", desc:"高級店のカウンターで、出てきた寿司のよみをひたすら入力。60秒で何貫食べられる？", url:"https://picoruno.com/sushisushisushi.html", img:"img/sushisushisushi.webp", alt:"すし、すし、すし！の紙細工のタイトル画像", bg:"#a9bfcf" },
+  { title:"誰かのメモ帳", genres:["relax"], tag:"メモリレー", desc:"知らない誰かのひとことが1枚だけ届きます。1行返事を書くと、それがまた次の誰かへ。", url:"https://picoruno.com/memo.html", img:"img/memo.webp", alt:"誰かのメモ帳の紙細工のタイトル画像", bg:"#e5b4ab" },
+  { title:"逆走ボタン", genres:["action","memory"], tag:"脳バグ", desc:"おした方向と、逆に進む。しかも10秒ごとにルールが変わる。60秒で脳バグ率を診断。", url:"https://picoruno.com/gyakuso-button.html", img:"img/gyakuso-button.webp", alt:"逆走ボタンの紙細工のタイトル画像", bg:"#8fa287" },
+  { title:"ころころおやつ", genres:["puzzle"], tag:"3つそろえ", desc:"となりのおやつと入れかえて、3つそろえて消そう。時間内にお客さんの注文をそろえて、何ステージまで行ける？", url:"https://picoruno.com/korokoro.html", img:"img/korokoro.webp", alt:"ころころおやつの紙細工のタイトル画像", bg:"#e5b4ab" },
 ];
 
 /* ===== 紙の色 ===== */
@@ -1074,20 +816,7 @@ document.getElementById("shelfBlocks").innerHTML = block(4,18,30,30,8,"butter")+
 /* マウスで箱の中が少し動く */
 if(FINE && !RM){
   const hero=document.getElementById("hero");
-  let frame=0;
-  hero.addEventListener("pointermove",e=>{
-    cancelAnimationFrame(frame);
-    frame=requestAnimationFrame(()=>{
-      const r=hero.getBoundingClientRect();
-      hero.style.setProperty("--px",((e.clientX-r.left)/r.width-.5).toFixed(3));
-      hero.style.setProperty("--py",((e.clientY-r.top)/r.height-.5).toFixed(3));
-    });
-  },{passive:true});
-  hero.addEventListener("pointerleave",()=>{
-    cancelAnimationFrame(frame);
-    hero.style.removeProperty("--px");
-    hero.style.removeProperty("--py");
-  });
+  hero.addEventListener("pointermove",e=>{ const r=hero.getBoundingClientRect(); hero.style.setProperty("--px",((e.clientX-r.left)/r.width-.5).toFixed(3)); hero.style.setProperty("--py",((e.clientY-r.top)/r.height-.5).toFixed(3)); });
 }
 
 const ICONS = {
@@ -1147,11 +876,11 @@ const TILE_COL = ["cream","sage","pink","butter","blue"];
 ["",...catKeys].forEach((k,i)=>{
   const b=document.createElement("button");
   b.type="button"; b.className="spot"; b.dataset.genre=k;
-  b.setAttribute("aria-haspopup","dialog");
   const col=TILE_COL[i%TILE_COL.length], n=k?counts[k]:GAMES.length, label=k?GENRES[k].label:"ぜんぶ";
   b.style.setProperty("--c",P[col][2]); b.style.setProperty("--d",P[col][col==="cream"?1:0]);
   b.style.setProperty("--r",[-3,2,-1,3,-2][i%5]+"deg");
-  b.innerHTML=`<span class="ic" aria-hidden="true">${ICONS[k||"all"]||ICONS.all}</span><span class="sign"><span class="rib"><small></small><em>${label}</em></span><b>${n}<span class="sr-only">こ</span></b></span>`;
+  b.setAttribute("aria-label",`${label}（${n}こ）`);
+  b.innerHTML=`<span class="ic">${ICONS[k||"all"]||ICONS.all}</span><span class="sign"><span class="rib"><small></small><em>${label}</em></span><b>${n}</b></span>`;
   board.appendChild(b);
 });
 const tiles=[...board.querySelectorAll(".spot")];
@@ -1351,7 +1080,7 @@ const POP = (()=>{
               f:L(T.blk(60,40,40,"butter"),T.blk(68,30,70,"sage"),T.blk(520,36,36,"pink"),T.jig(300,200,1,"butter",20,0,"bob"),ck(440,150))},
   };
   const town=document.getElementById("town"), pop=document.getElementById("popup"), stage=document.getElementById("popStage");
-
+  let open=false;
   function mini(g){
     const sc=SCENES[g]||SCENES[""], id="mg"+(g||"all");
     const strip=x=>x.replace(/<g class="[^"]*"><use href="#chickSvg"[^>]*\/><\/g>/g,"");
@@ -1360,7 +1089,7 @@ const POP = (()=>{
       `<rect x="20" y="238" width="560" height="20" rx="10" fill="${P[sc.g][2]}"/></svg>`;
   }
   function show(g,n,from){
-    const sc=SCENES[g]||SCENES[""];
+    const sc=SCENES[g]||SCENES[""], label=g?GENRES[g].label:"ぜんぶ";
     document.getElementById("popEn").textContent=sc.en;
     document.getElementById("popName").textContent=sc.name;
     const list=GAMES.filter(x=>!g||(x.genres||[]).includes(g)), pg=document.getElementById("popGames");
@@ -1374,32 +1103,23 @@ const POP = (()=>{
     const card=pop.querySelector(".pop-card");
     if(from){ const r=from.getBoundingClientRect(); card.style.setProperty("--fx",(r.left+r.width/2-innerWidth/2)+"px"); card.style.setProperty("--fy",(r.top+r.height/2-innerHeight/2)+"px"); }
     else { card.style.removeProperty("--fx"); card.style.removeProperty("--fy"); }
-    from?.closest("button")?.focus({preventScroll:true});
-    pop.showModal();
-    document.documentElement.classList.add("map-dialog-open");
+    pop.classList.remove("open"); void pop.offsetWidth;
+    pop.classList.add("open"); pop.setAttribute("aria-hidden","false"); open=true;
+    document.documentElement.style.overflow="hidden";
+    if(matchMedia("(hover:hover)").matches) setTimeout(()=>document.getElementById("popGo").focus({preventScroll:true}),RM?0:400);
   }
-  function hide(){ if(pop.open) pop.close(); }
-  pop.addEventListener("close",()=>document.documentElement.classList.toggle("map-dialog-open",pop.open));
-
-  let startedOutside=false;
-  pop.addEventListener("pointerdown",e=>{ startedOutside=e.target===pop; });
-  pop.addEventListener("click",e=>{ if(startedOutside && e.target===pop) hide(); });
-
+  function hide(){ if(!open) return; open=false; pop.classList.remove("open"); pop.setAttribute("aria-hidden","true"); document.documentElement.style.overflow=""; }
+  pop.addEventListener("click",e=>{ if(e.target===pop) hide(); });
   document.getElementById("popClose").addEventListener("click",hide);
-  document.getElementById("popBack").addEventListener("click",hide);
-  document.getElementById("popGo").addEventListener("click",e=>{
-    e.preventDefault();
-    hide();
-    const heading=document.getElementById("gamesH");
-    heading.focus({preventScroll:true});
-    heading.scrollIntoView({behavior:RM?"instant":"smooth",block:"start"});
-  });
-  return {show,hide,mini,name:g=>(SCENES[g]||SCENES[""]).name,get open(){return pop.open}};
+  document.getElementById("popBack").addEventListener("click",()=>{ hide(); board.querySelector('.spot[aria-pressed="true"]')?.focus({preventScroll:true}); });
+  document.getElementById("popGo").addEventListener("click",e=>{ e.preventDefault(); hide(); document.getElementById("games").scrollIntoView({behavior:RM?"auto":"smooth",block:"start"}); });
+  addEventListener("keydown",e=>{ if(e.key==="Escape") hide(); });
+  return {show,hide,mini,name:g=>(SCENES[g]||SCENES[""]).name,get open(){return open}};
 })();
 /* 地図のかんばんに、その場所の名前（パズルの浮き島など）も書く */
 tiles.forEach(t=>{ const sm=t.querySelector(".rib small"); if(sm) sm.textContent=POP.name(t.dataset.genre||""); });
 /* 地図の各場所に、そのカテゴリの小さな世界を置いておく */
-tiles.forEach(t=>{ const ic=t.querySelector(".ic"); ic.classList.add("mini"); ic.innerHTML=POP.mini(t.dataset.genre); t.classList.add("has-mini"); });
+tiles.forEach((t,i)=>{ const ic=t.querySelector(".ic"); t.insertAdjacentHTML("afterbegin",`<i class="no">${i+1}</i>`); ic.classList.add("mini"); ic.innerHTML=POP.mini(t.dataset.genre); t.classList.add("has-mini"); });
 /* ===== カテゴリ・キーワードでしぼりこむ ===== */
 const kana = x => String(x||"").toLowerCase().normalize("NFKC").replace(/[ァ-ヶ]/g, c=>String.fromCharCode(c.charCodeAt(0)-0x60));
 const cards = [...grid.children];
@@ -1455,8 +1175,8 @@ const WALK={d:0,raf:0};
 const mapSvg=document.getElementById("map");
 const jit=(i,k)=>Math.sin(i*12.9898+k*78.233)*43758.5453%1;
 function layoutMap(){
-  const W=board.clientWidth, sp=W<640, cols=sp?2:4, n=tiles.length, rows=Math.ceil(n/cols);
-  const padX=sp?W*.245:W*.145, top=sp?162:190, rowH=sp?130:153, H=top+(rows-1)*rowH+(sp?77:95);
+  const W=board.clientWidth, sp=W<640, cols=sp?3:5, n=tiles.length, rows=Math.ceil(n/cols);
+  const padX=sp?Math.max(W*.15,64):W*.1, top=sp?140:150, rowH=sp?114:128, H=top+(rows-1)*rowH+(sp?60:66);
   board.style.setProperty("--h",H+"px");
   /* 道しるべの位置（へび行） */
   const A=tiles.map((t,i)=>{ const r=Math.floor(i/cols), c0=i%cols, c=r%2?cols-1-c0:c0;
@@ -1478,9 +1198,9 @@ function layoutMap(){
   const cum=[0]; for(let i=1;i<pts.length;i++) cum.push(cum[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));
   Object.assign(MAP,{pts,cum,spotD:spotIdx.map(i=>cum[i]),W,H,sp});
   tiles.forEach((t,i)=>{ t.style.left=A[i][0]+"px"; t.style.top=A[i][1]+"px"; });
-  drawMap(A,rows,top,rowH);
+  drawMap(A,rows,cols,padX,top,rowH);
 }
-function drawMap(A,rows,top,rowH){
+function drawMap(A,rows,cols,padX,top,rowH){
   const {W,H,pts,sp}=MAP, f=sp?.72:1, m=sp?8:12;
   const road="M"+pts.map(p=>p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" L");
   const near=(x,y,r)=>pts.some((p,i)=>i%3===0 && Math.hypot(p[0]-x,p[1]-y)<r);
@@ -1492,63 +1212,25 @@ function drawMap(A,rows,top,rowH){
   const deco=[]; let k=0; const step=sp?34:40;
   for(let y=m+26;y<H-m-6;y+=step) for(let x=m+20;x<W-m-14;x+=step){
     const jx=x+jit(x,y)*14, jy=y+jit(y,x)*10;
-    if(Math.abs(jit(x*.7,y*.3))<.68) continue;
+    if(Math.abs(jit(x*.7,y*.3))<.42) continue;
     if(jy<(sp?62:70) && Math.abs(jx-W/2)<(sp?120:190)) continue;
     if(near(jx,jy,sp?26:32) || nearSpot(jx,jy)) continue;
     deco.push(k%7===3?balloon(jx,jy,k):tree(jx,jy,k)); k++;
   }
-  /* 島を段ごとに重ね、紙の断面を手前に見せる。 */
-  const islandColors=[["#b6cbaa","#729779"],["#f2c995","#ba8253"],["#c9d9e7","#748fac"],["#e7c0bf","#b17d82"],["#d0c6e3","#927fa7"]];
-  const islands=Array.from({length:rows},(_,row)=>{
-    const y=top+row*rowH, left=sp?18:26, right=W-left, depth=sp?12:17;
-    const edge=`M${left} ${y-39}L${W*.18} ${y-65} ${W*.64} ${y-61} ${right-20} ${y-45} ${right} ${y+20} ${W*.86} ${y+48} ${W*.35} ${y+49} ${left+4} ${y+33}Z`;
-    const [face,cut]=islandColors[row%islandColors.length];
-    return `<g class="map-island" style="--island-delay:${row*95}ms"><path d="${edge}" fill="#496359" opacity=".2" transform="translate(2 ${depth+5})"/>
-      <path d="${edge}" fill="${cut}" transform="translate(0 ${depth})"/>
-      <path d="${edge}" fill="${face}" stroke="#fff6dc" stroke-width="2"/>
-      <path d="M${left+6} ${y+33}L${W*.35} ${y+49} ${W*.86} ${y+48} ${right-4} ${y+21}" stroke="${cut}" stroke-width="2.5" fill="none"/></g>`;
-  }).join("");
-  /* 台紙を重ねた広場と、地図上部の切り抜き */
-  const plaza=A.map(([x,y],i)=>{
-    const rx=sp?48:76, ry=sp?21:30;
-    return `<g transform="translate(${x.toFixed(1)} ${(y-5).toFixed(1)})">
-      <ellipse cy="3" rx="${rx}" ry="${ry}" fill="#716347" opacity=".22"/>
-      <ellipse rx="${rx}" ry="${ry}" fill="${tiles[i].style.getPropertyValue("--c")}" stroke="#fff8e7" stroke-width="2"/>
-      <ellipse rx="${rx-5}" ry="${ry-5}" fill="none" stroke="#867251" stroke-opacity=".54" stroke-dasharray="2 4"/>
-    </g>`;
-  }).join("");
-  const skyline=[W*.17,W*.83].map((x,i)=>`<g transform="translate(${x} 59) scale(${sp?.48:.8})">
-    <path d="M-62 0l28-29 16 17 28-36 49 48z" fill="#9cb095" stroke="#fcf5df" stroke-width="3"/>
-    <path d="M-13-19l23-29 18 19-16-8-8 13z" fill="#f9efda"/>
-    <path d="M-67 3h129" stroke="#7a957a" stroke-width="2" stroke-linecap="round"/>
-    <path class="paper-cloud" d="M-14-52h-41a5 5 0 0 1 0-10h8a9 9 0 0 1 17-2h16a6 6 0 0 1 0 12z" fill="#fffaed" stroke="#a6b49a"/>
-    <path class="paper-sparkle" style="--twinkle-delay:${i*.47}s" d="M46-54l2 8 8 2-8 2-2 8-2-8-8-2 8-2z" fill="#e3ab63"/>
-  </g>`).join("");
-  const boatX=sp?W*.5:W*.74, boatY=sp?top+rowH*1.5+8:top+rowH*(rows-1)+4;
-  const boat=`<g transform="translate(${boatX} ${boatY}) scale(${sp?.63:1})">
-    <path d="M-43 15q13 6 28 0m15 7q15 6 31-1m-76 3q10 4 18 0" fill="none" stroke="#f4ead2" stroke-width="2" stroke-linecap="round"/>
-    <g class="map-boat">
-      <path d="M-2-28L-19 4h17z" fill="#fff1d1" stroke="#8a715b" stroke-width="1.2"/>
-      <path d="M3-23L23 4H3z" fill="#e6a483"/>
-      <path d="M-30 6h60L18 19h-31z" fill="#9c554b"/>
-      <path d="M-30 6h60L8 12h-26z" fill="#f4c899"/>
-    </g>
-  </g>`;
+  /* 各アトラクションの広場 */
+  const plaza=A.map((a,i)=>`<ellipse cx="${a[0].toFixed(1)}" cy="${(a[1]-(sp?4:6)).toFixed(1)}" rx="${sp?56:76}" ry="${sp?24:30}" fill="${tiles[i].style.getPropertyValue("--c")}" stroke="#fbf8f2" stroke-width="3"/>`).join("");
   /* 入口ゲート */
   const g0=pts[0], gate=`<g transform="translate(${(g0[0]+(sp?6:10)).toFixed(1)} ${g0[1].toFixed(1)}) scale(${f})"><rect x="-22" y="-34" width="7" height="34" fill="#e5b4ab" stroke="#fbf8f2" stroke-width="1.5"/><rect x="15" y="-34" width="7" height="34" fill="#e5b4ab" stroke="#fbf8f2" stroke-width="1.5"/><path d="M-26 -32 q26 -22 52 0" fill="none" stroke="#f0db93" stroke-width="7" stroke-linecap="round"/><rect x="-20" y="-50" width="40" height="13" rx="3" fill="#fbf8f2"/><text y="-40" text-anchor="middle" font-size="9" font-weight="900" fill="#cf968c" font-family="Zen Maru Gothic,sans-serif">IN</text></g>`;
   /* 三つ折りパンフの折り目 */
   const folds=(sp?[W/2]:[W/3,W*2/3]).map(x=>`<rect x="${x-1}" y="0" width="2" height="${H}" fill="#7a6648" opacity=".08"/><rect x="${x+1}" y="0" width="1.5" height="${H}" fill="#fff" opacity=".35"/>`).join("");
   mapSvg.setAttribute("viewBox",`0 0 ${W} ${H}`);
-  mapSvg.innerHTML=`<defs><pattern id="lawn" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#7da699"/><circle cx="4" cy="5" r="1.1" fill="#9abbb0"/><circle cx="12" cy="12" r="1.1" fill="#9abbb0"/></pattern></defs>
-    <rect x="0" y="0" width="${W}" height="${H}" rx="14" fill="#f4e4c7" stroke="#b8a183"/>
-    <rect x="${m}" y="${m}" width="${W-2*m}" height="${H-2*m}" rx="10" fill="url(#lawn)" stroke="#8da086"/>
-    <rect x="${m+5}" y="${m+5}" width="${W-2*m-10}" height="${H-2*m-10}" rx="7" fill="none" stroke="#adbda6" stroke-width="2" stroke-dasharray="2 5" stroke-linecap="round"/>
-    ${skyline}${islands}${plaza}
-    <path d="${road}" fill="none" stroke="#80694d" stroke-width="${sp?20:26}" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="${road}" fill="none" stroke="#f9e6bd" stroke-width="${sp?15:21}" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="${road}" fill="none" stroke="#bc9b70" stroke-width="1.6" stroke-dasharray="2 7" stroke-linecap="round"/>
-    <path class="map-route-glow" d="${road}" pathLength="1" fill="none" stroke="#a15c43" stroke-width="2.8" stroke-linecap="round"/>
-    ${deco.join("")}${boat}${gate}${folds}`;
+  mapSvg.innerHTML=`<defs><pattern id="lawn" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#dde6d2"/><circle cx="4" cy="5" r="1.1" fill="#c9d6bd"/><circle cx="12" cy="12" r="1.1" fill="#c9d6bd"/></pattern></defs>
+    <rect x="0" y="0" width="${W}" height="${H}" rx="14" fill="#fbf8f2"/>
+    <rect x="${m}" y="${m}" width="${W-2*m}" height="${H-2*m}" rx="10" fill="url(#lawn)"/>
+    ${plaza}
+    <path d="${road}" fill="none" stroke="#e3d6bb" stroke-width="${sp?24:30}" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${road}" fill="none" stroke="#f7f0e1" stroke-width="${sp?18:23}" stroke-linecap="round" stroke-linejoin="round"/>
+    ${deco.join("")}${gate}${folds}`;
 }
 function pointAt(d){
   const {pts,cum}=MAP; d=Math.max(0,Math.min(cum[cum.length-1],d));
@@ -1579,11 +1261,7 @@ board.addEventListener("click",e=>{
   const t=e.target.closest(".spot"); if(!t) return;
   const g=t.dataset.genre;
   POP.hide();
-  tiles.forEach(b=>{
-    b.setAttribute("aria-pressed", b===t);
-    b.classList.remove("is-arriving");
-  });
-  t.classList.add("is-arriving");
+  tiles.forEach(b=>b.setAttribute("aria-pressed", b===t));
   goTo(t,()=>{
     FILTER.genre=g; applyFilter();
     const n=cards.filter(c=>!c.hidden).length;
@@ -1624,41 +1302,35 @@ sortsEl.addEventListener("click",e=>{
   applyFilter();
   let lastW=0;
   const start=()=>{ if(board.clientWidth===lastW) return; lastW=board.clientWidth; layoutMap(); placeWalker(tiles.find(t=>t.dataset.genre===FILTER.genre)||tiles[0]); };
-  start();
+  start(); addEventListener("load",()=>{ lastW=0; start(); });
   if(window.ResizeObserver) new ResizeObserver(start).observe(board.parentElement);
-  if("IntersectionObserver" in window){
-    const animationObserver=new IntersectionObserver(([entry])=>{
-      board.classList.toggle("map-visible",entry.isIntersecting);
-    });
-    animationObserver.observe(board);
-  }
   /* スクロールで地図が見えてきたら、たたんだパンフがパタパタひらく */
   if(!RM && window.IntersectionObserver){
-    tiles.forEach((tile,i)=>tile.style.setProperty("--arrival",`${i*55}ms`));
     let built=false, opened=false;
     const build=()=>{
       if(built) return; built=true;
       const W=board.clientWidth, H=board.clientHeight, sp=W<640;
       const xs=sp?[0,W/2,W]:[0,W/3,W*2/3,W];
       const html=[...board.children].map(n=>n.outerHTML).join("").replace(/id="lawn"/g,'data-keep="lawnF"').replace(/#lawn\b/g,"#lawnF").replace(/ id="[^"]*"/g,"").replace(/data-keep="lawnF"/g,'id="lawnF"');
-      const panel=(i)=>`<div class="face" style="clip-path:inset(-40px ${W-xs[i+1]}px -30px ${xs[i]}px)">${html.replaceAll("lawnF",`lawnF${i}`)}</div>`;
+      const panel=(i)=>`<div class="face" style="clip-path:inset(-40px ${W-xs[i+1]}px -30px ${xs[i]}px)">${html}</div>`;
       const back=(i,cover)=>`<div class="back" style="left:${xs[i]}px;width:${xs[i+1]-xs[i]}px;height:${H}px">${cover?`<small>PICORUNO LAND</small><img src="img/brand.webp" alt=""><b>ごあんないマップ</b>`:""}</div>`;
       /* 動かないパネル（PCはまん中、スマホは左）と、たたまれたフラップ */
       const fixed=sp?0:1, flaps=sp?[1]:[2,0];   /* 後ろから順に重ねる（最後がいちばん上＝表紙） */
       let out=`<div class="flap">${panel(fixed)}</div>`;
       flaps.forEach((i,k)=>{ const hinge=i<fixed?xs[i+1]:xs[i], dir=i<fixed?1:-1, cover=k===flaps.length-1;
         out+=`<div class="flap" data-dir="${dir}" style="transform-origin:${hinge}px 50%;transform:translateZ(${(k+1)*2}px) rotateY(${dir*179.9}deg)">${panel(i)}${back(i,cover)}</div>`; });
-      const f=document.createElement("div"); f.className="fold"; f.inert=true; f.setAttribute("aria-hidden","true"); f.innerHTML=out; board.appendChild(f); board.classList.add("folding");
+      const f=document.createElement("div"); f.className="fold"; f.innerHTML=out; board.appendChild(f); board.classList.add("folding");
     };
     const open=()=>{
       if(opened) return; opened=true; build();
       const f=board.querySelector(".fold"), fl=[...f.querySelectorAll(".flap[data-dir]")].reverse();
-      fl.forEach((el,k)=>setTimeout(()=>{ el.style.transform="translateZ(0px) rotateY(0deg)"; },100+k*180));
-      setTimeout(()=>{ f.remove(); board.classList.remove("folding"); board.classList.add("map-revealed"); },100+(fl.length-1)*180+780);
+      fl.forEach((el,k)=>setTimeout(()=>{ el.style.transform="translateZ(0px) rotateY(0deg)"; },350+k*600));
+      setTimeout(()=>{ f.remove(); board.classList.remove("folding"); },350+fl.length*600+800);
     };
+    const near=new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)){ build(); near.disconnect(); } },{rootMargin:"0px 0px 600px 0px"});
     const seen=new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)){ open(); seen.disconnect(); } },{threshold:.25});
     /* すでに画面内にあるとき（?genre= で来たときなど）は、たたまない */
-    const r=board.getBoundingClientRect(); if(r.top>innerHeight*.9){ seen.observe(board); } else { board.classList.add("map-revealed"); }
+    const r=board.getBoundingClientRect(); if(r.top>innerHeight*.9){ near.observe(board); seen.observe(board); }
   }
 }
 
@@ -1844,7 +1516,7 @@ function burst(btn){
   document.getElementById("resClose").addEventListener("click",()=>dlg.close());
   dlg.addEventListener("click",e=>{ if(e.target===dlg) dlg.close(); });
   dlg.addEventListener("close",()=>{ drop.classList.remove("go"); });
-  setTimeout(()=>{ if(!spinning) say("まわしてね"); },2200);
+  setTimeout(()=>say("まわしてね"),2200);
 }
 
 /* ===== うごき：見出しの文字がぽんっと出る・紙ふぶき・フッターの文字 ===== */
@@ -1859,7 +1531,7 @@ function burst(btn){
   const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("on"); io.unobserve(e.target); } }),{threshold:.4});
   document.querySelectorAll(".sec-head,.gfoot-word").forEach(el=>io.observe(el));
   setTimeout(()=>{ if(navigator.webdriver) document.querySelectorAll(".sec-head,.gfoot-word").forEach(el=>el.classList.add("on")); },1500);
-
+  tiles.forEach((t,i)=>t.style.setProperty("--n",i));
 
 })();
 </script>
