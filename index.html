@@ -50,7 +50,8 @@ svg{display:block;overflow:visible}
 .lip::after{content:"";position:absolute;left:3%;right:3%;bottom:-30px;height:30px;border-radius:50%;background:radial-gradient(closest-side,rgba(60,50,35,.22),transparent);z-index:-1}
 
 .hero-copy{position:relative;z-index:3;max-width:600px;color:#fff;transform:translate(calc(var(--px)*-6px),calc(var(--py)*-4px));transition:transform .5s var(--ease-out)}
-.eyebrow{font-weight:700;letter-spacing:.28em;font-size:.78rem;opacity:1;text-shadow:0 1px 2px rgba(40,55,35,.35)}
+.eyebrow{font-weight:800;letter-spacing:.28em;font-size:.78rem}
+.hero .eyebrow{color:#26331f}
 .hero h1{font-weight:900;font-size:clamp(3rem,9vw,7.4rem);line-height:1;letter-spacing:-.01em;white-space:nowrap;margin:.12em 0 .14em -.03em;perspective:600px}
 .hero h1 .ch{
   display:inline-block;color:transparent;-webkit-background-clip:text;background-clip:text;
@@ -62,13 +63,13 @@ svg{display:block;overflow:visible}
 }
 .hero h1 .ch:hover,.hero h1 .ch.boing{transform:translateY(-.1em) rotate(calc(var(--r) * -2)) scale(1.06)}
 @keyframes unfold{from{opacity:0;transform:rotateX(-95deg)}60%{opacity:1}to{opacity:1;transform:rotate(var(--r))}}
-.kana{font-weight:700;letter-spacing:.6em;font-size:.9rem;opacity:.8}
+.kana{font-weight:800;letter-spacing:.6em;font-size:.9rem;color:#26331f}
 .catch{display:inline-block;position:relative;margin-top:18px;font-weight:900;font-size:clamp(1.15rem,2.3vw,1.6rem);line-height:1.4;color:var(--ink);
   padding:8px 22px;border-radius:3px;background:var(--grain),var(--fiber),var(--white);box-shadow:var(--edge),var(--shadow-m);transform:rotate(-1.5deg);
   animation:place .7s 1s var(--ease-pop) both}
 .catch::before{content:"";position:absolute;left:-14px;top:-6px;width:46px;height:16px;background:rgba(229,180,171,.85);transform:rotate(-28deg)}
 @keyframes place{from{opacity:0;transform:translateY(-20px) rotate(-8deg) scale(1.08)}to{opacity:1;transform:rotate(-1.5deg)}}
-.lead{margin-top:18px;max-width:32em;font-size:1.02rem;font-weight:700;letter-spacing:.04em;color:#fff;text-shadow:0 1px 2px rgba(40,55,35,.45),0 0 12px rgba(60,80,55,.35);animation:fade .8s 1.15s both}
+.lead{margin-top:18px;max-width:32em;font-size:1.02rem;font-weight:700;letter-spacing:.04em;color:#26331f;animation:fade .8s 1.15s both}
 .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px;animation:fade .8s 1.25s both}
 @keyframes fade{from{opacity:0;transform:translateY(14px)}}
 
@@ -134,7 +135,7 @@ svg{display:block;overflow:visible}
 /* ---------- カテゴリのまち（ニワトリが歩く） ---------- */
 .town{width:min(1100px,calc(100% - 24px));margin:10px auto 0;scroll-margin-top:70px}
 .sec-head{text-align:center;margin-bottom:10px}
-.sec-head .eyebrow{color:var(--sage-d);opacity:1}
+.sec-head .eyebrow{color:var(--sage-dd);opacity:1}
 .sec-head h2{font-weight:900;font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.3;margin-top:4px}
 .sec-head p{color:var(--sub);font-size:.95rem}
 .board-wrap{padding:16px 0 30px}
@@ -154,12 +155,12 @@ svg{display:block;overflow:visible}
 .fold .back small{font-size:.6rem;letter-spacing:.3em;color:var(--sage-d);font-weight:900}
 .board .map{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 2px 0 #e3d9c6) drop-shadow(0 16px 18px rgba(80,60,30,.22));pointer-events:none}
 .board .ribbon{position:absolute;z-index:3;left:50%;top:22px;transform:translateX(-50%) rotate(-1deg);margin:0;padding:4px 30px 6px;text-align:center;white-space:nowrap;
-  font-weight:900;font-size:1.05rem;line-height:1.3;color:#fff;background:var(--grain),var(--pink);box-shadow:0 3px 0 var(--pink-d),0 8px 12px -4px rgba(120,70,60,.35);
+  font-weight:900;font-size:1.05rem;line-height:1.3;color:#6b3a33;background:var(--grain),var(--pink);box-shadow:0 3px 0 var(--pink-d),0 8px 12px -4px rgba(120,70,60,.35);
   clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%)}
-.board .ribbon small{display:block;font-size:.62rem;letter-spacing:.3em;color:#fff7e0}
+.board .ribbon small{display:block;font-size:.62rem;letter-spacing:.3em;color:#6b3a33}
 .spot .no{position:absolute;z-index:2;left:-8px;top:-10px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font-style:normal;font-weight:900;font-size:.72rem;line-height:1;color:#fff;
-  background:var(--sage-d);box-shadow:0 0 0 2px #fbf8f2,0 2px 3px rgba(60,50,35,.3)}
-.spot[aria-pressed="true"] .no{background:var(--pink-d)}
+  background:var(--sage-dd);box-shadow:0 0 0 2px #fbf8f2,0 2px 3px rgba(60,50,35,.3)}
+.spot[aria-pressed="true"] .no{background:#a8695f}
 @media (max-width:639px){.board .ribbon{font-size:.9rem;padding:3px 24px 5px}.spot .no{width:19px;height:19px;font-size:.64rem;left:-6px;top:-8px}}
 .board .tape{position:absolute;z-index:3;width:84px;height:24px;background:rgba(240,219,147,.78);box-shadow:0 1px 2px rgba(60,50,35,.15);pointer-events:none}
 .board .tape.a{left:-14px;top:8px;transform:rotate(-32deg)}
@@ -175,14 +176,14 @@ svg{display:block;overflow:visible}
 .spot .rib{display:block;position:relative;padding:4px 19px 5px;text-align:center;line-height:1.25;background:var(--grain),var(--d);clip-path:polygon(0 0,100% 0,calc(100% - 9px) 50%,100% 100%,0 100%,9px 50%);transition:background .2s}
 .spot .rib::before{content:"";position:absolute;inset:3px 13px;border-top:1.5px dashed rgba(255,255,255,.8);border-bottom:1.5px dashed rgba(255,255,255,.8);pointer-events:none}
 .spot .rib small{display:block;font-size:.62rem;font-weight:800;color:rgba(70,50,40,.62);letter-spacing:.04em}
-.spot .rib em{display:block;font-style:normal;font-weight:900;font-size:.84rem;color:var(--ink);letter-spacing:.04em}
-.spot .sign b{position:absolute;right:-7px;top:-9px;display:grid;place-items:center;min-width:21px;height:21px;padding:0 5px;border-radius:11px;background:var(--grain),var(--white);font-size:.66rem;font-weight:900;line-height:1;color:#b07f77;box-shadow:0 1px 2px rgba(80,60,30,.25)}
+.spot .rib em{display:block;font-style:normal;font-weight:900;font-size:.84rem;color:#2c2a28;letter-spacing:.04em}
+.spot .sign b{position:absolute;right:-7px;top:-9px;display:grid;place-items:center;min-width:21px;height:21px;padding:0 5px;border-radius:11px;background:var(--grain),var(--white);font-size:.66rem;font-weight:900;line-height:1;color:#985f56;box-shadow:0 1px 2px rgba(80,60,30,.25)}
 
 .spot:hover .ic,.spot:focus-visible .ic{transform:translateY(-5px) rotate(-5deg)}
 .spot[aria-pressed="true"] .ic{transform:translateY(-6px)}
 .spot[aria-pressed="true"] .sign{transform:rotate(0) scale(1.08)}
 .spot[aria-pressed="true"] .rib{background:var(--grain),var(--butter)}
-.spot[aria-pressed="true"] .sign b{background:var(--grain),#e5b4ab;color:#fff}
+.spot[aria-pressed="true"] .sign b{background:var(--grain),#a8695f;color:#fff}
 .spot:focus-visible{outline:none}
 .spot:focus-visible .sign{filter:drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 2px var(--sage-d)) drop-shadow(0 3px 3px rgba(80,60,30,.24))}
 /* 地図の上の、ちいさな飛び出す世界（タップすると大きく立ち上がる） */
@@ -343,7 +344,7 @@ svg{display:block;overflow:visible}
 .like{position:relative;font:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:40px;min-height:38px;padding:3px 12px;border:0;border-radius:999px;
   background:var(--grain),var(--cream);color:var(--ink);box-shadow:inset 0 -2px 0 var(--cream-d);transition:transform .25s var(--ease-pop),background .2s}
 .like:hover{transform:scale(1.1) rotate(-6deg)}
-.like .hrt{display:inline-block;font-size:1.05rem;line-height:1;color:#b9aea2;transition:color .2s}
+.like .hrt{display:inline-block;font-size:1.05rem;line-height:1;color:#8a7f73;transition:color .2s}
 .like.on{background:var(--grain),var(--pink-l);box-shadow:inset 0 -2px 0 var(--pink)}
 .like.on .hrt{color:#c9505f}
 .like.pop .hrt{animation:heartPop .45s var(--ease-pop)}
@@ -457,7 +458,7 @@ svg{display:block;overflow:visible}
   .card h3{font-size:1.05rem;line-height:1.35}
   .card p{font-size:.78rem;line-height:1.55;margin-top:3px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .card .genres{margin-top:5px;gap:4px}
-  .card .genre{font-size:.66rem;padding:1px 8px 1px 3px}
+  .card .genre{font-size:.7rem;padding:1px 8px 1px 3px}
   .card .genre i{width:17px;height:17px}
   .card .genre i svg{width:11px;height:11px}
   .card .foot{padding-top:6px;margin-right:12px}
