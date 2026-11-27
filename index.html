@@ -102,7 +102,15 @@ svg{display:block;overflow:visible}
 /* ガチャ（紙でできたマシン） */
 .gacha{right:5%;bottom:56px;width:300px;z-index:3;transform:translate(calc(var(--px)*12px),calc(var(--py)*4px));transition:transform .5s var(--ease-out)}
 .gacha .say{left:auto;right:58%;top:6px;transform-origin:100% 100%}
-.cat .say{left:auto;right:58%;top:-26px;transform-origin:100% 100%;z-index:5}
+.cat .say{left:50%;right:auto;top:auto;bottom:calc(100% + 10px);width:max-content;white-space:nowrap;text-align:center;line-height:1.5;padding:8px 15px 9px;
+  font-weight:900;font-size:.84rem;letter-spacing:.04em;color:#6b4d44;border-radius:16px 16px 16px 16px;
+  background:var(--grain),radial-gradient(circle at 100% 0,#f6e6ad 0 7px,transparent 7.5px),var(--white);
+  outline:1.5px dashed #e5b4ab;outline-offset:-5px;
+  box-shadow:0 2px 0 #e6dccb,0 8px 14px -6px rgba(70,55,40,.35);
+  translate:calc(-50% + var(--sx,0px)) 0;transform:scale(.3) rotate(8deg);transform-origin:calc(50% - var(--sx,0px)) 120%;z-index:5}
+.cat .say.on{transform:rotate(-2deg)}
+.cat .say::before{content:"";position:absolute;left:10px;top:-7px;width:30px;height:12px;background:rgba(229,180,171,.75);transform:rotate(-14deg);box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.cat .say::after{content:"";position:absolute;left:calc(50% - var(--sx,0px));bottom:-7px;width:14px;height:14px;margin-left:-7px;border-radius:0 0 4px 0;background:var(--grain),var(--white);transform:rotate(45deg);box-shadow:2px 2px 0 #e6dccb;z-index:-1}
 .machine{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;color:inherit;border-radius:24px;
   filter:drop-shadow(0 18px 14px rgba(50,45,35,.38));transition:transform .35s var(--ease-pop);animation:machineIn 1s .5s var(--ease-pop) both}
 .machine:hover{transform:translateY(-5px) rotate(-1deg)}
@@ -743,20 +751,31 @@ document.getElementById("shelfBlocks").innerHTML = block(4,18,30,30,8,"butter")+
 }
 { /* ネコ（ねてるときはジャンプしない） */
   const cat=document.getElementById("cat"), say=document.getElementById("catSay");
-  const awake=["にゃ","にゃーん","あそぶ？","ニワトリ見た？","ガチャ、まわしてみて","きょうはどれにする？","なでてくれるの？","しっぽ、ふりふり","おなかすいた…","紙のにおいがする","ハンドルおしてごらん","いい天気だにゃ","パンのゲーム、すき","まるくなっていい？","…じーっ","にゃっ！"];
+  const awake=["にゃ","にゃーん","あそぶ？","ニワトリ|見た？","ガチャ、|まわしてみて","きょうは|どれにする？","なでて|くれるの？","しっぽ、|ふりふり","おなか|すいた…","紙の|においがする","ハンドル|おしてごらん","いい天気|だにゃ","パンの|ゲーム、すき","まるくなって|いい？","…じーっ","にゃっ！"];
   const sleepy=["…zzz","すやすや…","むにゃ…","…ねむい"];
   const h=new Date().getHours(), night=h>=23||h<6;
   let last=-1, taps=0;
-  cat.addEventListener("click",()=>{
-    taps++;
+  const hero=document.getElementById("hero");
+  const speak=(tap)=>{
     let text, sleep;
     if(night && Math.random()<.5 || Math.random()<.15){ text=sleepy[Math.floor(Math.random()*sleepy.length)]; sleep=true; }
-    else if(taps===8){ text="さわりすぎだにゃ！"; }
+    else if(tap && taps===8){ text="さわりすぎ|だにゃ！"; }
     else { let i; do{ i=Math.floor(Math.random()*awake.length); }while(i===last && awake.length>1); last=i; text=awake[i]; }
-    say.textContent=text;
-    cat.classList.remove("hop"); if(!sleep){ void cat.offsetWidth; cat.classList.add("hop"); }
-    say.classList.add("on"); clearTimeout(cat._t); cat._t=setTimeout(()=>say.classList.remove("on"),1800);
-  });
+    say.innerHTML=text.split("|").join("<br>"); /* 「|」のところで2行に */
+    /* ふきだしがヒーローの箱からはみ出さないよう、左右にずらす */
+    const c=cat.getBoundingClientRect(), H=hero.getBoundingClientRect(), m=10, w=say.offsetWidth;
+    const L=c.left+c.width/2-w/2, R=L+w;
+    const sx=L<H.left+m ? H.left+m-L : R>H.right-m ? H.right-m-R : 0;
+    say.style.setProperty("--sx",sx.toFixed(1)+"px");
+    cat.classList.remove("hop"); if(tap && !sleep){ void cat.offsetWidth; cat.classList.add("hop"); }
+    say.classList.add("on"); clearTimeout(cat._t); cat._t=setTimeout(()=>say.classList.remove("on"),tap?2200:2800);
+  };
+  cat.addEventListener("click",()=>{ taps++; speak(true); });
+  /* タップしなくても、ときどきひとりごと（ヒーローが見えているときだけ） */
+  let seen=false;
+  if("IntersectionObserver" in window) new IntersectionObserver(es=>{ seen=es[0].isIntersecting; },{threshold:.3}).observe(hero);
+  const idle=()=>setTimeout(()=>{ if(seen && !document.hidden && !say.classList.contains("on")) speak(false); idle(); },7000+Math.random()*6000);
+  setTimeout(()=>{ if(seen) speak(false); idle(); },2500);
 }
 { /* 遊園地の入口みたいな、しましまの紙のテント屋根 */
   const svg=document.getElementById("garland");
